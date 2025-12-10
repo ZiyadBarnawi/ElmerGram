@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { Circle } from '../shared/circle/circle';
 import { Posts } from '../components/posts/posts';
 import { ButtonModule } from 'primeng/button';
@@ -12,4 +12,7 @@ import { Navbar } from '../components/navbar/navbar';
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class Profile {}
+export class Profile {
+  stories = signal<[{ src: string }]>([{ src: 'sunnyDay.jpg' }]);
+  posts = signal<string[]>([]);
+}

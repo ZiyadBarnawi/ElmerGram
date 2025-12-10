@@ -1,6 +1,8 @@
+/* * {
+  font-size: 2.4rem;
+} */
 .img-pfp {
-  width: 10rem;
-  width: 100%;
+  width: 20rem;
 }
 .div-profile-head {
   width: 20rem;
@@ -9,4 +11,13 @@
 
 .img-story {
   width: 10rem;
+}
+.div-profile-details {
+  margin-left: 5rem;
+  width: 100%;
+  flex: 0 0 auto;
+}
+.div-stories {
+  width: 90rem;
+  overflow-x: scroll;
 }

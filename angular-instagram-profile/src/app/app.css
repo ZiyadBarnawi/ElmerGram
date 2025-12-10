@@ -1,0 +1,17 @@
+app-profile {
+  padding: 10rem;
+}
+/* In app.component.css or global styles */
+:host {
+  display: block;
+  padding: 20px;
+  box-sizing: border-box; /* This includes padding in element's total width/height */
+  min-height: 100vh;
+}
+
+/* Ensure all children also use border-box */
+:host *,
+:host *::before,
+:host *::after {
+  box-sizing: border-box;
+}

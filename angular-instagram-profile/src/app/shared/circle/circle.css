@@ -2,3 +2,6 @@ section {
   width: fit-content;
   height: fit-content;
 }
+ng-content {
+  border-radius: 5rem;
+}

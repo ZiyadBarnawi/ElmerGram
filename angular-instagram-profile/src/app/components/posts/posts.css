@@ -1,0 +1,23 @@
+:host ::ng-deep .p-tablist-tab-list {
+  background-color: transparent;
+  justify-content: space-evenly;
+  border-bottom: 0.1rem solid white;
+}
+
+:host ::ng-deep .p-tab {
+  background-color: transparent;
+  background-color: transparent;
+  font-size: 2rem;
+}
+
+:host ::ng-deep .p-tab:hover {
+  background-color: transparent;
+}
+
+:host ::ng-deep .p-tabpanels {
+  background-color: transparent;
+}
+
+p-tabs {
+  width: 60vw;
+}

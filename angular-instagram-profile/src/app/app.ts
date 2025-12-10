@@ -4,7 +4,7 @@ import { Profile } from './profile/profile';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Profile],
+  imports: [Profile],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

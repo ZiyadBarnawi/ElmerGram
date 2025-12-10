@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-
+import { Component, input, signal } from '@angular/core';
+import { Post as PostModel } from './../../models/post.model';
 @Component({
   selector: 'app-post',
   imports: [],
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './post.css',
 })
 export class Post {
-
+  post = input<PostModel>();
 }

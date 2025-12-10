@@ -1,3 +1,14 @@
 img {
-  width: 2rem;
+  width: 20rem;
+  height: 35rem;
+  object-fit: cover;
+  margin: 0.2rem;
+  transition: 200ms;
+}
+img:hover {
+  filter: blur(0.1rem) brightness(75%);
+}
+
+div {
+  display: inline-block;
 }

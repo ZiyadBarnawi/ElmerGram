@@ -6,7 +6,7 @@ import { Circle } from '../../shared/circle/circle';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MenuModule, Circle],
+  imports: [MenuModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',

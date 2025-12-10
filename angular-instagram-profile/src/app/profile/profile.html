@@ -2,28 +2,40 @@
 <div class="d-flex justify-content-between w-100">
   <!--! NAV -->
   <app-navbar></app-navbar>
-  <section class="w-100 d-flex flex-column">
-    <div class="div-profile-head d-flex">
-      <!--! Profile Pic -->
-      <app-circle><img class="img-pfp" src="/sunnyDay.jpg" alt="" /></app-circle>
-      <div class="profile-details">
-        <div class="d-flex">
-          <div class="profile-states d-flex flex-column gap-3">
-            <!--! Username -->
-            <span class="username">Ziyad barnawi</span><span>Ziyad</span>
-            <span>follower:<span>20</span> following: <span>10</span> posts: <span>3</span></span
-            ><span>Just testing some stuff</span>
+  <section class="w-100 d-flex justify-content-center">
+    <div class="d-flex flex-column w-75 gap-5">
+      <div class="div-profile-head d-flex align-items-center">
+        <!--! Profile Pic -->
+        <div><img class="img-pfp rounded-circle" src="/sunnyDay.jpg" alt="" /></div>
+        <!--! Profile Details -->
+        <div class="div-profile-details">
+          <div class="d-flex w-100">
+            <div class="div-profile-states d-flex flex-column gap-3 w-100">
+              <!--! Username -->
+              <h1 class="span-username w-100">Ziyad barnawi</h1>
+              <!--! Account numbers  -->
+              <span class="span-stats w-100"
+                >follower:<span>20</span> following: <span>10</span> posts: <span>3</span></span
+              >
+              <!--! Bio  -->
+              <span>Just testing some stuff</span>
+            </div>
+          </div>
+          <!--! Action Buttons  -->
+          <div class="">
+            <p-button class="w-100 flex-grow-1" size="large" label="Follow" icon="pi pi-plus" />
           </div>
         </div>
-        <div class="d-flex gap-3"><p-button>Edit</p-button> <p-button>Archive</p-button></div>
-        <div class="d-flex gap-2">
-          <app-circle><img class="img-pfp" src="/sunnyDay.jpg" alt="" /></app-circle>
-          <app-circle><img class="img-pfp" src="/sunnyDay.jpg" alt="" /></app-circle>
-          <app-circle><img class="img-pfp" src="/sunnyDay.jpg" alt="" /></app-circle>
-        </div>
       </div>
+      <div class="div-stories d-flex gap-2 overflow-x-scroll">
+        @for (story of stories(); track $index) {
+
+        <img class="img-story rounded-circle" src="/{{ story.src }}" alt="" />
+        }
+      </div>
+      <app-posts></app-posts>
     </div>
-    <app-posts></app-posts>
+    <!--! Posts  -->
   </section>
 </div>
 <!-- </section> -->
