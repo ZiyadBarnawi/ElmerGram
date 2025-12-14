@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { TabsModule, Tab, TabList } from 'primeng/tabs';
 import { Post } from '../post/post';
 import { Post as PostModel } from './../../models/post.model';
 import { Images } from '../../models/images.enum';
+import { User } from '../../models/user.model';
 @Component({
   standalone: true,
   selector: 'app-posts',
@@ -15,18 +16,6 @@ export class Posts {
     this.randomNum.set(Math.floor(Math.random() * 10) + 1);
   }
   randomNum = signal<number>(Math.floor(Math.random() * 7));
-
-  posts = signal<PostModel[]>([
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
-  ]);
+  user = input<User>();
+  // posts = signal<PostModel[]>([]);
 }

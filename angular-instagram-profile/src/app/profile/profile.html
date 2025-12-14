@@ -1,41 +1,59 @@
 <!-- <section class=" "> -->
 <div class="d-flex justify-content-between w-100">
   <!--! NAV -->
-  <app-navbar></app-navbar>
+  <app-navbar (user)="onUserChange($event)"></app-navbar>
+  <p-drawer> </p-drawer>
   <section class="w-100 d-flex justify-content-center">
     <div class="d-flex flex-column w-75 gap-5">
       <div class="div-profile-head d-flex align-items-center">
         <!--! Profile Pic -->
-        <div><img class="img-pfp rounded-circle" src="/sunnyDay.jpg" alt="" /></div>
+        <div class="div-profile-picture-container">
+          <img
+            [class.img-pfp--active]="true"
+            class="img-pfp rounded-circle"
+            src="/{{ user().profilePic }}"
+            alt=""
+          />
+        </div>
         <!--! Profile Details -->
         <div class="div-profile-details">
           <div class="d-flex w-100">
             <div class="div-profile-states d-flex flex-column gap-3 w-100">
               <!--! Username -->
-              <h1 class="span-username w-100">Ziyad barnawi</h1>
+              <h1 class="span-username w-100">{{ user().username }}</h1>
               <!--! Account numbers  -->
               <span class="span-stats w-100 fs-5"
-                >follower:<span>20</span> following: <span>10</span> posts: <span>3</span></span
+                >followers:<span>{{ user().followers }}</span> following:
+                <span>{{ user().following }}</span> posts:
+                <span>{{ user().posts?.length }}</span></span
               >
               <!--! Bio  -->
-              <span class="fs-5">Just testing some stuff</span>
+              <span class="fs-5">{{ user().description }}</span>
             </div>
           </div>
           <!--! Action Buttons  -->
           <div class="div-action-button my-3">
-            <p-button class="" size="large" label="Follow" icon="pi pi-plus" />
+            <p-button
+              class=""
+              size="large"
+              label="Follow"
+              [label]="follow() ? 'UnFollow' : 'Follow'"
+              (onClick)="onClick()"
+              [icon]="follow() ? '' : 'pi pi-plus'"
+              [severity]="follow() ? 'secondary' : 'success'"
+            />
           </div>
         </div>
       </div>
-      <div class="div-stories d-flex gap-2 overflow-x-scroll">
-        @for (story of stories(); track $index) {
+      <!--! Stories -->
+      <div class="div-stories d-flex gap-5 overflow-x-scroll overflow-y-visible">
+        @for (storyCoverImage of user().stories; track $index) {
 
-        <img class="img-story rounded-circle" src="/{{ story.src }}" alt="" />
+        <img class="img-story rounded-circle" src="/{{ storyCoverImage }}" alt="" />
         }
+        <!--! Posts  -->
       </div>
-      <app-posts></app-posts>
+      <app-posts [user]="user()"></app-posts>
     </div>
-    <!--! Posts  -->
   </section>
 </div>
-<!-- </section> -->

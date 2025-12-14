@@ -1,4 +1,4 @@
-<p-tabs class="">
+<p-tabs value="0" class="">
   <p-tablist>
     <p-tab (click)="updateRandomValue()" value="0" class="pi pi-th-large"></p-tab>
     <p-tab (click)="updateRandomValue()" value="1" class="pi pi-video"></p-tab>
@@ -7,22 +7,22 @@
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
-      @for (post of posts().slice(0,randomNum()); track $index) {
+      @for (post of user()?.posts; track $index) {
       <app-post [post]="post" />
       }
     </p-tabpanel>
     <p-tabpanel value="1">
-      @for (post of posts().slice(0,randomNum()); track $index) {
+      @for (post of user()?.posts; track $index) {
       <app-post [post]="post" />
       }
     </p-tabpanel>
     <p-tabpanel value="2">
-      @for (post of posts().slice(0,randomNum()); track $index) {
+      @for (post of user()?.posts; track $index) {
       <app-post [post]="post" />
       }
     </p-tabpanel>
     <p-tabpanel value="3">
-      @for (post of posts().slice(0,randomNum()); track $index) {
+      @for (post of user()?.posts; track $index) {
       <app-post [post]="post" />
       }
     </p-tabpanel>
