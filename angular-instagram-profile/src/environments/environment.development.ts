@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiKey: '',
+  apiUrl: 'https://3f7864964035.ngrok-free.app',
 };

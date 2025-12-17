@@ -8,13 +8,14 @@ import { MessageModule, Message } from 'primeng/message';
 import { DialogModule, Dialog } from 'primeng/dialog';
 import { FloatLabelModule, FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormControl, FormGroup } from '@angular/forms';
-
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Http } from '../services/http';
 import { User } from '../models/user.model';
 import { Images } from '../models/images.enum';
 import { Users } from '../Data/users';
 import { environment } from './../../environments/environment';
+import { TextareaModule, Textarea } from 'primeng/textarea';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-profile',
   imports: [
@@ -27,6 +28,8 @@ import { environment } from './../../environments/environment';
     Dialog,
     FloatLabel,
     InputTextModule,
+    ReactiveFormsModule,
+    Textarea,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   standalone: true,
@@ -35,18 +38,22 @@ import { environment } from './../../environments/environment';
 })
 export class Profile implements OnInit {
   http = inject(Http);
-  async ngOnInit(): Promise<void> {
-    console.log(environment);
-  }
-  signupFormGroup = new FormGroup({
-    usernameControl: new FormControl('', []),
-    passwordControl: new FormControl(''),
+  form = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl(''),
+    bio: new FormControl(''),
   });
+
   stories = signal<[{ src: string }]>([{ src: 'sunnyDay.jpg' }]);
   follow = signal<boolean>(false);
   showMessage = signal<boolean>(false);
-  user = signal<User>(Users[0]);
-  visibleDialog = false;
+  user = signal<User>(
+    localStorage.getItem('users')
+      ? JSON.parse(localStorage.getItem('users') as string)[0]
+      : Users[0]
+  );
+  visibleRegisterDialog = false;
+  visibleEditDialog = false;
 
   onUserChange(user: any): void {
     this.user.set(user);
@@ -58,5 +65,28 @@ export class Profile implements OnInit {
     setTimeout(() => {
       this.showMessage.set(false);
     }, 1500);
+  }
+  onFormSubmit(): void {
+    let user: User = {
+      username: this.form.controls.username.value!,
+      password: this.form.controls.password.value!,
+      pfp_url: Images[1],
+    };
+    this.http.register(user);
+  }
+  async onEditClick() {
+    const user = await this.http.edit({
+      username: this.user().username,
+      bio: this.form.controls.bio.value,
+    } as User);
+    if (!user) return;
+    if (typeof user === typeof Users) this.user.set(user as User);
+    if (typeof user === typeof Object)
+      //TODO: finish this for the API
+      user as Observable<Object>;
+    this.user.set(user as User);
+  }
+  async ngOnInit(): Promise<void> {
+    console.log(environment);
   }
 }

@@ -10,7 +10,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { Users } from '../../Data/users';
 import { Http } from '../../services/http';
-import { catchError } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -76,28 +77,29 @@ export class Navbar {
     //   user.username.toLowerCase().includes(searchWord.query?.toLowerCase())
     // ) as User[];
     //! When the backend is up
-    (await this.http.getUsers(1)).subscribe((data) => {
-      console.log(data);
-    });
-    let users = await this.http.getUsers();
-    users
-      .pipe(
-        catchError((err) => {
-          console.log(err);
+    if (environment.production) {
+      let users = (await this.http.getUsers()) as Observable<Object>;
+      users
+        .pipe(
+          catchError((err) => {
+            console.log(err);
 
-          throw err;
-        })
-      )
-      .subscribe((data: any) => {
-        console.log(data);
+            throw err;
+          })
+        )
+        .subscribe((data: any) => {
+          console.log(data);
 
-        this.suggestedUsers = data.data.filter((user: any) =>
-          user.username.toLowerCase().includes(searchWord.query?.toLowerCase())
-        ) as User[];
-      });
-    this.suggestedUsers = this.users.filter((user) =>
-      user.username.toLowerCase().includes(searchWord.query?.toLowerCase())
-    ) as User[];
+          this.suggestedUsers = data.data.filter((user: any) =>
+            user.username.toLowerCase().includes(searchWord.query?.toLowerCase())
+          ) as User[];
+        });
+    } else {
+      this.users = (await this.http.getUsers()) as User[];
+      this.suggestedUsers = this.users.filter((user) =>
+        user.username.toLowerCase().includes(searchWord.query?.toLowerCase())
+      ) as User[];
+    }
   }
   onUserClick(user: any): void {
     this.user.emit(user);
