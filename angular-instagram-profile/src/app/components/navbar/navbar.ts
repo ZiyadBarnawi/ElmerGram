@@ -12,11 +12,12 @@ import { Users } from '../../Data/users';
 import { Http } from '../../services/http';
 import { catchError, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { RippleModule } from 'primeng/ripple';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MenuModule, Drawer, DrawerModule, AutoComplete, AutoCompleteModule],
+  imports: [MenuModule, Drawer, DrawerModule, AutoComplete, AutoCompleteModule, RippleModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
