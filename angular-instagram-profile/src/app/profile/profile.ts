@@ -30,9 +30,8 @@ import { Router } from '@angular/router';
   imports: [
     ButtonModule,
     Posts,
-    Navbar,
+
     AutoCompleteModule,
-    Drawer,
     Message,
     Dialog,
     FloatLabel,

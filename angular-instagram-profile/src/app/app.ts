@@ -8,14 +8,14 @@ import { Drawer, DrawerModule } from 'primeng/drawer';
 
 @Component({
   selector: 'app-root',
-  imports: [Profile, RouterOutlet, Navbar, DrawerModule, Drawer],
+  imports: [RouterOutlet, Navbar, DrawerModule, Drawer],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('ElmerGram');
   user = signal<User>({ username: 'Default', pfp_url: Images[2], bio: 'Default' });
-  onUserChange(user: any): void {
+  onUserChange(user: User): void {
     // this.user.set(user);
   }
 }
