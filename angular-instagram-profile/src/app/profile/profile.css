@@ -62,15 +62,25 @@ p-avatar {
   height: 15rem;
   padding: 0.2rem;
 }
-.label-username,
-.label-password {
+.form-input-label {
+  font-size: 1.2rem;
+}
+:host ::ng-deep input::placeholder {
   font-size: 1.4rem;
 }
-
 :host ::ng-deep p-dialog {
   transform: scale(4.5rem);
 }
 
+:host ::ng-deep .p-inputwrapper,
+:host ::ng-deep .p-inputmask,
+:host ::ng-deep .p-datepicker-input,
+:host ::ng-deep .p-autocomplete-input,
+:host ::ng-deep .p-datepicker-input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 100%;
+}
 :host ::ng-deep .p-button-lg {
   width: 100%;
 }

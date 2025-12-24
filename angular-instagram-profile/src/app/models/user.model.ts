@@ -2,7 +2,11 @@ import { Post } from './post.model';
 
 export interface User {
   username: string;
-  password?: string; //FIX: remove the optional when the backend is ready
+  password: string;
+  email?: string;
+  phone_number?: string;
+  gender?: string;
+  date_of_birth?: string;
   bio?: string;
   pfp_url: string;
   followers?: number;

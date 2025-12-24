@@ -1,4 +1,3 @@
-<!-- <section class=" "> -->
 <div class="d-flex justify-content-between w-100">
   <!--!Message-->
   @if(messageVisible()){
@@ -23,12 +22,6 @@
       <div class="div-profile-head d-flex align-items-center">
         <!--! Profile Pic -->
         <div class="div-profile-picture-container">
-          <!-- <img
-            [class.img-pfp--active]="true"
-            class="img-pfp rounded-circle"
-            src="{{ user().pfp_url || 'sunnyDay.jpg' }}"
-            alt=""
-          /> -->
           <p-avatar
             image="{{ user().pfp_url || 'sunnyDay.jpg' }}"
             class="mr-2"
@@ -94,11 +87,11 @@
 
   <!--! Edit Dialog  -->
   <p-dialog header="Edit" [modal]="true" [(visible)]="visibleEditDialog">
-    <form [formGroup]="form" class="h-auto overflow-visible" action="">
+    <form [formGroup]="userForm" class="h-auto overflow-visible" action="">
       <p-float-label variant="in" class="h-auto overflow-visible fs-6">
         <textarea
           pSize="large"
-          [formControl]="form.controls.bio"
+          [formControl]="userForm.controls.bio"
           class="h-auto"
           pTextarea
           type="bio"
@@ -125,41 +118,316 @@
   <!--! Sign up dialog -->
 
   <p-dialog header="Sign up" [modal]="true" [(visible)]="visibleRegisterDialog">
-    <form [formGroup]="form" class="h-auto overflow-visible" action="">
-      <p-float-label variant="in" class="h-auto overflow-visible fs-6 mb-4"
-        ><input
-          [formControl]="form.controls.username"
-          class="h-auto"
-          pInputText
-          type="text"
-          name="username"
-        />
-        <label for="username" class="label-username">Username</label>
-      </p-float-label>
-      <p-float-label variant="in" class="h-auto overflow-visible fs-6"
-        ><input
-          [formControl]="form.controls.password"
-          class="h-auto"
-          pInputText
-          type="password"
-          name="password"
-        />
-        <label for="password" class="label-password">Password</label>
-      </p-float-label>
-      <div class="d-flex g-2 justify-content-around mt-5">
-        <p-button
-          severity="success"
-          (onClick)="visibleRegisterDialog = false"
-          (onClick)="onFormSubmit()"
-          label="Sign up!"
-        ></p-button>
-        <p-button
-          severity="secondary"
-          (onClick)="visibleRegisterDialog = false"
-          label="Cancel"
-        ></p-button>
-      </div>
-    </form>
+    <p-stepper [value]="1">
+      <p-step-list>
+        <p-step [value]="1">Account Information</p-step>
+        <p-step [value]="2">Personal/Business</p-step>
+        <p-step [value]="3">Verification</p-step>
+      </p-step-list>
+      <p-step-panels>
+        <!--! Account Information  -->
+        <p-step-panel [value]="1">
+          <ng-template #content let-activateCallback="activateCallback">
+            <form [formGroup]="userForm" class="h-auto overflow-visible" action="">
+              <p-input-group class="p-2">
+                <p-inputgroup-addon><i class="pi pi-user"></i> </p-inputgroup-addon>
+                <p-float-label variant="in" class="h-auto overflow-visible fs-6">
+                  <label for="username" class="form-input-label label-username">Username</label>
+                  <input
+                    [formControl]="userForm.controls.username"
+                    class=""
+                    pInputText
+                    type="text"
+                    name="username"
+                  />
+                </p-float-label>
+              </p-input-group>
+
+              <p-input-group class="p-2">
+                <p-inputgroup-addon>
+                  <p-button class=""
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="#fefbfb"
+                      viewBox="0 0 256 256"
+                    >
+                      <path
+                        d="M128,24a104,104,0,0,0,0,208c21.51,0,44.1-6.48,60.43-17.33a8,8,0,0,0-8.86-13.33C166,210.38,146.21,216,128,216a88,88,0,1,1,88-88c0,26.45-10.88,32-20,32s-20-5.55-20-32V88a8,8,0,0,0-16,0v4.26a48,48,0,1,0,5.93,65.1c6,12,16.35,18.64,30.07,18.64,22.54,0,36-17.94,36-48A104.11,104.11,0,0,0,128,24Zm0,136a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"
+                      ></path>
+                    </svg>
+                  </p-button>
+                </p-inputgroup-addon>
+                <p-float-label>
+                  <label for="email" class="form-input-label">Email</label>
+                  <input
+                    size="large"
+                    type="text"
+                    [formControl]="userForm.controls.email"
+                    pInputText
+                  />
+                </p-float-label>
+                <p-inputgroup-addon>
+                  <p-button icon="pi pi-phone" class="h-100" disabled="true" />
+                </p-inputgroup-addon>
+              </p-input-group>
+
+              <div class="w-100 d-flex justify-content-around">
+                <p-input-group class="p-2">
+                  <p-inputgroup-addon>
+                    <i class="pi pi-calendar"></i>
+                  </p-inputgroup-addon>
+                  <p-date-picker
+                    [formControl]="userForm.controls.date_of_birth"
+                    class=""
+                    [showButtonBar]="true"
+                    size="large"
+                    dateFormat="dd/mm/yyyy"
+                    [maxDate]="today"
+                  />
+                </p-input-group>
+                <p-selectbutton
+                  [options]="genderOptions"
+                  class="m-2"
+                  [formControl]="userForm.controls.gender"
+                />
+              </div>
+              <p-input-group class="d-flex gap-2">
+                <p-password
+                  [formControl]="userForm.controls.password"
+                  [toggleMask]="true"
+                  placeholder="Password"
+                  [size]="'large'"
+                  class="w-100"
+                />
+                <p-password
+                  feedback="false"
+                  [formControl]="userForm.controls.confirmPassword"
+                  [toggleMask]="false"
+                  placeholder="Conform Password"
+                  [size]="'large'"
+                  class="w-100"
+                />
+              </p-input-group>
+              <div class="my-5">
+                <p-fileupload
+                  name="demo[]"
+                  url="https://www.primefaces.org/cdn/api/upload.php"
+                  [multiple]="true"
+                  accept="image/*"
+                  maxFileSize="1000000"
+                  mode="advanced"
+                  (onSelect)="userForm.controls.pfp_url.setValue($event.files)"
+                >
+                  <!-- <ng-template #empty>
+                    <div>Drag and drop files to here to upload.</div>
+                  </ng-template> -->
+                  <ng-template #content>
+                    @if(uploadedFiles?.length){
+
+                    <ul>
+                      @for (file of uploadedFiles; track $index) {
+
+                      <li>{{ file.name }} - {{ file.size }} bytes</li>
+                      }
+                    </ul>
+                    }
+                  </ng-template>
+                </p-fileupload>
+              </div>
+              <div class="d-flex g-2 justify-content-around mt-2">
+                <p-button
+                  severity="secondary"
+                  (onClick)="visibleRegisterDialog = false"
+                  label="Cancel"
+                ></p-button>
+                <p-button
+                  severity="success"
+                  label="Next"
+                  (onClick)="activateCallback(2)"
+                ></p-button>
+              </div>
+            </form>
+          </ng-template>
+        </p-step-panel>
+        <!--! Account Type  -->
+        <p-step-panel [value]="2">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="d-flex justify-content-center mb-5">
+              <p-selectbutton
+                [multiple]="false"
+                [options]="accountOptions"
+                [formControl]="userForm.controls.account_type"
+                (onChange)="onAccountTypeChange($event)"
+                class="m-2"
+              />
+            </div>
+
+            <!--! Business Account  -->
+            @if(userForm.controls.account_type.value==='business'){
+            <div class="d-flex gap-4">
+              <div>
+                <p-input-group class="w-100 my-2 d-flex">
+                  <p-inputgroup-addon>
+                    <i class="pi pi-search" (click)="onCitySearch($event)"></i>
+                  </p-inputgroup-addon>
+                  <p-autocomplete
+                    [suggestions]="suggestedCities"
+                    appendTo="body"
+                    placeholder="Select your city"
+                    (completeMethod)="onCitySearch($event)"
+                  />
+                </p-input-group>
+                <p-input-group class="my-2">
+                  <p-inputgroup-addon
+                    ><i
+                      ><svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="#ffffff"
+                        viewBox="0 0 256 256"
+                        data--h-bstatus="0OBSERVED"
+                      >
+                        <path
+                          d="M24,104H48v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16H208V104h24a8,8,0,0,0,4.19-14.81l-104-64a8,8,0,0,0-8.38,0l-104,64A8,8,0,0,0,24,104Zm40,0H96v64H64Zm80,0v64H112V104Zm48,64H160V104h32ZM128,41.39,203.74,88H52.26ZM248,208a8,8,0,0,1-8,8H16a8,8,0,0,1,0-16H240A8,8,0,0,1,248,208Z"
+                          data--h-bstatus="0OBSERVED"
+                        ></path></svg></i
+                  ></p-inputgroup-addon>
+                  <input pInputText placeholder="IBAN" />
+                </p-input-group>
+                <p-input-group class="my-2">
+                  <p-inputgroup-addon><i class="pi pi-file"></i></p-inputgroup-addon>
+                  <input type="" placeholder="Commercial Registry" pInputText />
+                </p-input-group>
+              </div>
+              <div class="d-flex flex-column justify-content-center align-items-center">
+                <p-fileupload
+                  chooseIcon="pi pi-upload"
+                  accept="application/pdf"
+                  multiple="false"
+                  [maxFileSize]="1000000000"
+                  mode="basic"
+                  (onSelect)="userForm.controls.commercial_paper.setValue($event.files)"
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-between my-5">
+              <div class="d-flex gap-2">
+                <label for="Mada">Mada</label
+                ><p-radiobutton [formControl]="userForm.controls.paymentMethods" [value]="'mada'" />
+              </div>
+              <div class="d-flex gap-2">
+                <label for="Mada">STCPay</label
+                ><p-radiobutton
+                  [formControl]="userForm.controls.paymentMethods"
+                  [value]="'stcPay'"
+                />
+              </div>
+              <div class="d-flex gap-2">
+                <label for="Mada">ApplePay</label
+                ><p-radiobutton
+                  [formControl]="userForm.controls.paymentMethods"
+                  [value]="'applePAy'"
+                />
+              </div>
+              <div class="d-flex gap-2">
+                <label for="Mada">GooglePay</label
+                ><p-radiobutton
+                  [formControl]="userForm.controls.paymentMethods"
+                  [value]="'googlePay'"
+                />
+              </div>
+            </div>
+            <p-table [value]="userForm.controls.products.value!">
+              <ng-template #caption>
+                <h3>Business Products</h3>
+              </ng-template>
+              <ng-template #header
+                ><tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Category</th>
+                </tr>
+              </ng-template>
+              <ng-template #body let-product
+                ><tr>
+                  <td><input type="text" pInputText /></td>
+                  <td class="d-flex"><p-inputNumber /> SR</td>
+                  <td>
+                    <p-select appendTo="body" [options]="categories">
+                      <ng-template class="w-100 h-100 d-flex justify-content-center" #footer>
+                        <p-button
+                          class="w-100"
+                          icon="pi pi-plus"
+                          outlined=""
+                          fluid="true"
+                          (onClick)="categoryPopover.show($event)"
+                        /><p-popover #categoryPopover>
+                          <input type="text" pInputText placeholder="New Category" />
+                        </p-popover>
+                      </ng-template>
+                    </p-select>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template #footer>
+                <div class="d-flex justify-content-start">
+                  <p-button
+                    (onClick)="addNewItem()"
+                    label="Add"
+                    outlined="true"
+                    icon="pi pi-plus"
+                  />
+                </div>
+              </ng-template>
+            </p-table>
+            }
+            <!--! Personal account code  -->
+            @else{
+            <p-input-group class="w-100 my-2 d-flex">
+              <p-inputgroup-addon>
+                <i class="pi pi-search" (click)="onCitySearch($event)"></i>
+              </p-inputgroup-addon>
+              <p-autocomplete
+                [suggestions]="suggestedCities"
+                appendTo="body"
+                placeholder="Select your city"
+                (completeMethod)="onCitySearch($event)"
+              />
+            </p-input-group>
+            <div class="d-flex flex-column">
+              <label for="bio">bio</label>
+              <textarea rows="5" cols="30" pTextarea></textarea>
+            </div>
+
+            }
+            <div class="w-100 my-2 d-flex justify-content-center gap-4">
+              <p-button label="Cancel" severity="secondary" />
+              @if(userForm.controls.account_type.value==='personal'){
+
+              <p-button label="Skip" severity="success" />
+              } @else{
+
+              <p-button label="Next" severity="success" />
+              }
+            </div>
+          </ng-template>
+        </p-step-panel>
+        <!--! Verification  -->
+        <p-step-panel [value]="3">
+          <ng-template #content let-activateCallback="activateCallback">
+            <div
+              class="w-100 h-100 d-flex justify-content-center align-items-center flex-column gap-4"
+            >
+              <span>Enter the OTP we've just sent to you </span>
+              <p-inputotp size="large" />
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-panels>
+    </p-stepper>
   </p-dialog>
   <!--! Delete dialog  -->
   <p-dialog [size] [modal]="true" [(visible)]="visibleDeleteDialog" header="Are you sure?">

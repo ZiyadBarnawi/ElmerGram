@@ -37,7 +37,7 @@ export class Navbar {
   visible = false;
   formControl = new FormControl();
   users: User[] = [];
-  suggestedUsers: User[] = [{ username: '', pfp_url: Images[1] }];
+  suggestedUsers: User[] = [{ username: '', pfp_url: Images[1], password: '123456' }];
   routerUsername = signal<string>('');
   menuItems: MenuItem[] = [
     {
@@ -81,7 +81,7 @@ export class Navbar {
       label: 'Profile',
       icon: 'pi pi-user',
       command: (): void => {},
-      routerLink: this.routerUsername(),
+      routerLink: `profile/${this.routerUsername()}`,
     },
   ];
   async onSearch(searchWord: any): Promise<void> {
@@ -110,7 +110,6 @@ export class Navbar {
 
   async onUserClick(user: User): Promise<void> {
     let data = await this.http.getUsers(user.username);
-    // console.log();
 
     if (environment.production) {
       data = data as Observable<Object>;
@@ -121,8 +120,8 @@ export class Navbar {
           })
         )
         .subscribe((data: any) => {
-          this.user.emit(data.data[0]);
-          this.routerUsername.set(data.data[0].username);
+          this.user.emit(data.data);
+          this.routerUsername.set(data.data.username);
         });
     } else {
       data = data as User;

@@ -14,35 +14,72 @@ import { User } from '../models/user.model';
 import { Images } from '../models/images.enum';
 import { Users } from '../Data/users';
 import { environment } from './../../environments/environment';
-import { TextareaModule, Textarea } from 'primeng/textarea';
-import { ConfirmDialogModule, ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
-import { FocusTrapModule, FocusTrap } from 'primeng/focustrap';
-import { catchError, Observable } from 'rxjs';
+import { catchError, filter, Observable, switchMap } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // For animations that occur on page-load
 import { animate, trigger, state, style, transition } from '@angular/animations';
 import { AvatarModule, Avatar } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { RippleModule } from 'primeng/ripple';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { StepperModule } from 'primeng/stepper';
+import { DatePickerModule } from 'primeng/datepicker';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputMaskModule } from 'primeng/inputmask';
+import { RatingModule } from 'primeng/rating';
+import { PasswordModule, Password } from 'primeng/password';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FileUploadModule } from 'primeng/fileupload';
+import { TreeSelectModule } from 'primeng/treeselect';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { CascadeSelectModule, CascadeSelect } from 'primeng/cascadeselect';
+import { SelectModule } from 'primeng/select';
+import { InputOtpModule } from 'primeng/inputotp';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { TextareaModule } from 'primeng/textarea';
+import { TreeTableModule } from 'primeng/treetable';
+import { TableModule } from 'primeng/table';
+import { PopoverModule } from 'primeng/popover';
+
 @Component({
   selector: 'app-profile',
   imports: [
+    SelectButtonModule,
+    StepperModule,
     ButtonModule,
     Posts,
-
+    InputGroupModule,
+    InputGroupAddonModule,
     AutoCompleteModule,
     Message,
     Dialog,
     FloatLabel,
     InputTextModule,
     ReactiveFormsModule,
-    Textarea,
-
+    InputNumberModule,
+    DatePickerModule,
     AvatarModule,
+    TableModule,
     Avatar,
     AvatarGroupModule,
+    InputMaskModule,
+    RatingModule,
+    PasswordModule,
+    RadioButtonModule,
+    MultiSelectModule,
+    FileUploadModule,
+    TreeSelectModule,
+    ToggleSwitchModule,
     RippleModule,
+    Password,
+    CascadeSelectModule,
+    SelectModule,
+    InputOtpModule,
+    TextareaModule,
+    PopoverModule,
+    TreeTableModule,
   ],
   animations: [
     trigger('hover', [
@@ -60,14 +97,51 @@ import { Router } from '@angular/router';
 export class Profile implements OnInit {
   http = inject(Http);
   router = inject(Router);
-  form = new FormGroup({
+  today = new Date(Date.now());
+  contactToggleOptions = ['Phone', 'Email'];
+  genderOptions = ['Male', 'Female']; // FIX: Check if it should follow <accountOptions> format
+  accountOptions = [
+    { label: 'Personal', value: 'personal' },
+    { label: 'Business', value: 'business' },
+  ];
+  categories: string[] = ['Cloths', 'Glasses'];
+  cities = [
+    'Riyadh',
+    'Mecca',
+    'Riyadh',
+    'Asir',
+    'Buraydah',
+    'Tabuk',
+    'Baha',
+    'Hail',
+    'Najran',
+    'Northern Borders',
+    'Eastern Province',
+    'Al-Qassim',
+    'AL-Jouf',
+  ];
+  suggestedCities: string[] = [];
+  uploadedFiles?: [{ name: string; size: string }];
+  userForm = new FormGroup({
     username: new FormControl('', { validators: [Validators.maxLength(20)] }),
+    phone_number: new FormControl('', {
+      validators: [
+        Validators.minLength(8),
+        (control) => {
+          if (/^[+-]?\d+$/.test(control.value)) return { notValidPhoneNumber: true };
+          return null;
+        },
+      ],
+    }),
+    email: new FormControl('', { validators: [Validators.email] }),
     password: new FormControl('', {
       validators: [
         Validators.required,
         Validators.minLength(5),
         (control) => {
-          if (this.form?.controls?.username?.value === this.form?.controls?.password?.value) {
+          if (
+            this.userForm?.controls?.username?.value === this.userForm?.controls?.password?.value
+          ) {
             this.usernameAndPasswordAreEqual = true;
             return { usernameAndPasswordAreEquals: true };
           } else {
@@ -77,9 +151,32 @@ export class Profile implements OnInit {
         },
       ],
     }),
+    confirmPassword: new FormControl('', {
+      validators: [
+        Validators.required,
+        (control) => {
+          if (this.userForm?.controls.password.value !== control.value)
+            return { passwordMismatch: true };
+
+          return null;
+        },
+      ],
+    }),
+    products: new FormControl<[{ name: string; price: number; category: string }]>([
+      { name: 'Demo', price: 11, category: 'Demo' },
+    ]),
+    pfp_url: new FormControl<File[]>([], {}),
     bio: new FormControl('', { validators: [Validators.maxLength(100)] }),
+    date_of_birth: new FormControl('', {}),
+    gender: new FormControl<'M' | 'F'>('M', { validators: [Validators.required] }),
+    city: new FormControl('', { validators: [Validators.required] }),
+    commercial_paper: new FormControl(),
+    account_type: new FormControl<'personal' | 'business'>('personal', {
+      validators: [Validators.required],
+    }),
+    paymentMethods: new FormControl(),
+    categories: new FormArray([], {}),
   });
-  formArr = new FormArray([]);
 
   user = signal<User>(
     localStorage.getItem('users')
@@ -122,8 +219,8 @@ export class Profile implements OnInit {
   }
   onFormSubmit(): void {
     let user: User = {
-      username: this.form.controls.username.value!,
-      password: this.form.controls.password.value!,
+      username: this.userForm.controls.username.value!,
+      password: this.userForm.controls.password.value!,
       pfp_url: Images[1],
     };
 
@@ -133,7 +230,7 @@ export class Profile implements OnInit {
   async onEditClick() {
     let data = await this.http.editUser({
       username: this.user()!.username,
-      bio: this.form.controls.bio.value,
+      bio: this.userForm.controls.bio.value,
       // pfp_url: Images[Math.floor(Math.random() * 5)],
     } as User);
     if (!data) return;
@@ -152,36 +249,62 @@ export class Profile implements OnInit {
       this.showMessage('Success');
     }
   }
-
+  addNewItem() {
+    this.userForm.controls.products.value?.push({
+      name: 'New prod',
+      category: 'Demo 2',
+      price: 11,
+    });
+  }
   async onDeleteClick() {
     this.http.deleteUser(this.user()!.username);
-    this.user.set({ username: '', pfp_url: '', bio: '' });
+    this.user.set({ username: '', pfp_url: '', bio: '', password: '123456' });
   }
+  onCitySearch(event: any) {
+    this.suggestedCities = this.cities.filter((_city) =>
+      _city.toLowerCase().includes(event.query.toLowerCase())
+    );
+  }
+  onAccountTypeChange(event: any) {
+    this.userForm.controls.account_type.setValue(event.value.toLowerCase());
+  }
+  ngOnInit(): void {
+    // FIX: still needs work
+    // this.router.events
+    //   .pipe(
+    //     filter((event) => event instanceof NavigationEnd),
+    //     switchMap(() => this.http.getUsers(this.router.url.substring(1)))
+    //   )
+    //   .subscribe({
+    //     next: (data) => {
+    //       console.log(data);
 
-  async ngOnInit(): Promise<void> {
-    this.router.events
-      .pipe(
-        catchError((err) => {
-          throw err;
-        })
-      )
-      .subscribe(async () => {
-        let data = await this.http.getUsers(this.router.url.substring(1));
-        if (environment.production) {
-          data = data as Observable<Object>;
-          data
-            .pipe(
-              catchError((err) => {
-                throw err;
-              })
-            )
-            .subscribe((data: any) => {
-              this.user.set(data.data);
-            });
-        } else {
-          data = data as User;
-          this.user.set(data);
-        }
-      });
+    //       // this.user.set(data);
+    //     },
+    //     error: (err) => {
+    //       console.error(err);
+    //     },
+    //   });
+
+    this.router.events.subscribe(async () => {
+      let data = await this.http.getUsers(this.router.url.substring(1));
+      console.log(data);
+
+      if (environment.production) {
+        data = data as Observable<Object>;
+        data
+          .pipe(
+            catchError((err) => {
+              throw err;
+            })
+          )
+          .subscribe((data: any) => {
+            this.user.set(data.data);
+          });
+      } else {
+        data = data as User;
+        this.user.set(data);
+      }
+    });
   }
 }

@@ -14,6 +14,7 @@ export let Users: User[] = [
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
     ],
+    password: '123456',
     stories: [Images[0], Images[2]],
   },
   {
@@ -28,6 +29,7 @@ export let Users: User[] = [
 
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
     ],
+    password: '123456',
     stories: [Images[3], Images[4]],
   },
   {
@@ -46,6 +48,7 @@ export let Users: User[] = [
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
     ],
+    password: '123456',
     stories: [Images[0], Images[2], Images[3], Images[4]],
   },
   {
@@ -61,6 +64,7 @@ export let Users: User[] = [
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
     ],
+    password: '123456',
     stories: [Images[1], Images[4]],
   },
   {
@@ -73,6 +77,7 @@ export let Users: User[] = [
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
     ],
+    password: '123456',
     stories: [Images[1], Images[4]],
   },
   {
@@ -86,6 +91,7 @@ export let Users: User[] = [
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
       { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
     ],
+    password: '123456',
     stories: [Images[2], Images[4]],
   },
 ];
