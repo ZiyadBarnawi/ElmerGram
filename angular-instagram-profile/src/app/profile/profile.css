@@ -1,6 +1,3 @@
-/* * {
-  font-size: 2.4rem;
-} */
 .img-pfp {
   object-fit: cover;
   width: 20rem;
@@ -65,11 +62,35 @@ p-avatar {
 .form-input-label {
   font-size: 1.2rem;
 }
+.div-openHours {
+  height: 2rem;
+}
+.date-picker-work-hours {
+  width: 10rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.img-pfp {
+  width: 15rem;
+  max-height: fit-content;
+}
+.span-work-day {
+  font-size: 1.4rem;
+}
+:host,
+:host ::ng-deep .p-component,
+:host ::ng-deep .p-component::placeholder {
+  font-size: 1.6rem;
+}
+
 :host ::ng-deep input::placeholder {
   font-size: 1.4rem;
 }
-:host ::ng-deep p-dialog {
-  transform: scale(4.5rem);
+:host ::ng-deep .p-checkbox {
+  transform: scale(1.5);
 }
 
 :host ::ng-deep p-input-group .p-inputwrapper,
@@ -80,6 +101,17 @@ p-avatar {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   width: 100%;
+}
+:host ::ng-deep .inputmask-credentials input,
+:host ::ng-deep .inputmask-credentials input:focus {
+  border: none;
+  height: 1.4rem;
+}
+:host ::ng-deep .p-datatable-header,
+:host ::ng-deep .p-datatable-thead,
+:host ::ng-deep .p-datatable-thead th {
+  background-color: transparent;
+  border: none;
 }
 :host ::ng-deep .p-button-lg {
   width: 100%;
@@ -103,8 +135,4 @@ p-avatar {
 }
 :host ::ng-deep .payment-radio {
   font-size: 1.4rem;
-}
-
-.date-picker-work-hours {
-  width: 10rem;
 }

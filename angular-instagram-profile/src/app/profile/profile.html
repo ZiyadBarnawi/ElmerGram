@@ -131,22 +131,21 @@
             <form [formGroup]="userForm" class="h-auto overflow-visible" action="">
               <p-input-group class="p-2">
                 <p-inputgroup-addon><i class="pi pi-user"></i> </p-inputgroup-addon>
-                <p-float-label variant="in" class="h-auto overflow-visible fs-6">
-                  <label for="username" class="form-input-label label-username">Username</label>
-                  <input
-                    [formControl]="userForm.controls.username"
-                    class=""
-                    pInputText
-                    type="text"
-                    name="username"
-                  />
-                </p-float-label>
+                <input
+                  [formControl]="userForm.controls.username"
+                  class=""
+                  pInputText
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                />
               </p-input-group>
 
               <p-input-group class="p-2">
                 <p-inputgroup-addon>
-                  <p-button (onClick)="useEmail = true" class="" [disabled]="useEmail === true"
+                  <p-button (onClick)="useEmail = true" class="h-100" [disabled]="useEmail === true"
                     ><svg
+                      class=""
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
                       height="16"
@@ -170,6 +169,7 @@
                     type="text"
                     [formControl]="userForm.controls.email"
                     pInputText
+                    class="inputmask-credentials"
                   />
                 </p-float-label>
                 }@else{
@@ -180,6 +180,8 @@
                   type="text"
                   [formControl]="userForm.controls.phoneNumber"
                   pInputText
+                  class="inputmask-credentials"
+                  placeholder="Phone Number"
                 />
                 }
                 <p-inputgroup-addon>
@@ -192,14 +194,16 @@
                 </p-inputgroup-addon>
               </p-input-group>
 
-              <div class="w-100 d-flex justify-content-around">
-                <p-input-group class="p-2">
+              <div class="w-100 d-flex justify-content-between">
+                <p-input-group class="w-100 p-2">
                   <p-inputgroup-addon>
                     <i class="pi pi-calendar"></i>
                   </p-inputgroup-addon>
                   <p-date-picker
+                    appendTo="body"
+                    placeholder="Your Birth Date"
                     [formControl]="userForm.controls.dateOfBirth"
-                    class=""
+                    class="w-50"
                     [showButtonBar]="true"
                     size="large"
                     dateFormat="dd/mm/yyyy"
@@ -212,7 +216,7 @@
                   [formControl]="userForm.controls.gender"
                 />
               </div>
-              <p-input-group class="d-flex gap-2">
+              <div class="d-flex justify-content-between p-2 gap-2">
                 <p-password
                   [formControl]="userForm.controls.password"
                   [toggleMask]="true"
@@ -228,27 +232,26 @@
                   [size]="'large'"
                   class="w-100"
                 />
-              </p-input-group>
+              </div>
               <div class="my-5">
                 <p-fileupload
-                  name="demo[]"
+                  name="demo"
                   url="https://www.primefaces.org/cdn/api/upload.php"
                   [multiple]="true"
                   accept="image/*"
                   maxFileSize="1000000"
                   mode="advanced"
-                  (onSelect)="userForm.controls.pfpUrl.setValue($event.files)"
+                  (onUpload)="onUpload($event, userForm.controls.pfpUrl)"
                 >
-                  <!-- <ng-template #empty>
-                    <div>Drag and drop files to here to upload.</div>
-                  </ng-template> -->
                   <ng-template #content>
-                    @if(uploadedFiles?.length){
+                    @if(userForm.controls.pfpUrl.value){
 
                     <ul>
-                      @for (file of uploadedFiles; track $index) {
+                      @for (file of userForm.controls.pfpUrl.value ; track $index) {
 
-                      <li>{{ file.name }} - {{ file.size }} bytes</li>
+                      <li>
+                        <img class="img-pfp my-4" src="{{ file }}" alt="ppf" />
+                      </li>
                       }
                     </ul>
                     }
@@ -329,13 +332,21 @@
               </div>
               <div class="d-flex flex-column justify-content-center align-items-center">
                 <p-fileupload
-                  chooseIcon="pi pi-upload"
+                  name="demo"
+                  url="https://www.primefaces.org/cdn/api/upload.php"
+                  [multiple]="true"
                   accept="application/pdf"
-                  multiple="false"
-                  [maxFileSize]="1000000000"
-                  mode="basic"
-                  (onSelect)="userForm.controls.commercialPaper.setValue($event.files)"
-                />
+                  maxFileSize="1000000"
+                  mode="advanced"
+                  (onUpload)="onUpload($event, userForm.controls.commercialPaper)"
+                >
+                  <ng-template #content>
+                    @if(userForm.controls.commercialPaper.value){
+
+                    <a [href]="userForm.controls.commercialPaper.value" target="_blank">View</a>
+                    }
+                  </ng-template></p-fileupload
+                >
               </div>
             </div>
             <h2>Payment Methods</h2>
@@ -447,17 +458,26 @@
               </ng-template>
             </p-table>
             <div>
-              <div class="w-100">
+              <div class="w-100 my-4">
                 <h2>Open hours</h2>
 
-                @for (control of userForm.controls.workHours.controls; track $index) {
+                @for (group of userForm.controls.workHours.controls; track $index) {
 
-                <div class="w-100 d-flex justify-content-start align-items-center gap-5 my-2">
+                <div
+                  class="div-openHours w-100 d-flex justify-content-start align-items-center gap-5 m-4 my-5"
+                >
                   <div class="w-25 d-flex justify-content-between gap-2">
-                    <span>{{ control.value?.day }}</span>
-                    <p-checkbox [size]="'large'" [value]="true" />
+                    <span class="span-work-day fw-bolder">{{ group.value.day }}</span>
+
+                    <p-checkbox
+                      size="large"
+                      [formControl]="group.controls.available"
+                      binary="true"
+                      (onChange)="onDayCheck(group.controls.available, $event)"
+                    ></p-checkbox>
                   </div>
                   <p-datepicker
+                    [class.hidden]="!group.controls.available.value"
                     [iconDisplay]="'button'"
                     [showIcon]="true"
                     icon="pi pi-clock"
@@ -465,16 +485,18 @@
                     [appendTo]="'body'"
                     class="date-picker-work-hours"
                     [timeOnly]="true"
+                    [formControl]="group.controls.openHours"
                   >
                     <ng-template #footer>
                       <div class="d-flex gap-3">
-                        <span>Flexible</span>
-                        <p-checkbox [value]="true" />
+                        <span class="">Flexible</span>
+                        <p-checkbox [binary]="true" [formControl]="group.controls.flexible" />
                       </div>
                     </ng-template>
                   </p-datepicker>
-                  <span>To</span>
+                  <span [class.hidden]="!group.controls.available.value">To</span>
                   <p-datepicker
+                    [class.hidden]="!group.controls.available.value"
                     [iconDisplay]="'button'"
                     [showIcon]="true"
                     icon="pi pi-clock"
@@ -482,22 +504,11 @@
                     [appendTo]="'body'"
                     class="date-picker-work-hours"
                     [timeOnly]="true"
+                    [formControl]="group.controls.closeHours"
                   >
                   </p-datepicker>
                 </div>
                 }
-              </div>
-              <div class="d-flex flex-column my-5 gap-2">
-                <h2>Looking for employees?</h2>
-                <div class="w-100 d-flex align-items-center gap-4">
-                  <p-checkbox [value]="true" size="large" />
-                  <p-multiselect
-                    appendTo="body"
-                    [options]="pricingOption"
-                    [selectAll]="true"
-                    defaultLabel="Pricing Type"
-                  ></p-multiselect>
-                </div>
               </div>
             </div>
             }
@@ -521,13 +532,22 @@
 
             }
             <div class="w-100 my-2 d-flex justify-content-center gap-4">
-              <p-button label="Cancel" severity="secondary" />
+              <p-button
+                label="Cancel"
+                (onClick)="visibleRegisterDialog = false"
+                severity="secondary"
+              />
               @if(userForm.controls.accountType.value==='personal'){
 
-              <p-button label="Skip" severity="success" />
+              <p-button label="Skip" (onClick)="activateCallback(3)" severity="success" />
               } @else{
 
-              <p-button label="Next" (onClick)="onTestSub()" severity="success" />
+              <p-button
+                label="Next"
+                (onClick)="onTestSub()"
+                (onClick)="activateCallback(3)"
+                severity="success"
+              />
               }
             </div>
           </ng-template>
@@ -539,7 +559,7 @@
               class="w-100 h-100 d-flex justify-content-center align-items-center flex-column gap-4"
             >
               <span>Enter the OTP we've just sent to you </span>
-              <p-inputotp size="large" />
+              <p-inputotp size="large" [integerOnly]="true" [length]="4" [formControl]="otp" />
             </div>
           </ng-template>
         </p-step-panel>

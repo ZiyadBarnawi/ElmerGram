@@ -36,13 +36,13 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { CascadeSelectModule, CascadeSelect } from 'primeng/cascadeselect';
 import { SelectModule } from 'primeng/select';
-import { InputOtpModule } from 'primeng/inputotp';
+import { InputOtpChangeEvent, InputOtpModule } from 'primeng/inputotp';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TextareaModule } from 'primeng/textarea';
 import { TreeTableModule } from 'primeng/treetable';
 import { TableModule } from 'primeng/table';
 import { PopoverModule } from 'primeng/popover';
-import { CheckboxModule } from 'primeng/checkbox';
+import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-profile',
@@ -113,7 +113,7 @@ export class Profile implements OnInit {
   ];
   categories: string[] = ['Cloths', 'Glasses'];
   discounts: string[] = ['Random Discount'];
-  pricingOption = ['Fixed', 'Hourly', 'Negotiable'];
+  salaryOption = ['Fixed', 'Hourly', 'Negotiable'];
   cities = [
     'Mecca',
     'Riyadh',
@@ -129,7 +129,18 @@ export class Profile implements OnInit {
     'AL-Jouf',
   ];
   suggestedCities: string[] = [];
-  uploadedFiles?: [{ name: string; size: string }];
+  uploadedFiles?: any[] = [];
+  otp = new FormControl<string>('', {
+    validators: [
+      Validators.required,
+      (control) => {
+        if (control.value.length < 4) return { invalidOtp: true };
+        if (control.value !== '0000') return { invalidOtp: true };
+        console.log(control);
+        return null;
+      },
+    ],
+  });
   userForm = new FormGroup({
     username: new FormControl('', { validators: [Validators.maxLength(20)] }),
     phoneNumber: new FormControl('', {
@@ -228,40 +239,54 @@ export class Profile implements OnInit {
       }),
     ]),
     workHours: new FormArray([
-      new FormControl<{ day: string; available: boolean; flexible: boolean }>({
-        day: 'Saturday',
-        available: false,
-        flexible: false,
+      new FormGroup({
+        day: new FormControl<string>('Saturday'),
+        available: new FormControl<boolean>(false),
+        flexible: new FormControl<boolean>(false),
+        openHours: new FormControl(''),
+        closeHours: new FormControl(''),
       }),
-      new FormControl<{ day: string; available: boolean; flexible: boolean }>({
-        day: 'Sunday',
-        available: false,
-        flexible: false,
+      new FormGroup({
+        day: new FormControl<string>('Sunday'),
+        available: new FormControl<boolean>(false),
+        flexible: new FormControl<boolean>(false),
+        openHours: new FormControl(''),
+        closeHours: new FormControl(''),
       }),
-      new FormControl<{ day: string; available: boolean; flexible: boolean }>({
-        day: 'Monday',
-        available: false,
-        flexible: false,
+      new FormGroup({
+        day: new FormControl<string>('Monday'),
+        available: new FormControl<boolean>(false),
+        flexible: new FormControl<boolean>(false),
+        openHours: new FormControl(''),
+        closeHours: new FormControl(''),
       }),
-      new FormControl<{ day: string; available: boolean; flexible: boolean }>({
-        day: 'Tuesday',
-        available: false,
-        flexible: false,
+      new FormGroup({
+        day: new FormControl<string>('Tuesday'),
+        available: new FormControl<boolean>(false),
+        flexible: new FormControl<boolean>(false),
+        openHours: new FormControl(''),
+        closeHours: new FormControl(''),
       }),
-      new FormControl<{ day: string; available: boolean; flexible: boolean }>({
-        day: 'Wednesday',
-        available: false,
-        flexible: false,
+      new FormGroup({
+        day: new FormControl<string>('Wednesday'),
+        available: new FormControl<boolean>(false),
+        flexible: new FormControl<boolean>(false),
+        openHours: new FormControl(''),
+        closeHours: new FormControl(''),
       }),
-      new FormControl<{ day: string; available: boolean; flexible: boolean }>({
-        day: 'Thursday',
-        available: false,
-        flexible: false,
+      new FormGroup({
+        day: new FormControl<string>('Thursday'),
+        available: new FormControl<boolean>(false),
+        flexible: new FormControl<boolean>(false),
+        openHours: new FormControl(''),
+        closeHours: new FormControl(''),
       }),
-      new FormControl<{ day: string; available: boolean; flexible: boolean }>({
-        day: 'Friday',
-        available: false,
-        flexible: false,
+      new FormGroup({
+        day: new FormControl<string>('Friday'),
+        available: new FormControl<boolean>(false),
+        flexible: new FormControl<boolean>(false),
+        openHours: new FormControl(''),
+        closeHours: new FormControl(''),
       }),
     ]),
   });
@@ -377,6 +402,22 @@ export class Profile implements OnInit {
 
     this.discounts.push(this.userForm.controls.discount.value!);
   }
+  onDayCheck(control: FormControl, event: CheckboxChangeEvent) {
+    console.log(event);
+
+    control.setValue(event.checked);
+
+    console.log(`Available is => ${control.value}`);
+  }
+  onUpload(event: any, control: FormControl<any>): void {
+    console.log(event);
+    let filesCopy: any[] = [];
+    event.files.forEach((file: any) => filesCopy.push(URL.createObjectURL(file)));
+    console.log(filesCopy);
+
+    control.setValue(filesCopy);
+  }
+
   ngOnInit(): void {
     // FIX: still needs work
     // this.router.events
