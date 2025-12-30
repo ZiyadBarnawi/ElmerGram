@@ -3,7 +3,6 @@ import { Posts } from '../components/posts/posts';
 import { ButtonModule } from 'primeng/button';
 import { Navbar } from '../components/navbar/navbar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { DrawerModule, Drawer } from 'primeng/drawer';
 import { MessageModule, Message } from 'primeng/message';
 import { DialogModule, Dialog } from 'primeng/dialog';
 import { FloatLabelModule, FloatLabel } from 'primeng/floatlabel';
@@ -44,6 +43,7 @@ import { TableModule } from 'primeng/table';
 import { PopoverModule } from 'primeng/popover';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 
+import { user } from './../Data/dummyUser';
 @Component({
   selector: 'app-profile',
   imports: [
@@ -56,7 +56,6 @@ import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
     AutoCompleteModule,
     Message,
     Dialog,
-    FloatLabel,
     InputTextModule,
     ReactiveFormsModule,
     InputNumberModule,
@@ -195,8 +194,7 @@ export class Profile implements OnInit {
         },
       ],
     }),
-
-    pfpUrl: new FormControl<File[]>([], {}),
+    pfpUrl: new FormControl(),
     bio: new FormControl('', { validators: [Validators.maxLength(100)] }),
     dateOfBirth: new FormControl('', {}),
     gender: new FormControl<'M' | 'F'>('M', { validators: [Validators.required] }),
@@ -218,8 +216,8 @@ export class Profile implements OnInit {
     paymentMethods: new FormControl([], {
       validators: [Validators.required],
     }),
-    category: new FormControl<string>('', { validators: [] }), // This is used to handle the new category
-    discount: new FormControl<string>('', { validators: [] }), // This is used to handle the new discount
+    newCategory: new FormControl<string>(''), // This is used to handle the new category
+    newDiscount: new FormControl<string>(''), // This is used to handle the new discount
     products: new FormArray([
       new FormGroup({
         name: new FormControl('Demo', {
@@ -291,16 +289,15 @@ export class Profile implements OnInit {
     ]),
   });
 
-  user = signal<User>(
-    localStorage.getItem('users')
-      ? JSON.parse(localStorage.getItem('users') as string)[0]
-      : Users[0]
-  );
-
+  user = signal<User>(this.getInitialUser());
+  getInitialUser(): User {
+    let users: string | null = localStorage.getItem('users');
+    if (users) return JSON.parse(localStorage.getItem('users') as string)[0];
+    else return user;
+  }
   stories = signal<[{ src: string }]>([{ src: 'sunnyDay.jpg' }]);
   follow = signal<boolean>(false);
   messageVisible = signal<boolean>(false);
-  hovered = false;
   message = '';
   visibleRegisterDialog = false;
   visibleEditDialog = false;
@@ -326,13 +323,7 @@ export class Profile implements OnInit {
     }, 1500);
   }
   onFormSubmit(): void {
-    let user: User = {
-      username: this.userForm.controls.username.value!,
-      password: this.userForm.controls.password.value!,
-      pfpUrl: Images[1],
-    };
-
-    this.http.register(user);
+    this.http.register(this.userForm);
     this.showMessage('success');
   }
   async onEditClick() {
@@ -395,26 +386,19 @@ export class Profile implements OnInit {
   }
 
   onNewCategory(): void {
-    this.categories.push(this.userForm.controls.category.value!);
+    this.categories.push(this.userForm.controls.newCategory.value!);
   }
   onNewDiscount(): void {
-    console.log(this.userForm.controls.discount.value);
-
-    this.discounts.push(this.userForm.controls.discount.value!);
+    this.discounts.push(this.userForm.controls.newDiscount.value!);
   }
   onDayCheck(control: FormControl, event: CheckboxChangeEvent) {
-    console.log(event);
-
     control.setValue(event.checked);
-
-    console.log(`Available is => ${control.value}`);
   }
   onUpload(event: any, control: FormControl<any>): void {
     console.log(event);
+
     let filesCopy: any[] = [];
     event.files.forEach((file: any) => filesCopy.push(URL.createObjectURL(file)));
-    console.log(filesCopy);
-
     control.setValue(filesCopy);
   }
 

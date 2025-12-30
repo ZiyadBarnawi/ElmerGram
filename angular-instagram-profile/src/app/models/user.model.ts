@@ -8,11 +8,30 @@ export interface User {
   gender?: string;
   dateOfBirth?: string;
   bio?: string;
-  pfpUrl: string;
+  pfpUrl?: string;
   followers?: number;
   following?: number;
   posts?: Post[];
   stories?: string[];
   hasActiveStory?: boolean;
-  created_at?: Date;
+  createdAt?: Date;
+  city?: string;
+  iban?: string;
+  paymentMethods?: string[];
+  commercialPaper?: string;
+  commercialRegistryNumber?: string;
+  accountType?: 'business' | 'personal';
+  products?: {
+    name: string;
+    price: string;
+    categories: string;
+    discounts: string;
+  }[];
+  workHours?: {
+    day: string;
+    available: boolean;
+    flexible: boolean;
+    openHours: string;
+    closeHours: string;
+  }[];
 }
