@@ -1,8 +1,9 @@
 <nav>
   <h1 class="logo">ElmerGram</h1>
   <p-menu [model]="menuItems" class="flex justify-center" styleClass="w-full md:w-60"> </p-menu>
-  <p-drawer [(visible)]="visible">
+  <p-drawer appendTo="body" [(visible)]="visible">
     <p-auto-complete
+      class=""
       [suggestions]="suggestedUsers"
       optionLabel="username"
       [formControl]="formControl"
@@ -23,7 +24,7 @@
             <span class="span-search-username w-75">{{ suggestedUser.username }}</span>
           </div>
         </a>
-      </ng-template></p-auto-complete
-    >
+      </ng-template>
+    </p-auto-complete>
   </p-drawer>
 </nav>

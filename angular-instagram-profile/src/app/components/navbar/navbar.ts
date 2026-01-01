@@ -14,6 +14,8 @@ import { catchError, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RippleModule } from 'primeng/ripple';
 import { RouterLink } from '@angular/router';
+import { InputGroup, InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddon, InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'app-navbar',
@@ -22,8 +24,10 @@ import { RouterLink } from '@angular/router';
     MenuModule,
     Drawer,
     DrawerModule,
+    InputGroupAddonModule,
     AutoComplete,
     AutoCompleteModule,
+    InputGroupModule,
     RippleModule,
     RouterLink,
   ],

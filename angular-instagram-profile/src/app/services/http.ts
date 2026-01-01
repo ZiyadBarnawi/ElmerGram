@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { catchError, Observable } from 'rxjs';
 import { Images } from '../models/images.enum';
 import { FormGroup } from '@angular/forms';
+import { user } from './../Data/dummyUser';
 
 @Injectable({
   providedIn: 'root',
@@ -75,7 +76,7 @@ export class Http {
     //   }
     // }
   }
-  async editUser(newUser: User): Promise<User | Observable<Object> | null> {
+  async editUser(username: string, newUser: User): Promise<User | Observable<Object> | null> {
     if (environment.production) {
       return this.http
         .patch(`${environment.apiUrl}/api/v1/users/${newUser.username}`, newUser)
@@ -85,16 +86,19 @@ export class Http {
           })
         );
     } else {
+      console.log('in http');
+
       let users = localStorage.getItem('users')
         ? (JSON.parse(localStorage.getItem('users') as string) as User[])
         : null;
 
       if (!users) return null;
-      let oldUserIndex = users.findIndex((user) => user.username === newUser.username);
+      let oldUserIndex = users.findIndex((user) => user.username === username);
       if (oldUserIndex < 0) return null;
-      users[oldUserIndex].bio = newUser.bio;
-      users[oldUserIndex].username = newUser.username;
+      users[oldUserIndex] = newUser;
       localStorage.setItem('users', JSON.stringify(users));
+      console.log(users[oldUserIndex]);
+
       return users[oldUserIndex];
     }
   }

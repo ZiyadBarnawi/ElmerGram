@@ -15,3 +15,7 @@ app-profile {
 :host *::after {
   box-sizing: border-box;
 }
+
+:host ::ng-deep .p-drawer {
+  width: 35rem;
+}

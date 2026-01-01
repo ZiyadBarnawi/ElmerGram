@@ -5,7 +5,7 @@ export interface User {
   password: string;
   email?: string;
   phoneNumber?: string;
-  gender?: string;
+  gender?: 'M' | 'F';
   dateOfBirth?: string;
   bio?: string;
   pfpUrl?: string;
@@ -21,17 +21,19 @@ export interface User {
   commercialPaper?: string;
   commercialRegistryNumber?: string;
   accountType?: 'business' | 'personal';
+
   products?: {
     name: string;
     price: string;
     categories: string;
-    discounts: string;
+    discounts: string[];
   }[];
+
   workHours?: {
     day: string;
-    available: boolean;
-    flexible: boolean;
-    openHours: string;
-    closeHours: string;
+    available: boolean | null;
+    flexible: boolean | null;
+    openHours: string | null;
+    closeHours: string | null;
   }[];
 }

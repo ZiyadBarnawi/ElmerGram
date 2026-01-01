@@ -6,6 +6,14 @@ nav {
 .span-search-username {
   font-size: 1.4rem;
 }
+.div-suggested-user {
+  pointer-events: all;
+}
+:host,
+:host ::ng-deep .p-component,
+:host ::ng-deep .p-component::placeholder {
+  font-size: 1.6rem;
+}
 :host ::ng-deep .p-menu {
   height: 100%;
   font-size: 2.2rem;
@@ -28,13 +36,27 @@ nav {
   margin-bottom: 0.8rem;
 }
 
-:host ::ng-deep .p-drawer {
+:host ::ng-deep .p-drawer-left {
+  width: 100rem;
   background-color: rgb(21, 21, 21);
   border: transparent;
+}
+:host ::ng-deep .p-autocomplete-input,
+:host ::ng-deep .p-inputwrapper,
+:host ::ng-deep .p-autocomplete .p-component .p-inputwrapper,
+:host ::ng-deep .p-autocomplete-input {
+  width: 35rem;
 }
 :host ::ng-deep .p-autocomplete-option {
   pointer-events: all;
 }
-.div-suggested-user {
-  pointer-events: all;
+:host ::ng-deep .p-autocomplete-input,
+:host ::ng-deep .p-autocomplete {
+  width: 100%;
+  border-top-left-radius: none;
+  border-bottom-left-radius: none;
+}
+
+:host ::ng-deep .p-autocomplete-input {
+  width: 35rem;
 }

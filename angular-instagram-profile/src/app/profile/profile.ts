@@ -12,6 +12,7 @@ import { Http } from '../services/http';
 import { User } from '../models/user.model';
 import { Images } from '../models/images.enum';
 import { Users } from '../Data/users';
+import { ToastModule, Toast } from 'primeng/toast';
 import { environment } from './../../environments/environment';
 import { catchError, filter, Observable, switchMap } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // For animations that occur on page-load
@@ -42,8 +43,12 @@ import { TreeTableModule } from 'primeng/treetable';
 import { TableModule } from 'primeng/table';
 import { PopoverModule } from 'primeng/popover';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 import { user } from './../Data/dummyUser';
+import { MessageService, ToastMessageOptions } from 'primeng/api';
+import { Tooltip } from 'primeng/tooltip';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-profile',
   imports: [
@@ -52,9 +57,9 @@ import { user } from './../Data/dummyUser';
     ButtonModule,
     Posts,
     InputGroupModule,
+    StyleClassModule,
     InputGroupAddonModule,
     AutoCompleteModule,
-    Message,
     Dialog,
     InputTextModule,
     ReactiveFormsModule,
@@ -67,6 +72,7 @@ import { user } from './../Data/dummyUser';
     CheckboxModule,
     InputMaskModule,
     RatingModule,
+    OverlayBadgeModule,
     PasswordModule,
     RadioButtonModule,
     MultiSelectModule,
@@ -81,6 +87,8 @@ import { user } from './../Data/dummyUser';
     TextareaModule,
     PopoverModule,
     TreeTableModule,
+    ToastModule,
+    Toast,
   ],
   animations: [
     trigger('hover', [
@@ -94,17 +102,19 @@ import { user } from './../Data/dummyUser';
   standalone: true,
   templateUrl: './profile.html',
   styleUrl: './profile.css',
+  providers: [MessageService],
 })
 export class Profile implements OnInit {
   http = inject(Http);
   router = inject(Router);
+  messages = inject(MessageService);
   today = new Date(Date.now());
 
   contactToggleOptions = ['Phone', 'Email'];
   useEmail = true;
   genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'female', value: 'female' },
+    { label: 'Male', value: 'M' },
+    { label: 'female', value: 'F' },
   ];
   accountOptions = [
     { label: 'Personal', value: 'personal' },
@@ -113,7 +123,9 @@ export class Profile implements OnInit {
   categories: string[] = ['Cloths', 'Glasses'];
   discounts: string[] = ['Random Discount'];
   salaryOption = ['Fixed', 'Hourly', 'Negotiable'];
+  paymentMethodsOptions: string[] = ['Mada', 'ApplePay', 'GooglePay', 'StcPay'];
   cities = [
+    'Madinah',
     'Mecca',
     'Riyadh',
     'Asir',
@@ -135,7 +147,6 @@ export class Profile implements OnInit {
       (control) => {
         if (control.value.length < 4) return { invalidOtp: true };
         if (control.value !== '0000') return { invalidOtp: true };
-        console.log(control);
         return null;
       },
     ],
@@ -146,27 +157,21 @@ export class Profile implements OnInit {
       validators: [
         Validators.minLength(8),
         (control) => {
-          if (/^[+-]?\d+$/.test(control.value)) return { notValidPhoneNumber: true };
+          if (/^[+-]?\d+$/.test(control.value)) {
+            return { notValidPhoneNumber: true };
+          }
           return null;
         },
         (control) => {
           if (!this.userForm?.controls?.email.value && !control?.value) {
-            return { NUllEmailAndPassword: true };
+            return { NullEmailAndPassword: true };
           }
           return null;
         },
       ],
     }),
     email: new FormControl('', {
-      validators: [
-        Validators.email,
-        (control) => {
-          if (!this.userForm?.controls?.email.value && !control?.value) {
-            return { NUllEmailAndPassword: true };
-          }
-          return null;
-        },
-      ],
+      validators: [Validators.email],
     }),
     password: new FormControl('', {
       validators: [
@@ -187,16 +192,16 @@ export class Profile implements OnInit {
       validators: [
         Validators.required,
         (control) => {
-          if (this.userForm?.controls.password.value !== control.value)
+          if (this.userForm?.controls.password.value !== control.value) {
             return { passwordMismatch: true };
-
+          }
           return null;
         },
       ],
     }),
     pfpUrl: new FormControl(),
     bio: new FormControl('', { validators: [Validators.maxLength(100)] }),
-    dateOfBirth: new FormControl('', {}),
+    dateOfBirth: new FormControl<string | null>(null),
     gender: new FormControl<'M' | 'F'>('M', { validators: [Validators.required] }),
     city: new FormControl('', { validators: [Validators.required] }),
     commercialPaper: new FormControl(),
@@ -213,7 +218,7 @@ export class Profile implements OnInit {
     accountType: new FormControl<'personal' | 'business'>('personal', {
       validators: [Validators.required],
     }),
-    paymentMethods: new FormControl([], {
+    paymentMethods: new FormControl<string[]>([], {
       validators: [Validators.required],
     }),
     newCategory: new FormControl<string>(''), // This is used to handle the new category
@@ -227,11 +232,14 @@ export class Profile implements OnInit {
             Validators.maxLength(75),
             (control) => {
               if (/^[a-zA-Z0-9_ ]*$/.test(control.value)) return null;
+
               return { unexpectedCharacters: true };
             },
           ],
         }),
-        price: new FormControl(0, { validators: [Validators.required, Validators.min(0)] }),
+        price: new FormControl<string>('', {
+          validators: [Validators.required, Validators.min(0)],
+        }),
         categories: new FormControl('', { validators: [Validators.required] }),
         discounts: new FormControl<string[]>([], { validators: [Validators.maxLength(50)] }),
       }),
@@ -302,36 +310,48 @@ export class Profile implements OnInit {
   visibleRegisterDialog = false;
   visibleEditDialog = false;
   visibleDeleteDialog = false;
-  messageSeverity = 'Success';
-
+  messageSeverity = 'success';
+  showToast(toastOptions: ToastMessageOptions | ToastMessageOptions[], multi?: boolean): void {
+    if (multi) this.messages.addAll(toastOptions as ToastMessageOptions[]);
+    else this.messages.add(toastOptions as ToastMessageOptions);
+    //TIP: toastOptions:
+    // this.messages.add({
+    //   closable: false,
+    //   summary: 'Top short text',
+    //   detail: 'Long description',
+    //   severity: 'success',
+    //   life: 1500,
+    //   text: 'Text',
+    //   sticky: true,
+    // });
+  }
   onFollowClick(): void {
     this.messageVisible.set(true);
     this.follow.set(!this.follow());
-    this.showMessage(this.follow() ? 'Followed!' : 'Un-Followed', {
-      success: this.follow(),
-      severity: this.follow() ? 'success' : 'danger',
+    this.showToast({
+      summary: this.follow() ? 'Followed!' : 'Un-Followed',
+      severity: this.follow() ? 'success' : 'error',
     });
   }
 
-  showMessage(message: string, options = { success: true, severity: 'success' }) {
-    this.messageVisible.set(true);
-    this.message = message;
-    this.messageSeverity = options.severity;
-    setTimeout(() => {
-      this.messageVisible.set(false);
-      this.messageSeverity = 'success';
-    }, 1500);
-  }
   onFormSubmit(): void {
+    const invalidForms = Object.entries(this.userForm.controls)
+      .filter(([_, control]) => control.invalid)
+      .map(([name]) => name);
+    if (invalidForms.length) {
+      this.showToast({
+        summary: `Some inputs are invalid`,
+        detail: invalidForms.join(', \n'),
+        severity: 'error',
+      });
+      this.userForm.reset();
+    }
+
     this.http.register(this.userForm);
-    this.showMessage('success');
+    this.showToast({ summary: 'Success' });
   }
   async onEditClick() {
-    let data = await this.http.editUser({
-      username: this.user()!.username,
-      bio: this.userForm.controls.bio.value,
-      // pfpUrl: Images[Math.floor(Math.random() * 5)],
-    } as User);
+    let data = await this.http.editUser(this.user().username, this.userForm.value as User);
     if (!data) return;
 
     // in spring dev
@@ -340,12 +360,12 @@ export class Profile implements OnInit {
       data.subscribe((user: any) => {
         this.user.set(user.data);
       });
-      this.showMessage('Success');
+      this.showToast({ summary: 'Success' });
     }
     // in local dev
     else {
       this.user.set(data as User);
-      this.showMessage('Success');
+      this.showToast({ summary: 'Success' });
     }
   }
   onAddNewItem() {
@@ -362,13 +382,15 @@ export class Profile implements OnInit {
             },
           ],
         }),
-        price: new FormControl(0, { validators: [Validators.required, Validators.min(0)] }),
+        price: new FormControl<string>('0', {
+          validators: [Validators.required, Validators.min(0)],
+        }),
         categories: new FormControl('', { validators: [Validators.required] }),
         discounts: new FormControl(this.discounts),
       })
     );
   }
-  async onDeleteClick() {
+  onDeleteClick() {
     this.http.deleteUser(this.user()!.username);
     this.user.set({ username: '', pfpUrl: '', bio: '', password: '123456' });
   }
@@ -379,10 +401,6 @@ export class Profile implements OnInit {
   }
   onAccountTypeChange(event: any) {
     this.userForm.controls.accountType.setValue(event.value.toLowerCase());
-  }
-
-  onTestSub(): void {
-    console.log(this.userForm.value);
   }
 
   onNewCategory(): void {
@@ -401,7 +419,19 @@ export class Profile implements OnInit {
     event.files.forEach((file: any) => filesCopy.push(URL.createObjectURL(file)));
     control.setValue(filesCopy);
   }
-
+  onDayCheckboxChange(control: FormControl): void {
+    if (control.disabled) control.enable();
+    else control.disable();
+  }
+  onShowEditDialog(): void {
+    this.updateUserForm();
+  }
+  updateUserForm(): void {
+    Object.entries(this.userForm.controls).forEach((control) => {
+      this.userForm.reset();
+      this.userForm.patchValue({ ...this.user() });
+    });
+  }
   ngOnInit(): void {
     // FIX: still needs work
     // this.router.events

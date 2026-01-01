@@ -43,14 +43,8 @@
   transform: scale(1.01);
 }
 
-p-message {
-  left: 50%;
-}
-
 .p-button-dialog {
-  /* width: 2rem; */
   right: 0;
-  /* margin: 2rem; */
 }
 
 p-avatar {
@@ -80,12 +74,25 @@ p-avatar {
 .span-work-day {
   font-size: 1.4rem;
 }
+
+p-message {
+  text-wrap: wrap;
+  /* margin: auto; */
+  font-size: 2.4rem;
+  z-index: 999999;
+}
 :host,
 :host ::ng-deep .p-component,
 :host ::ng-deep .p-component::placeholder {
   font-size: 1.6rem;
 }
-
+:host ::ng-deep .p-message,
+:host ::ng-deep .p-message-content,
+:host ::ng-deep .p-message-text {
+  padding: 0.2rem;
+  z-index: 9999;
+  font-size: 2.4rem;
+}
 :host ::ng-deep input::placeholder {
   font-size: 1.4rem;
 }
@@ -107,6 +114,7 @@ p-avatar {
   border: none;
   height: 1.4rem;
 }
+
 :host ::ng-deep .p-datatable-header,
 :host ::ng-deep .p-datatable-thead,
 :host ::ng-deep .p-datatable-thead th {

@@ -11,11 +11,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import { CustomLaraPreset } from './customeLara.preset';
 import { provideHttpClient } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(),
     providePrimeNG({
+      inputVariant: 'filled',
       theme: {
         preset: CustomLaraPreset,
       },

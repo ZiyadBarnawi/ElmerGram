@@ -1,10 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Profile } from './profile/profile';
 import { Navbar } from './components/navbar/navbar';
 import { User } from './models/user.model';
 import { Images } from './models/images.enum';
 import { Drawer, DrawerModule } from 'primeng/drawer';
+import { Toast, ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-root',

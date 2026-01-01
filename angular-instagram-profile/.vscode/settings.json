@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["cascadeselect", "iban", "inputgroup", "inputnumber", "inputotp", "selectbutton"]
+  "cSpell.words": [
+    "cascadeselect",
+    "iban",
+    "inputgroup",
+    "inputnumber",
+    "inputotp",
+    "selectbutton"
+  ],
+  "FSharp.suggestGitignore": false
 }

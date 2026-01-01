@@ -1,13 +1,14 @@
 <div class="d-flex justify-content-between w-100">
   <!--!Message-->
-  @if(messageVisible()){
-  <p-message
-    class="position-absolute"
-    [life]="1500"
-    [severity]="messageSeverity"
-    [size]="'large'"
-    >{{ message }}</p-message
-  >}
+  <p-toast />
+  <!-- @if(messageVisible()){
+  <div class="w-100 position-absolute d-flex justify-content-center">
+    <p-message class="" [life]="1500" [severity]="messageSeverity" [size]="'large'">{{
+      message
+    }}</p-message>
+  </div>
+
+  } -->
   <p-button
     class="p-button-dialog position-absolute"
     (click)="visibleRegisterDialog = true"
@@ -87,10 +88,41 @@
 
   <!--! Edit Dialog  -->
 
-  <p-dialog header="Edit" [modal]="true" [(visible)]="visibleEditDialog">
+  <p-dialog
+    (onShow)="onShowEditDialog()"
+    header="Edit"
+    [modal]="true"
+    [(visible)]="visibleEditDialog"
+  >
     <!--! Account Information  -->
     <ng-template #content let-activateCallback="activateCallback">
       <form [formGroup]="userForm" class="h-auto overflow-visible" action="">
+        <div class="my-5 d-flex align-content-center">
+          <p-fileupload
+            name="demo"
+            url="https://www.primefaces.org/cdn/api/upload.php"
+            [multiple]="false"
+            accept="image/*"
+            maxFileSize="1000000"
+            mode="basic"
+            (onUpload)="onUpload($event, userForm.controls.pfpUrl)"
+            class="h-50"
+            [cancelLabel]="''"
+            [uploadLabel]="''"
+            [chooseLabel]="' '"
+            chooseIcon="pi pi-user-edit"
+            [showCancelButton]="false"
+            [showUploadButton]="false"
+            [auto]="true"
+            [chooseButtonProps]="{
+              icon: 'pi pi-user-clock',
+              outlined: true,
+              rounded: true,
+            }"
+          >
+          </p-fileupload>
+          <p-avatar [shape]="'circle'" [image]="user().pfpUrl" class="img-pfp my-4" />
+        </div>
         <p-input-group class="p-2">
           <p-inputgroup-addon><i class="pi pi-user"></i> </p-inputgroup-addon>
           <input
@@ -166,8 +198,9 @@
               class="w-50"
               [showButtonBar]="true"
               size="large"
-              dateFormat="dd/mm/yyyy"
+              dateFormat="dd/mm/yy"
               [maxDate]="today"
+              [placeholder]="user().dateOfBirth"
             />
           </p-input-group>
           <p-selectbutton
@@ -176,42 +209,9 @@
             [formControl]="userForm.controls.gender"
           />
         </div>
-        <div class="d-flex justify-content-between p-2 gap-2">
-          <p-password
-            [formControl]="userForm.controls.password"
-            [toggleMask]="true"
-            placeholder="Password"
-            [size]="'large'"
-            class="w-100"
-          />
-        </div>
-        <div class="my-5">
-          <p-fileupload
-            name="demo"
-            url="https://www.primefaces.org/cdn/api/upload.php"
-            [multiple]="false"
-            accept="image/*"
-            maxFileSize="1000000"
-            mode="advanced"
-            (onUpload)="onUpload($event, userForm.controls.pfpUrl)"
-          >
-            <ng-template #content>
-              @if(userForm.controls.pfpUrl.value){
-              <ul>
-                @for (file of userForm.controls.pfpUrl.value ; track $index) {
-
-                <li>
-                  <img class="img-pfp my-4" src="{{ file }}" alt="ppf" />
-                </li>
-                }
-              </ul>
-              }
-            </ng-template>
-          </p-fileupload>
-        </div>
 
         <!--! Business Account  -->
-        @if(userForm.controls.accountType.value==='business'){
+        @if(user().accountType==='business'){
         <div class="d-flex gap-4">
           <div>
             <p-input-group class="w-100 my-2 d-flex">
@@ -222,7 +222,7 @@
                 [formControl]="userForm.controls.city"
                 [suggestions]="suggestedCities"
                 appendTo="body"
-                placeholder="Select your city"
+                [placeholder]="user().city"
                 (completeMethod)="onCitySearch($event)"
               />
             </p-input-group>
@@ -242,14 +242,18 @@
                       data--h-bstatus="0OBSERVED"
                     ></path></svg></i
               ></p-inputgroup-addon>
-              <input [formControl]="userForm.controls.iban" pInputText placeholder="IBAN" />
+              <input
+                [formControl]="userForm.controls.iban"
+                pInputText
+                [placeholder]="user().iban"
+              />
             </p-input-group>
             <p-input-group class="my-2">
               <p-inputgroup-addon><i class="pi pi-file"></i></p-inputgroup-addon>
               <input
                 [formControl]="userForm.controls.commercialRegistryNumber"
                 type=""
-                placeholder="Commercial Registry"
+                [placeholder]="user().commercialRegistryNumber"
                 pInputText
               />
             </p-input-group>
@@ -262,120 +266,42 @@
               accept="application/pdf"
               maxFileSize="1000000"
               mode="advanced"
+              [cancelLabel]="' '"
+              [cancelIcon]="' '"
+              [uploadLabel]="' '"
+              [uploadIcon]="' '"
+              [chooseLabel]="'Upload'"
+              [chooseIcon]="'pi pi-upload'"
+              [auto]="true"
               (onUpload)="onUpload($event, userForm.controls.commercialPaper)"
             >
               <ng-template #content>
-                @if(userForm.controls.commercialPaper.value){
+                <div class="d-flex justify-content-center">
+                  @if(userForm.controls.commercialPaper.value){
 
-                <a [href]="userForm.controls.commercialPaper.value" target="_blank">View</a>
-                }
-              </ng-template></p-fileupload
-            >
+                  <a [href]="userForm.controls.commercialPaper.value" target="_blank">View</a>
+                  }
+                </div>
+              </ng-template>
+            </p-fileupload>
           </div>
         </div>
         <h2>Payment Methods</h2>
         <div class="d-flex justify-content-between flex-wrap my-5">
           <div class="d-flex w-100 justify-content-center align-items-center gap-5">
+            @for (method of paymentMethodsOptions ; track $index) {
             <div class="d-flex gap-2">
-              <label class="payment-radio" for="paymentMethods">Mada</label>
-
-              <p-checkbox [formControl]="userForm.controls.paymentMethods" value="Mada" />
+              <label class="payment-radio" for="paymentMethods">{{ method }}</label>
+              <p-checkbox
+                [formControl]="userForm.controls.paymentMethods"
+                [value]="user().paymentMethods?.at($index) ?? method"
+              />
             </div>
-            <div class="d-flex gap-2">
-              <label class="payment-radio" for="paymentMethods">STC Pay</label>
 
-              <p-checkbox [formControl]="userForm.controls.paymentMethods" value="stcPay" />
-            </div>
-            <div class="d-flex gap-2">
-              <label class="payment-radio" for="paymentMethods">Apple Pay</label>
-
-              <p-checkbox [formControl]="userForm.controls.paymentMethods" value="applePay" />
-            </div>
-            <div class="d-flex gap-2">
-              <label class="payment-radio" for="paymentMethods">Google Pay</label>
-
-              <p-checkbox [formControl]="userForm.controls.paymentMethods" value="googlePay" />
-            </div>
+            }
           </div>
         </div>
 
-        <p-table [value]="userForm.controls.products.controls">
-          <ng-template #caption>
-            <h3>Business Products</h3>
-          </ng-template>
-          <ng-template #header
-            ><tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Category</th>
-              <th>Discount</th>
-            </tr>
-          </ng-template>
-          <ng-template #body let-group>
-            <tr>
-              <td>
-                <input
-                  [formControl]="group.controls.name"
-                  type="text"
-                  pInputText
-                  placeholder="Product name"
-                />
-              </td>
-              <td class="d-flex">
-                <p-inputNumber currency="SAR" [formControl]="group.controls.price" />
-              </td>
-              <td>
-                <p-select
-                  name="categories"
-                  appendTo="body"
-                  [formControl]="group.controls.categories"
-                  [options]="categories"
-                >
-                  <ng-template class="w-100 h-100 d-flex justify-content-center" #footer>
-                    <p-input-group>
-                      <p-inputgroup-addon
-                        ><p-button (click)="onNewCategory()" icon="pi pi-plus"></p-button
-                      ></p-inputgroup-addon>
-                      <input
-                        [formControl]="userForm.controls.newCategory"
-                        type="text"
-                        pInputText
-                        placeholder="New Category"
-                      />
-                    </p-input-group>
-                  </ng-template>
-                </p-select>
-              </td>
-              <td>
-                <p-select
-                  name="discount"
-                  [formControl]="group.controls.discounts"
-                  appendTo="body"
-                  [options]="discounts"
-                >
-                  <ng-template class="w-100 h-100 d-flex justify-content-center" #footer>
-                    <p-input-group>
-                      <p-inputgroup-addon
-                        ><p-button (click)="onNewDiscount()" icon="pi pi-plus"></p-button
-                      ></p-inputgroup-addon>
-                      <input
-                        [formControl]="userForm.controls.newDiscount"
-                        type="text"
-                        pInputText
-                        placeholder="New Discount"
-                      />
-                    </p-input-group>
-                  </ng-template>
-                </p-select>
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template #footer>
-            <div class="d-flex justify-content-start">
-              <p-button (onClick)="onAddNewItem()" label="Add" outlined="true" icon="pi pi-plus" />
-            </div>
-          </ng-template>
-        </p-table>
         <div>
           <div class="w-100 my-4">
             <h2>Open hours</h2>
@@ -392,15 +318,15 @@
                   size="large"
                   [formControl]="group.controls.available"
                   binary="true"
-                  (onChange)="onDayCheck(group.controls.available, $event)"
+                  (onChange)="onDayCheckboxChange(group.controls.openHours)"
+                  (onChange)="onDayCheckboxChange(group.controls.closeHours)"
                 ></p-checkbox>
               </div>
+
               <p-datepicker
-                [class.hidden]="!group.controls.available.value"
                 [iconDisplay]="'button'"
                 [showIcon]="true"
                 icon="pi pi-clock"
-                hourFormat="hh:mm"
                 [appendTo]="'body'"
                 class="date-picker-work-hours"
                 [timeOnly]="true"
@@ -413,9 +339,8 @@
                   </div>
                 </ng-template>
               </p-datepicker>
-              <span [class.hidden]="!group.controls.available.value">To</span>
+              <span>To</span>
               <p-datepicker
-                [class.hidden]="!group.controls.available.value"
                 [iconDisplay]="'button'"
                 [showIcon]="true"
                 icon="pi pi-clock"
@@ -424,6 +349,7 @@
                 class="date-picker-work-hours"
                 [timeOnly]="true"
                 [formControl]="group.controls.closeHours"
+                [placeholder]="user().workHours![$index].closeHours || ''"
               >
               </p-datepicker>
             </div>
@@ -452,7 +378,7 @@
         }
         <div class="d-flex g-2 justify-content-center gap-5 my-5">
           <p-button label="Cancel" (onClick)="visibleRegisterDialog = false" severity="secondary" />
-          <p-button label="Save" (onClick)="activateCallback(3)" severity="success" />
+          <p-button label="Save" (onClick)="onEditClick()" severity="success" />
         </div>
       </form>
     </ng-template>
@@ -534,8 +460,8 @@
                 </p-inputgroup-addon>
               </p-input-group>
 
-              <div class="w-100 d-flex justify-content-start">
-                <p-input-group class="w-75 p-2">
+              <div class="w-100 d-flex justify-content-end">
+                <p-input-group class="w-fit p-2">
                   <p-inputgroup-addon>
                     <i class="pi pi-calendar"></i>
                   </p-inputgroup-addon>
@@ -546,7 +472,7 @@
                     class="w-50"
                     [showButtonBar]="true"
                     size="large"
-                    dateFormat="dd/mm/yyyy"
+                    dateFormat="dd/mm/yy"
                     [maxDate]="today"
                   />
                 </p-input-group>
@@ -817,7 +743,7 @@
                     ></p-checkbox>
                   </div>
                   <p-datepicker
-                    [class.hidden]="!group.controls.available.value"
+                    [disabled]="!group.controls.available.value"
                     [iconDisplay]="'button'"
                     [showIcon]="true"
                     icon="pi pi-clock"
@@ -834,9 +760,9 @@
                       </div>
                     </ng-template>
                   </p-datepicker>
-                  <span [class.hidden]="!group.controls.available.value">To</span>
+                  <span>To</span>
                   <p-datepicker
-                    [class.hidden]="!group.controls.available.value"
+                    [disabled]="!group.controls.available.value"
                     [iconDisplay]="'button'"
                     [showIcon]="true"
                     icon="pi pi-clock"
