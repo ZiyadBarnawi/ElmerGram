@@ -9,7 +9,7 @@ import { Images } from '../../models/images.enum';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { Users } from '../../data/users';
-import { Http } from '../../services/http';
+import { Http } from '../../services/http.service';
 import { catchError, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RippleModule } from 'primeng/ripple';
@@ -32,8 +32,8 @@ import { InputGroupAddon, InputGroupAddonModule } from 'primeng/inputgroupaddon'
     RouterLink,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.css',
 })
 export class Navbar {
   user = output<User>();

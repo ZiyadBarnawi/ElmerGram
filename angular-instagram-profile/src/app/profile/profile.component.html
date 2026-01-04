@@ -204,7 +204,7 @@
               size="large"
               dateFormat="dd/mm/yy"
               [maxDate]="today"
-              [placeholder]="user().dateOfBirth"
+              placeholder="{{ user().dateOfBirth | date }}"
             />
           </p-input-group>
           <p-selectbutton

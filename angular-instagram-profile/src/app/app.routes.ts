@@ -1,10 +1,14 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', loadComponent: () => import('./home/home').then((m) => m.Home) },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./home/home.component').then((m) => m.Home),
+  },
   {
     path: ':username',
     pathMatch: 'prefix',
-    loadComponent: () => import('./profile/profile').then((m) => m.Profile),
+    loadComponent: () => import('./profile/profile.component').then((m) => m.Profile),
   },
 ];

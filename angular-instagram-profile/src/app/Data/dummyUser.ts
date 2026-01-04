@@ -1,3 +1,4 @@
+import { Images } from '../models/images.enum';
 import { User } from '../models/user.model';
 
 export let user: User = {
@@ -82,5 +83,12 @@ export let user: User = {
       openHours: null,
       closeHours: null,
     },
+  ],
+  posts: [
+    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
+    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
+    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
+    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
+    { imgSrc: Images[Math.floor(Math.random() * 5)], likesCount: 13 },
   ],
 };

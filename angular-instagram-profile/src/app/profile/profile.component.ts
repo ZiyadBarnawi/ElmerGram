@@ -1,21 +1,16 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, input, OnInit, signal } from '@angular/core';
-import { Posts } from '../components/posts/posts';
+import { Posts } from '../components/posts/posts.component';
 import { ButtonModule } from 'primeng/button';
-import { Navbar } from '../components/navbar/navbar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { MessageModule, Message } from 'primeng/message';
 import { DialogModule, Dialog } from 'primeng/dialog';
-import { FloatLabelModule, FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Http } from '../services/http';
+import { Http } from '../services/http.service';
 import { User } from '../models/user.model';
-import { Images } from '../models/images.enum';
-import { Users } from '../data/users';
 import { ToastModule, Toast } from 'primeng/toast';
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 import { catchError, filter, Observable, switchMap } from 'rxjs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // For animations that occur on page-load
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // For animations that occur on page-load
 import { animate, trigger, state, style, transition } from '@angular/animations';
 import { AvatarModule, Avatar } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -44,11 +39,10 @@ import { TableModule } from 'primeng/table';
 import { PopoverModule } from 'primeng/popover';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-
 import { user } from '../data/dummyUser';
 import { MessageService, ToastMessageOptions } from 'primeng/api';
-import { Tooltip } from 'primeng/tooltip';
 import { StyleClassModule } from 'primeng/styleclass';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-profile',
   imports: [
@@ -89,6 +83,7 @@ import { StyleClassModule } from 'primeng/styleclass';
     TreeTableModule,
     ToastModule,
     Toast,
+    DatePipe,
   ],
   animations: [
     trigger('hover', [
@@ -100,8 +95,8 @@ import { StyleClassModule } from 'primeng/styleclass';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   standalone: true,
-  templateUrl: './profile.html',
-  styleUrl: './profile.css',
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css',
   providers: [MessageService],
 })
 export class Profile implements OnInit {

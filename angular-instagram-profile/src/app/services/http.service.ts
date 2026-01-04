@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { Users } from '../data/users';
@@ -16,6 +16,11 @@ export class Http {
   GetJsonUser(): Observable<Object> {
     return this.http.get('data/user.json');
   }
+
+  testSignal = signal(0);
+  // computedSignal = computed(() => this.testSignal()); //TIP: computed signals are read-only. They change whenever the other signal changes
+  computedSignal = this.testSignal.asReadonly(); //TIP: Same as code above, but leaner
+
   async getUsers(
     username?: string
   ): Promise<Observable<Object> | Promise<User[]> | Promise<User> | null> {
