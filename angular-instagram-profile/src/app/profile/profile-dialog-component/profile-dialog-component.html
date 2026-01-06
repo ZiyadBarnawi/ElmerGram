@@ -2,19 +2,26 @@
   <ng-template #content let-activeCallback="activateCallback">
     <p-dialog
       [(visible)]="visibleDialog"
-      [header]="header"
+      [header]="header()"
       [modal]="modal"
       (onShow)="onShowDialog()"
     >
-      <ng-content />
-      <div class="d-flex g-2 justify-content-center gap-5 my-5">
-        <p-button label="Cancel" (onClick)="visibleRegisterDialog = false" severity="secondary" />
-        @if(visibleSkipButton){
-        <p-button label="skip" severity="success" />
-        } @else {
-        <p-button label="Save" (onClick)="onEditClick()" severity="success" />
-        }
-      </div>
+      <ng-template #content let-activateCallback="activateCallback">
+        <ng-content />
+        <div class="d-flex g-2 justify-content-center gap-5 my-5">
+          <p-button label="Cancel" (onClick)="visibleDialog = false" severity="secondary" />
+          @if(visibleSkipButton){
+          <p-button label="skip" severity="success" />
+          } @else { @if(visibleSaveButton){
+
+          <p-button label="Save" (onClick)="submit()" severity="success" />
+          } @else{
+
+          <p-button label="" (onClick)="submit()" severity="success" />
+
+          } }
+        </div>
+      </ng-template>
     </p-dialog>
   </ng-template>
 </p-dialog>

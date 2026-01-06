@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, input, OnInit, signal } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-dialog-component',
@@ -24,20 +25,23 @@ export class ProfileDialogComponent {
   onDayCheckboxChange(arg0: any) {
     throw new Error('Method not implemented.');
   }
-  onEditClick() {
+  submit() {
     throw new Error('Method not implemented.');
+    this.close();
   }
 
+  close() {}
+
   onShowDialog = input<Function>();
-  header?: string;
+  header = input<string>();
   visibleDialog: boolean = false;
   visibleSkipButton: boolean = false;
-  form: any;
+  visibleSaveButton: boolean = false;
+  form = input<FormGroup>();
   useEmail: any;
-  modal: boolean = true;
-  today: Date | null | undefined;
-  genderOptions: any;
-  suggestedCities: any;
-  paymentMethodsOptions: any;
-  visibleRegisterDialog: any;
+  modal = input(true);
+  // today: Date | null | undefined; transfer it to form
+  // genderOptions: any;
+  // suggestedCities: any;
+  // paymentMethodsOptions: any;
 }
