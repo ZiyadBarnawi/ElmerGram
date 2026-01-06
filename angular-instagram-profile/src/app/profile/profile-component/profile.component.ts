@@ -1,14 +1,14 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, input, OnInit, signal } from '@angular/core';
-import { Posts } from '../components/posts/posts.component';
+import { Posts } from '../../components/posts/posts.component';
 import { ButtonModule } from 'primeng/button';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DialogModule, Dialog } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Http } from '../services/http.service';
-import { User } from '../models/user.model';
+import { HttpService } from '../../services/http.service';
+import { User } from '../../models/user.model';
 import { ToastModule, Toast } from 'primeng/toast';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { catchError, filter, Observable, switchMap } from 'rxjs';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // For animations that occur on page-load
 import { animate, trigger, state, style, transition } from '@angular/animations';
@@ -39,10 +39,11 @@ import { TableModule } from 'primeng/table';
 import { PopoverModule } from 'primeng/popover';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-import { user } from '../data/dummyUser';
+import { user } from '../../data/dummyUser';
 import { MessageService, ToastMessageOptions } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
 import { DatePipe } from '@angular/common';
+import { ProfileDialogComponent } from '../profile-dialog-component/profile-dialog-component';
 @Component({
   selector: 'app-profile',
   imports: [
@@ -84,6 +85,7 @@ import { DatePipe } from '@angular/common';
     ToastModule,
     Toast,
     DatePipe,
+    ProfileDialogComponent,
   ],
   animations: [
     trigger('hover', [
@@ -100,7 +102,7 @@ import { DatePipe } from '@angular/common';
   providers: [MessageService],
 })
 export class Profile implements OnInit {
-  http = inject(Http);
+  http = inject(HttpService);
   router = inject(Router);
   messages = inject(MessageService);
   today = new Date(Date.now());
@@ -426,6 +428,10 @@ export class Profile implements OnInit {
       this.userForm.reset();
       this.userForm.patchValue({ ...this.user() });
     });
+  }
+
+  onShowDialog(form: FormGroup): Function {
+    return function (form: any) {};
   }
   ngOnInit(): void {
     // FIX: still needs work

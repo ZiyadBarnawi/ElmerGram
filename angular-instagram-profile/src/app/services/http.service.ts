@@ -11,7 +11,7 @@ import { user } from '../data/dummyUser';
 @Injectable({
   providedIn: 'root',
 })
-export class Http {
+export class HttpService {
   http = inject(HttpClient);
   GetJsonUser(): Observable<Object> {
     return this.http.get('data/user.json');
