@@ -9,6 +9,7 @@ export const routes: Routes = [
   {
     path: ':username',
     pathMatch: 'prefix',
-    loadComponent: () => import('./profile/profile.component').then((m) => m.Profile),
+    loadComponent: () =>
+      import('./profile/profile-component/profile.component').then((m) => m.Profile),
   },
 ];
