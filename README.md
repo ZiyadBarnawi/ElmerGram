@@ -18,9 +18,6 @@ Weekly report:
     ## Refactor
     - barrel exports
     - code clean up
-    ## Fix
-    - 
-  
 
 <img width="2879" height="1577" alt="image" src="https://github.com/user-attachments/assets/6bb7f060-fc53-4567-8cff-cb80b5db1f21" />
 
