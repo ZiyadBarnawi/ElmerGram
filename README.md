@@ -8,7 +8,7 @@ Weekly report:
 -  Refactoring files to follow the naming convention
 -  Service for cross-component communication
 
-  # 12/1/2026
+  # 12/1/2026 - 15/1/2026
   ## Routing
   - RouterOutlets to render components
   - Effect function to update according to the current URL
