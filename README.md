@@ -10,9 +10,15 @@ Weekly report:
 
   # 12/1/2026
   ## Routing
-  - Using RouterOutlets to render the dialogs
-  - Using nested routes
-  - 
+  - Using RouterOutlets to render components
+  - effect function to update according to the current URL
+  - nested routes
+  - route params and static/dynamic data
+    ## Refactor
+    - barrel exports
+    - code clean up
+    ## Fix
+    - 
   
 
 <img width="2879" height="1577" alt="image" src="https://github.com/user-attachments/assets/6bb7f060-fc53-4567-8cff-cb80b5db1f21" />
