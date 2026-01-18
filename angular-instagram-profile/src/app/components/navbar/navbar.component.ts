@@ -35,7 +35,7 @@ export class Navbar {
   user = output<User>();
   userService = inject(UserService);
   username = input();
-  router = inject(Router);
+  private router = inject(Router);
   visibleDrawer = false;
 
   users: User[] = [];

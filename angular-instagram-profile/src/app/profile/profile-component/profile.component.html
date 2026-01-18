@@ -1,3 +1,6 @@
+<input type="text" pInputText class="test-input-1" />
+<input type="text" pInputText class="test-input-2" />
+
 <div class="d-flex justify-content-between w-100">
   <a routerLink="signup" class="text-decoration-none">
     <p-button
@@ -12,77 +15,76 @@
   <!--! NAV -->
   <!-- <app-navbar (user)="onUserChange($event)"></app-navbar> -->
   <section class="w-100 d-flex justify-content-center">
-    @if(user()){
-    <div class="d-flex flex-column w-75 gap-5">
-      <div class="div-profile-head d-flex align-items-center">
-        <!--! Profile Pic -->
-        <div class="div-profile-picture-container">
-          <p-avatar
-            [image]="user()!.pfpUrl || Images[6]"
-            class="mr-2"
-            size="xlarge"
-            shape="circle"
-          />
-        </div>
-        <!--! ProfileComponent Details -->
-        <div class="div-profile-details">
-          <div class="d-flex w-100">
-            <div class="div-profile-states d-flex flex-column gap-3 w-100">
-              <!--! Username -->
-
-              <h1 class="span-username w-100">
-                {{ user()!.username }}
-                <!--! Edit icon  -->
-                <!-- <span (click)="userService.visibleEditDialog = true" class="pi pi-user-edit"></span> -->
-                <a
-                  (click)="userService.visibleEditDialog = true"
-                  routerLink="/profile/{{ username() }}/edit"
-                >
-                  <i class="pi pi-user-edit"></i>
-                </a>
-                <!--! Delete icon  -->
-
-                <a class="text-decoration-none" routerLink="delete">
-                  <i (click)="userService.visibleDeleteDialog = true" class="pi pi-trash"></i>
-                </a>
-              </h1>
-              <!--! Account follow numbers  -->
-
-              <span class="span-stats w-100"
-                >Followers:<span>{{ user()!.followers || 0 }}</span> Following:
-                <span>{{ user()!.following || 0 }} </span> <br />
-                Posts: <span>{{ user()!.posts?.length || '0' }}</span></span
-              >
-              <!--! Bio  -->
-              <span class="fs-5">{{ user()!.bio }}</span>
-            </div>
-          </div>
-          <!--! Action Buttons  -->
-          <div class="div-action-button my-3">
-            <p-button
-              class=""
-              size="large"
-              label="Follow"
-              [label]="isFollowed() ? 'UnFollow' : 'Follow'"
-              (onClick)="toggleFollow()"
-              [icon]="isFollowed() ? '' : 'pi pi-plus'"
-              [severity]="isFollowed() ? 'secondary' : 'success'"
+    @if (user()) {
+      <div class="d-flex flex-column w-75 gap-5">
+        <div class="div-profile-head d-flex align-items-center">
+          <!--! Profile Pic -->
+          <div class="div-profile-picture-container">
+            <p-avatar
+              [image]="user()!.pfpUrl || Images[6]"
+              class="mr-2"
+              size="xlarge"
+              shape="circle"
             />
           </div>
+          <!--! ProfileComponent Details -->
+          <div class="div-profile-details">
+            <div class="d-flex w-100">
+              <div class="div-profile-states d-flex flex-column gap-3 w-100">
+                <!--! Username -->
+
+                <h1 class="span-username w-100">
+                  {{ user()!.username }}
+                  <!--! Edit icon  -->
+                  <!-- <span (click)="userService.visibleEditDialog = true" class="pi pi-user-edit"></span> -->
+                  <a
+                    (click)="userService.visibleEditDialog = true"
+                    routerLink="/profile/{{ username() }}/edit"
+                  >
+                    <i class="pi pi-user-edit"></i>
+                  </a>
+                  <!--! Delete icon  -->
+
+                  <a class="text-decoration-none" routerLink="delete">
+                    <i (click)="userService.visibleDeleteDialog = true" class="pi pi-trash"></i>
+                  </a>
+                </h1>
+                <!--! Account follow numbers  -->
+
+                <span class="span-stats w-100"
+                  >Followers:<span>{{ user()!.followers || 0 }}</span> Following:
+                  <span>{{ user()!.following || 0 }} </span> <br />
+                  Posts: <span>{{ user()!.posts?.length || '0' }}</span></span
+                >
+                <!--! Bio  -->
+                <span class="fs-5">{{ user()!.bio }}</span>
+              </div>
+            </div>
+            <!--! Action Buttons  -->
+            <div class="div-action-button my-3">
+              <p-button
+                class=""
+                size="large"
+                label="Follow"
+                [label]="isFollowed() ? 'UnFollow' : 'Follow'"
+                (onClick)="toggleFollow()"
+                [icon]="isFollowed() ? '' : 'pi pi-plus'"
+                [severity]="isFollowed() ? 'secondary' : 'success'"
+              />
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!--! Stories -->
-      <div class="div-stories d-flex gap-5 overflow-x-scroll overflow-y-visible">
-        @for (storyCoverImage of user()!.stories; track $index) {
-
-        <img class="img-story rounded-circle" src="/{{ storyCoverImage }}" alt="" />
-        }
-        <!--! Posts  -->
+        <!--! Stories -->
+        <div class="div-stories d-flex gap-5 overflow-x-scroll overflow-y-visible">
+          @for (storyCoverImage of user()!.stories; track $index) {
+            <img class="img-story rounded-circle" src="/{{ storyCoverImage }}" alt="" />
+          }
+          <!--! Posts  -->
+        </div>
+        <!-- <app-posts [user]="user()!" /> -->
+        <app-posts />
       </div>
-      <!-- <app-posts [user]="user()!" /> -->
-      <app-posts />
-    </div>
     }
   </section>
   <!--! Dialogs  -->

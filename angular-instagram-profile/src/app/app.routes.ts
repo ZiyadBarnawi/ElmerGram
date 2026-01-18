@@ -8,6 +8,7 @@ const redirectToUnAuthorize: CanMatchFn = (route, segment) => {
   const router = inject(Router);
   return new RedirectCommand(router.parseUrl('/unauthorized'));
 };
+// const deactivate: CanDeactivateFn<ProfileComponent> = ;
 
 export const routes: Routes = [
   {
@@ -17,16 +18,12 @@ export const routes: Routes = [
     title: 'ElmerGram ',
   },
   ...(profileRoutes as Routes),
-  // {
-  //   path: 'posts',
-  //   loadComponent: () =>
-  //     import('./shared/not-found-component/not-found-component').then((m) => m.NotFoundComponent),
-  //   canActivate: [testCanMatch],
-  // },
+
   {
     path: '**',
-    canActivate: [redirectToUnAuthorize],
+    // canActivate: [redirectToUnAuthorize],
     title: 'ElmerGram',
+
     loadComponent: () =>
       import('./shared/not-found-component/not-found-component').then((m) => m.NotFoundComponent),
   },

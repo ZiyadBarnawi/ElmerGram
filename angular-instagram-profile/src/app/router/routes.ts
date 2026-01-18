@@ -1,6 +1,7 @@
 import { CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
 import { resolveTitle, resolveRouteData } from '../profile/profile-component/profile.component';
 import { inject } from '@angular/core';
+import { ProfileSignupDialogComponent } from './../profile/profile-signup-dialog-component/profile-signup-dialog-component';
 
 export const profileRoutes: Routes = [
   {
@@ -10,6 +11,7 @@ export const profileRoutes: Routes = [
   },
   {
     path: 'profile/:username',
+
     pathMatch: 'prefix',
     // component:ProfileComponent , //TIP: eagerly loaded component: loaded immediately
     loadComponent: () =>
@@ -33,6 +35,16 @@ export const profileRoutes: Routes = [
       },
       {
         path: 'signup',
+        canDeactivate: [
+          (component: ProfileSignupDialogComponent) => {
+            console.log(
+              component.userService.userForm.touched && component.userService.userForm.dirty
+            );
+            if (component.userService.userForm.touched && component.userService.userForm.dirty)
+              return window.alert("Don't worry. Your data will remain ✨");
+            return true;
+          },
+        ],
         pathMatch: 'prefix',
         loadComponent: () =>
           import(

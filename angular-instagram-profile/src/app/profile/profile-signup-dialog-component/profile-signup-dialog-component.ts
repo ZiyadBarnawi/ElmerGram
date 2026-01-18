@@ -56,6 +56,7 @@ import { Router, RouterLink } from '@angular/router';
     InputTextModule,
     TextareaModule,
     InputOtpModule,
+    RouterLink,
   ],
 
   templateUrl: './profile-signup-dialog-component.html',
@@ -64,7 +65,7 @@ import { Router, RouterLink } from '@angular/router';
 export class ProfileSignupDialogComponent {
   userService = inject(UserService);
   messagesService = inject(MessageService);
-  router = inject(Router);
+  private router = inject(Router);
   submitForm(): void {
     const invalidForms = Object.entries(this.userService.userForm.controls)
       .filter(([_, control]) => control.invalid)
@@ -100,5 +101,9 @@ export class ProfileSignupDialogComponent {
       replaceUrl: true,
     }); //replaceUrl === the user can't navigate back to this url
     this.userService.visibleSignupDialog = false;
+  }
+
+  previousRoute() {
+    this.router.navigate(['/profile', `${this.userService.user()?.username || 'Ziyad'}`]);
   }
 }

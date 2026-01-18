@@ -1,4 +1,9 @@
-<p-dialog header="Sign up" [modal]="true" [(visible)]="userService.visibleSignupDialog">
+<p-dialog
+  header="Sign up"
+  [modal]="true"
+  [(visible)]="userService.visibleSignupDialog"
+  (onHide)="previousRoute()"
+>
   <p-stepper [value]="1">
     <p-step-list>
       <p-step [value]="1">Account Information</p-step>
@@ -143,6 +148,7 @@
               <p-button
                 severity="secondary"
                 (onClick)="userService.visibleSignupDialog = false"
+                routerLink="../"
                 label="Cancel"
               ></p-button>
               <p-button severity="success" label="Next" (onClick)="activateCallback(2)"></p-button>

@@ -48,7 +48,7 @@ import { Router } from '@angular/router';
 export class ProfileEditDialogComponent implements OnInit {
   userService = inject(UserService);
   messageService = inject(MessageService);
-  router = inject(Router);
+  private router = inject(Router);
   Images = this.userService.Images;
   async submitForm() {
     if (environment.production) {
