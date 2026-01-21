@@ -6,7 +6,7 @@ import {
   signal,
   input,
   effect,
-  ChangeDetectionStrategy,
+  DestroyRef,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,16 +15,19 @@ import { Router, RouterOutlet, RouterLinkWithHref, ResolveFn } from '@angular/ro
 import {
   Observable,
   catchError,
+  concatMap,
+  exhaustMap,
+  firstValueFrom,
+  forkJoin,
   fromEvent,
   interval,
   map,
-  mergeMap,
-  of,
-  retry,
-  skip,
   switchMap,
   take,
+  throttle,
+  throttleTime,
   timeout,
+  timer,
 } from 'rxjs';
 import { Button } from 'primeng/button';
 import { Avatar } from 'primeng/avatar';
@@ -32,18 +35,9 @@ import { MessageService } from 'primeng/api';
 
 import { PostsComponent } from '../../components/posts/posts.component';
 import { UserService, environment, type User } from './../../components/index';
-import { InputText } from 'primeng/inputtext';
 @Component({
   selector: 'app-profile',
-  imports: [
-    Button,
-    Avatar,
-    ReactiveFormsModule,
-    RouterOutlet,
-    RouterLinkWithHref,
-    PostsComponent,
-    InputText,
-  ],
+  imports: [Button, Avatar, ReactiveFormsModule, RouterOutlet, RouterLinkWithHref, PostsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   standalone: true,
   templateUrl: './profile.component.html',
@@ -52,10 +46,11 @@ import { InputText } from 'primeng/inputtext';
 })
 export class ProfileComponent implements OnInit {
   userService = inject(UserService);
-  http = inject(HttpClient);
-  userForm = this.userService.userForm;
-  private router = inject(Router);
   messagesService = inject(MessageService);
+  private destroyRed = inject(DestroyRef);
+  private httpService = inject(HttpClient);
+
+  userForm = this.userService.userForm;
   username = input<string>(); // TIP: this get its value form the url
   user = this.userService.user;
   Images = this.userService.Images;
@@ -75,10 +70,9 @@ export class ProfileComponent implements OnInit {
 
   constructor() {
     effect(async () => {
-      let data = await this.userService.getUsers(this.username());
+      let user = await this.userService.getUsers(this.username());
       if (environment.production) {
-        data = data as Observable<Object>;
-        data
+        let userObservable = (user as Observable<Object>)
           .pipe(
             catchError((err) => {
               throw err;
@@ -87,52 +81,52 @@ export class ProfileComponent implements OnInit {
           .subscribe((data: any) => {
             this.user.set(data.data);
           });
+        this.destroyRed.onDestroy(() => {
+          userObservable.unsubscribe();
+        });
       } else {
-        this.userService.user.set(data as User);
+        this.userService.user.set(user as User);
       }
     });
   }
 
   async ngOnInit(): Promise<void> {
     const user = await this.userService.getUsers(this.username());
-    const mySwitchMap = interval(1000).pipe(
-      // map((val) => {
-      //   console.log(val);
-      //   return val * 2;
-      // }),
-      // // timeout({ first: 10 }),
-      // skip(5),
-      // take(2), // take the first <num> value from the source observable
-      // retry(3),
-      switchMap((val) => {
-        return of(val);
-      }),
-    );
+    const button = document.querySelector('p-button');
+    const myInterval$ = interval(1000);
+    let buttonObs$ = fromEvent(button!, 'click');
 
-    const myMergeMap = interval(1000).pipe(
-      mergeMap((val) => {
-        return of(val);
-      }),
-    );
+    const obs1 = new Observable((observer) => {
+      setTimeout(async () => {
+        observer.next(await firstValueFrom(this.httpService.get('https://dummyjson.com/recipes')));
+        observer.complete();
+      }, 1000);
+    });
+    const obs2 = new Observable((observer) => {
+      setTimeout(async () => {
+        observer.next(await firstValueFrom(this.httpService.get('https://dummyjson.com/recipes')));
+        observer.complete();
+      }, 6000);
+    });
+    const obs3 = timer(3000);
 
-    const input1 = document.querySelector('.test-input-1');
-    const input2 = document.querySelector('.test-input-2');
-    fromEvent(input2!, 'input')
-      .pipe(switchMap((val) => of(input1)))
-      .subscribe({
-        next(val) {
-          console.log(val);
-        },
-      });
+    buttonObs$.subscribe({
+      next(value) {
+        console.log('In the outer func');
 
-    // fromEvent(input!, 'input')
-    //   .pipe(mergeMap((val) => of(val)))
-    //   .subscribe({ next: (val) => console.log(val.target) });
-    console.log(input);
+        forkJoin([obs1, obs2, obs3]).subscribe({
+          next: (val) => {
+            console.log('in the fork join');
 
-    // myMergeMap.subscribe({ next: (val) => console.log(`MergeMap: ${val}`) });
-    // mySwitchMap.subscribe({ next: (val) => console.log(`SwitchMap: ${val}`) });
+            console.log(val);
+          },
+        });
+      },
+    });
 
+    this.destroyRed.onDestroy(() => {
+      console.log('Unsubscribe');
+    });
     console.log(this.text());
   }
 }

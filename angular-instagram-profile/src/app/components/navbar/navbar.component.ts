@@ -1,4 +1,12 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  DestroyRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { MenuModule } from 'primeng/menu';
@@ -36,6 +44,7 @@ export class Navbar {
   userService = inject(UserService);
   username = input();
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
   visibleDrawer = false;
 
   users: User[] = [];
@@ -95,23 +104,28 @@ export class Navbar {
   async search(searchWord: any): Promise<void> {
     if (environment.production) {
       let users = (await this.userService.getUsers()) as Observable<Object>;
-      users
+      let usersObservable = users
         .pipe(
           catchError((err) => {
             console.log(err);
 
             throw err;
-          })
+          }),
         )
         .subscribe((data: any) => {
           this.suggestedUsers = data.data.filter((user: any) =>
-            user.username.toLowerCase().includes(searchWord.query?.toLowerCase())
+            user.username.toLowerCase().includes(searchWord.query?.toLowerCase()),
           ) as User[];
         });
+      this.destroyRef.onDestroy(() => {
+        console.log('Unsubscribing');
+
+        usersObservable.unsubscribe();
+      });
     } else {
       this.users = (await this.userService.getUsers()) as User[];
       this.suggestedUsers = this.users?.filter((user) =>
-        user.username.toLowerCase().includes(searchWord.query?.toLowerCase())
+        user.username.toLowerCase().includes(searchWord.query?.toLowerCase()),
       ) as User[];
     }
   }
@@ -119,26 +133,29 @@ export class Navbar {
   async updateCurrentUser(event: AutoCompleteSelectEvent): Promise<void> {
     if (!event?.value?.username) return;
 
-    let data = await this.userService.getUsers(event.value.username);
+    let user = await this.userService.getUsers(event.value.username);
 
     if (environment.production) {
-      data = data as Observable<Object>;
-      data
+      let userObservable = (user as Observable<Object>)
         .pipe(
           catchError((err) => {
             throw err;
-          })
+          }),
         )
         .subscribe((data: any) => {
           this.user.emit(data.data);
-
           this.routerUsername.set(data.data.username);
         });
+      this.destroyRef.onDestroy(() => {
+        console.log('Unsubscribed');
+
+        userObservable.unsubscribe();
+      });
     } else {
-      data = data as User;
-      this.userService.user.set(data);
-      this.router.navigate(['profile', `${data.username}`]);
-      this.user.emit(data);
+      user = user as User;
+      this.userService.user.set(user);
+      this.router.navigate(['profile', `${user.username}`]);
+      this.user.emit(user);
     }
   }
 }

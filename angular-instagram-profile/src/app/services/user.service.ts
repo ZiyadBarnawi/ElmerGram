@@ -2,12 +2,10 @@ import { inject, Injectable, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { catchError, Observable } from 'rxjs';
+import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { FileUploadEvent } from 'primeng/fileupload';
 
-// import { environment } from '../../environments/environment';
-// import { User } from '../models/user.model';
 import { Images, User, environment } from '../components/index';
 
 @Injectable({
@@ -237,7 +235,7 @@ export class UserService {
   }
 
   async getUsers(
-    username?: string
+    username?: string,
   ): Promise<Observable<Object> | Promise<User[]> | Promise<User> | null> {
     // Spring environment
     if (environment?.production) {
@@ -319,12 +317,12 @@ export class UserService {
       return this.http
         .patch(
           `${environment.apiUrl}/api/v1/users/${this.userForm.value.username}`,
-          this.userForm.value
+          this.userForm.value,
         )
         .pipe(
           catchError((err) => {
             throw err;
-          })
+          }),
         );
     } else {
       let users = localStorage.getItem('users')
@@ -353,7 +351,7 @@ export class UserService {
   }
   async deleteUser(username: string): Promise<void> {
     if (environment.production) {
-      this.http.delete(`${environment.apiUrl}/api/v1/users/${username}`).subscribe((data) => {});
+      firstValueFrom(this.http.delete(`${environment.apiUrl}/api/v1/users/${username}`));
     } else {
       let users = JSON.parse(localStorage.getItem('users') as string) as User[];
 
@@ -364,8 +362,8 @@ export class UserService {
   }
 
   updateSuggestedCities(event: any) {
-    this.suggestedCities = this.cities.filter((_city) =>
-      _city.toLowerCase().includes(event.query.toLowerCase())
+    this.suggestedCities = this.cities.filter((city) =>
+      city.toLowerCase().includes(event.query.toLowerCase()),
     );
   }
 
@@ -401,7 +399,7 @@ export class UserService {
         }),
         categories: new FormControl('', { validators: [Validators.required] }),
         discounts: new FormControl(this.discounts),
-      })
+      }),
     );
   }
 
