@@ -1,12 +1,6 @@
-<div class="position-relative">
-  <div
-    (mouseover)="onMouseover()"
-    (mouseout)="onMouseout()"
-    class="div-likes-count w-100 h-100 position-absolute d-flex justify-content-center align-items-center  {{
-      fade()
-    }} "
-  >
-    {{ post()?.likes }}
+<div (mouseover)="onMouseover()" (mouseout)="onMouseout()" class="position-relative z-10">
+  <div #likes class="likes position-absolute z-50" animate.enter="enter-animation">
+    {{ post()?.likes }}🤍
   </div>
-  <img src="/{{ post()?.media }}" alt="🌻" />
+  <img #img src="/{{ post()?.media }}" alt="🌻" />
 </div>

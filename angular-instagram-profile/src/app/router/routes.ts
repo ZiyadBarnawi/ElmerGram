@@ -30,16 +30,13 @@ export const profileRoutes: Routes = [
         pathMatch: 'prefix',
         loadComponent: () =>
           import('./../profile/profile-edit-dialog-component/profile-edit-dialog-component').then(
-            (m) => m.ProfileEditDialogComponent
+            (m) => m.ProfileEditDialogComponent,
           ),
       },
       {
         path: 'signup',
         canDeactivate: [
           (component: ProfileSignupDialogComponent) => {
-            console.log(
-              component.userService.userForm.touched && component.userService.userForm.dirty
-            );
             if (component.userService.userForm.touched && component.userService.userForm.dirty)
               return window.alert("Don't worry. Your data will remain ✨");
             return true;
@@ -47,17 +44,17 @@ export const profileRoutes: Routes = [
         ],
         pathMatch: 'prefix',
         loadComponent: () =>
-          import(
-            './../profile/profile-signup-dialog-component/profile-signup-dialog-component'
-          ).then((m) => m.ProfileSignupDialogComponent),
+          import('./../profile/profile-signup-dialog-component/profile-signup-dialog-component').then(
+            (m) => m.ProfileSignupDialogComponent,
+          ),
       },
       {
         path: 'delete',
         pathMatch: 'prefix',
         loadComponent: () =>
-          import(
-            './../profile/profile-delete-dialog-component/profile-delete-dialog-component'
-          ).then((m) => m.ProfileDeleteDialogComponent),
+          import('./../profile/profile-delete-dialog-component/profile-delete-dialog-component').then(
+            (m) => m.ProfileDeleteDialogComponent,
+          ),
       },
     ],
   },

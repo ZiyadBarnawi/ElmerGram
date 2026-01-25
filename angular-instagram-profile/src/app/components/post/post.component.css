@@ -3,17 +3,19 @@ img {
   height: 35rem;
   object-fit: cover;
   margin: 0.2rem;
-  transition: 200ms;
-}
-img:hover {
-  filter: blur(0.1rem) brightness(75%);
+  filter: blur(0rem) brightness(100%);
 }
 
 div {
   display: inline-block;
 }
-.div-likes-count {
-  z-index: 999;
+
+.likes {
   pointer-events: none;
-  font-size: 2.4rem;
+  opacity: 0;
+  left: 50%;
+  top: 50%;
+  font-size: 3rem;
+  z-index: 50;
+  transform: translate(-25%, -25%);
 }

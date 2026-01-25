@@ -2,7 +2,7 @@
   header="Sign up"
   [modal]="true"
   [(visible)]="userService.visibleSignupDialog"
-  (onHide)="previousRoute()"
+  (onHide)="userService.previousRoute({ replaceUrl: true })"
 >
   <p-stepper [value]="1">
     <p-step-list>

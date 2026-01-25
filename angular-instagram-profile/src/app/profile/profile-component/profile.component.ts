@@ -9,34 +9,17 @@ import {
   DestroyRef,
   Injector,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterOutlet, RouterLinkWithHref, ResolveFn } from '@angular/router';
+import { RouterOutlet, RouterLinkWithHref, ResolveFn } from '@angular/router';
 
-import {
-  Observable,
-  catchError,
-  concatMap,
-  exhaustMap,
-  firstValueFrom,
-  forkJoin,
-  fromEvent,
-  interval,
-  map,
-  switchMap,
-  take,
-  throttle,
-  throttleTime,
-  timeout,
-  timer,
-} from 'rxjs';
+import { Observable, catchError, firstValueFrom, interval } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Button } from 'primeng/button';
 import { Avatar } from 'primeng/avatar';
 import { MessageService } from 'primeng/api';
 
 import { PostsComponent } from '../../components/posts/posts.component';
 import { UserService, environment, type User } from './../../components/index';
-import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-profile',
   imports: [Button, Avatar, ReactiveFormsModule, RouterOutlet, RouterLinkWithHref, PostsComponent],
@@ -50,11 +33,9 @@ export class ProfileComponent implements OnInit {
   userService = inject(UserService);
   messagesService = inject(MessageService);
   private destroyRed = inject(DestroyRef);
-  private httpService = inject(HttpClient);
-  private injector = inject(Injector);
 
   userForm = this.userService.userForm;
-  user = this.userService.user;
+  // user = this.userService.user;
   Images = this.userService.Images;
 
   username = input<string>(); // TIP: this get its value form the url
@@ -86,7 +67,10 @@ export class ProfileComponent implements OnInit {
 
   constructor() {
     effect(async () => {
-      let user = await this.userService.getUsers(this.username());
+      let user =
+        this.username()?.toLowerCase() === 'ziyad'
+          ? await firstValueFrom(this.userService.GetJsonUser())
+          : await this.userService.getUsers(this.username());
       if (environment.production) {
         let userObservable = (user as Observable<Object>)
           .pipe(
@@ -95,7 +79,7 @@ export class ProfileComponent implements OnInit {
             }),
           )
           .subscribe((data: any) => {
-            this.user.set(data.data);
+            this.userService.user.set(data.data);
           });
         this.destroyRed.onDestroy(() => {
           userObservable.unsubscribe();

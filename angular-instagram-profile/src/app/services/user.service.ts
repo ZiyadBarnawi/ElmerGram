@@ -6,7 +6,8 @@ import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { FileUploadEvent } from 'primeng/fileupload';
 
-import { Images, User, environment } from '../components/index';
+import { Form, Images, User, environment } from '../components/index';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ import { Images, User, environment } from '../components/index';
 export class UserService {
   http = inject(HttpClient);
   messagesService = inject(MessageService);
+  router = inject(Router);
   visibleEditDialog = true;
   visibleSignupDialog = true;
   visibleDeleteDialog = true;
@@ -56,7 +58,7 @@ export class UserService {
   suggestedCities: string[] = [];
   uploadedFiles?: any[] = [];
 
-  userForm = new FormGroup({
+  userForm = new FormGroup<Form>({
     username: new FormControl('', { validators: [Validators.maxLength(20)] }),
     phoneNumber: new FormControl('', {
       validators: [],
@@ -257,21 +259,19 @@ export class UserService {
   async addUser(): Promise<void> {
     let users: User[] = JSON.parse(localStorage.getItem('users') as string) as User[];
     if (users) {
-      // delete this.userForm.value.otp;
-      // delete this.userForm.value.confirmPassword;
       let user: any = { ...this.userForm.value };
       user.posts = [
-        { media: 'sunnyDay.jpg', likes: 13 },
-        { media: 'desert.jpg', likes: 13 },
-        { media: 'sunFlower.jpg', likes: 13 },
-        { media: 'carbet.jpg', likes: 13 },
-        { media: 'rainnyCar.jpg', likes: 13 },
+        { media: 'sunnyDay.jpg', likes: 12 },
+        { media: 'desert.jpg', likes: 77 },
+        { media: 'sunFlower.jpg', likes: 11 },
+        { media: 'carbet.jpg', likes: 8 },
+        { media: 'rainnyCar.jpg', likes: 30 },
       ];
       delete user.otp;
       delete user.confirmPassword;
       delete user.newDiscount;
       delete user.newCategory;
-      // users.push(this.userForm.value as User);
+
       users.push(user);
       localStorage.setItem(`users`, JSON.stringify(users));
     }
@@ -334,11 +334,11 @@ export class UserService {
       if (oldUserIndex < 0) return null;
       users[oldUserIndex] = this.userForm.value as User;
       users[oldUserIndex].posts = [
-        { media: 'sunnyDay.jpg', likes: 13 },
-        { media: 'desert.jpg', likes: 13 },
-        { media: 'sunFlower.jpg', likes: 13 },
-        { media: 'carbet.jpg', likes: 13 },
-        { media: 'rainnyCar.jpg', likes: 13 },
+        { media: 'sunnyDay.jpg', likes: 12 },
+        { media: 'desert.jpg', likes: 77 },
+        { media: 'sunFlower.jpg', likes: 11 },
+        { media: 'carbet.jpg', likes: 8 },
+        { media: 'rainnyCar.jpg', likes: 30 },
       ];
 
       let user: any = { ...this.userForm.value };
@@ -409,7 +409,13 @@ export class UserService {
   addNewDiscount(): void {
     this.discounts.push(this.userForm.controls.newDiscount.value!);
   }
+  previousRoute(options?: { replaceUrl: boolean }) {
+    let route = [...this.router.url.split('/')];
 
+    route.pop();
+
+    this.router.navigate(route, { replaceUrl: options?.replaceUrl });
+  }
   get skipPersonalAccountStep(): boolean {
     return (!(this.userForm.value.city || this.userForm.value.bio) &&
       this.userForm.value.accountType == 'personal') as boolean;

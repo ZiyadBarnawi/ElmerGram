@@ -102,8 +102,4 @@ export class ProfileSignupDialogComponent {
     }); //replaceUrl === the user can't navigate back to this url
     this.userService.visibleSignupDialog = false;
   }
-
-  previousRoute() {
-    this.router.navigate(['/profile', `${this.userService.user()?.username || 'Ziyad'}`]);
-  }
 }
