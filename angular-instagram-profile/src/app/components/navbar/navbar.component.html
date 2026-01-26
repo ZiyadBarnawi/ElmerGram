@@ -13,13 +13,16 @@
       <!-- TIP: ng-template is a tag not rendered by default, but when you instructs it to do so. -->
       <!-- TIP: PrimeNG has a set of templates ids (e.g.: #item) you cas specify to -->
       <ng-template class="m-4" #item let-suggestedUser>
-        <a class="a-suggested-user" routerLink="/profile/{{ suggestedUser.username }}">
+        <a
+          class="a-suggested-user text-decoration-none"
+          routerLink="/profile/{{ suggestedUser.username }}"
+        >
           <div
             (click)="updateCurrentUser(suggestedUser)"
             class="div-suggested-user d-flex align-items-center gap-1"
           >
             <p-avatar
-              [image]="suggestedUser.pfp || userService.Images[5]"
+              [image]="suggestedUser.pfpUrl || userService.Images[5]"
               shape="circle"
               class="avatar-pfp"
             />

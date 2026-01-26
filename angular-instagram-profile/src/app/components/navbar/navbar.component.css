@@ -20,40 +20,35 @@
   font-size: 2rem !important;
 }
 
-:host ::ng-deep .p-menu .p-menu-item-link {
-  /* margin-top: 2.8rem; */
-  /* margin-bottom: 0.8rem; */
-}
-
 :host ::ng-deep .p-drawer-left {
   width: 100rem;
   background-color: rgb(21, 21, 21);
   border: transparent;
 }
-::ng-deep .p-drawer-left {
+:host ::ng-deep .p-drawer-left {
   width: 40rem;
 }
-::ng-deep .auto-complete div input,
-::ng-deep .auto-complete div {
+:host ::ng-deep .auto-complete div input,
+:host ::ng-deep .auto-complete div {
   width: 100%;
 }
 
-::ng-deep div.p-menu-item-content {
+:host ::ng-deep div.p-menu-item-content {
   padding: 0.1rem 0.1rem;
   border-radius: 1rem;
 }
-::ng-deep .span-search-username {
+:host ::ng-deep .span-search-username {
   font-size: 2rem;
 }
-::ng-deep .div-suggested-user {
+:host ::ng-deep .div-suggested-user {
   height: 5rem;
 }
 
-::ng-deep .avatar-pfp {
+:host ::ng-deep .avatar-pfp {
   width: 6rem;
   height: 6rem;
 }
 
-::ng-deep li.p-autocomplete-option {
+:host ::ng-deep li.p-autocomplete-option {
   pointer-events: all;
 }

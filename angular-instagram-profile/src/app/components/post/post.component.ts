@@ -1,13 +1,4 @@
-import {
-  afterNextRender,
-  Component,
-  ElementRef,
-  HostListener,
-  input,
-  OnInit,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, HostListener, input, ViewChild } from '@angular/core';
 import { Post as PostModel } from '../../models/post.model';
 import { gsap } from 'gsap';
 @Component({

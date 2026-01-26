@@ -101,5 +101,6 @@ export class ProfileSignupDialogComponent {
       replaceUrl: true,
     }); //replaceUrl === the user can't navigate back to this url
     this.userService.visibleSignupDialog = false;
+    this.userService.userForm.reset();
   }
 }
