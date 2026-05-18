@@ -69,6 +69,7 @@ export class ProfileEditDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.visibleEditDialog = true;
     this.userService.userForm.patchValue(this.userService.user()!);
   }
 }

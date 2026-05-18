@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
@@ -62,10 +62,15 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './profile-signup-dialog-component.html',
   styleUrl: './profile-signup-dialog-component.css',
 })
-export class ProfileSignupDialogComponent {
+export class ProfileSignupDialogComponent implements OnInit {
   userService = inject(UserService);
   messagesService = inject(MessageService);
   private router = inject(Router);
+
+  ngOnInit(): void {
+    this.userService.visibleSignupDialog = true;
+  }
+
   submitForm(): void {
     const invalidForms = Object.entries(this.userService.userForm.controls)
       .filter(([_, control]) => control.invalid)

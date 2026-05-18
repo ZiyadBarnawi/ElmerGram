@@ -19,9 +19,9 @@ export class UserService {
   http = inject(HttpClient);
   messagesService = inject(MessageService);
   router = inject(Router);
-  visibleEditDialog = true;
-  visibleSignupDialog = true;
-  visibleDeleteDialog = true;
+  visibleEditDialog = false;
+  visibleSignupDialog = false;
+  visibleDeleteDialog = false;
   user = signal<User | null>(null);
   Images = Images;
   // testSignal = signal(0);

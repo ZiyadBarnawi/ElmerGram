@@ -1,35 +1,141 @@
-<nav>
-  <h1 class="logo">ElmerGram</h1>
-  <p-menu [model]="menuItems" class="flex justify-center" class="auto-complete w-full"> </p-menu>
-  <p-drawer appendTo="body" class="drawer" [(visible)]="visibleDrawer">
-    <h2 class="my-4">Search</h2>
-    <p-auto-complete
-      class="auto-complete"
-      [suggestions]="suggestedUsers"
-      optionLabel="username"
-      (completeMethod)="search($event)"
-      (onSelect)="updateCurrentUser($event)"
-    >
-      <!-- TIP: ng-template is a tag not rendered by default, but when you instructs it to do so. -->
-      <!-- TIP: PrimeNG has a set of templates ids (e.g.: #item) you cas specify to -->
-      <ng-template class="m-4" #item let-suggestedUser>
-        <a
-          class="a-suggested-user text-decoration-none"
-          routerLink="/profile/{{ asSuggestUser(suggestedUser).username }}"
-        >
-          <div
-            (click)="pickSuggestedUser(suggestedUser)"
-            class="div-suggested-user d-flex align-items-center gap-1"
-          >
-            <p-avatar
-              [image]="suggestUserAvatarUrl(suggestedUser)"
-              shape="circle"
-              class="avatar-pfp"
-            />
-            <span class="span-search-username">{{ asSuggestUser(suggestedUser).username }}</span>
-          </div>
-        </a>
-      </ng-template>
-    </p-auto-complete>
-  </p-drawer>
-</nav>
+<aside class="ig-sidebar">
+  <a routerLink="/" class="ig-sidebar__logo text-decoration-none">ElmerGram</a>
+
+  <nav class="ig-sidebar__nav">
+    <a routerLink="/" routerLinkActive="ig-nav-item--active" [routerLinkActiveOptions]="{ exact: true }" class="ig-nav-item text-decoration-none">
+      <i class="pi pi-home ig-nav-item__icon"></i>
+      <span class="ig-nav-item__label">Home</span>
+    </a>
+
+    <button type="button" class="ig-nav-item" [class.ig-nav-item--active]="searchOpen()" (click)="toggleSearch()">
+      <i class="pi pi-search ig-nav-item__icon"></i>
+      <span class="ig-nav-item__label">Search</span>
+    </button>
+
+    <a routerLink="/explore" routerLinkActive="ig-nav-item--active" class="ig-nav-item text-decoration-none">
+      <i class="pi pi-compass ig-nav-item__icon"></i>
+      <span class="ig-nav-item__label">Explore</span>
+    </a>
+
+    <a routerLink="/reels" routerLinkActive="ig-nav-item--active" class="ig-nav-item text-decoration-none">
+      <i class="pi pi-play ig-nav-item__icon"></i>
+      <span class="ig-nav-item__label">Reels</span>
+    </a>
+
+    <a routerLink="/messages" routerLinkActive="ig-nav-item--active" class="ig-nav-item text-decoration-none">
+      <i class="pi pi-envelope ig-nav-item__icon"></i>
+      <span class="ig-nav-item__label">Messages</span>
+    </a>
+
+    <a routerLink="/notifications" routerLinkActive="ig-nav-item--active" class="ig-nav-item text-decoration-none">
+      <i class="pi pi-heart ig-nav-item__icon"></i>
+      <span class="ig-nav-item__label">Notifications</span>
+    </a>
+
+    <button type="button" class="ig-nav-item" (click)="openSignup()">
+      <i class="pi pi-plus-circle ig-nav-item__icon"></i>
+      <span class="ig-nav-item__label">Create</span>
+    </button>
+
+    <a [routerLink]="profileRoute()" routerLinkActive="ig-nav-item--active" class="ig-nav-item text-decoration-none">
+      @if (navProfileImageSrc(); as src) {
+        <img class="ig-nav-item__avatar" [src]="src" [alt]="navProfileLabel()" />
+      } @else {
+        <i class="pi pi-user ig-nav-item__icon"></i>
+      }
+      <span class="ig-nav-item__label">Profile</span>
+    </a>
+  </nav>
+
+  <div class="ig-sidebar__footer">
+    <button type="button" class="ig-nav-item">
+      <i class="pi pi-bars ig-nav-item__icon"></i>
+      <span class="ig-nav-item__label">More</span>
+    </button>
+  </div>
+</aside>
+
+@if (searchOpen()) {
+  <aside class="ig-search-panel">
+    <div class="ig-search-panel__header">
+      <h2 class="ig-search-panel__title">Search</h2>
+      <button type="button" class="ig-search-panel__close" (click)="closeSearch()" aria-label="Close search">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="ig-search-panel__input-wrap">
+      <i class="pi pi-search ig-search-panel__input-icon"></i>
+      <input
+        type="search"
+        class="ig-search-input"
+        placeholder="Search"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        [value]="searchQuery()"
+        (input)="onSearchInputEvent($event)"
+      />
+    </div>
+
+    <div class="ig-search-panel__section">
+      @if (searchQuery().trim()) {
+        <span class="ig-search-panel__section-title">Results</span>
+        @if (usersLoadError(); as err) {
+          <p class="ig-search-panel__empty">{{ err }}</p>
+        } @else if (isLoadingUsers() && cachedUsers().length === 0) {
+          <p class="ig-search-panel__empty">Loading accounts…</p>
+        } @else if (filteredUsers().length) {
+          <ul class="ig-search-panel__list list-unstyled mb-0">
+            @for (u of filteredUsers(); track u.username) {
+              <li>
+                <a
+                  class="ig-search-result text-decoration-none"
+                  routerLink="/profile/{{ u.username }}"
+                  (click)="onUserPicked(u)"
+                >
+                  <div class="ig-search-result__card">
+                    <p-avatar [image]="suggestUserAvatarUrl(u)" shape="circle" class="ig-search-result__avatar" />
+                    <div class="ig-search-result__meta">
+                      <span class="ig-search-result__username">{{ u.username }}</span>
+                      <span class="ig-search-result__subtitle">Account</span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="ig-search-panel__empty">No accounts found.</p>
+        }
+      } @else {
+        <span class="ig-search-panel__section-title">Recent</span>
+        @if (recentProfiles().length) {
+          <ul class="ig-search-panel__list list-unstyled mb-0">
+            @for (u of recentProfiles(); track u.username) {
+              <li>
+                <a
+                  class="ig-search-result text-decoration-none"
+                  routerLink="/profile/{{ u.username }}"
+                  (click)="onUserPicked(u)"
+                >
+                  <div class="ig-search-result__card">
+                    <p-avatar [image]="suggestUserAvatarUrl(u)" shape="circle" class="ig-search-result__avatar" />
+                    <div class="ig-search-result__meta">
+                      <span class="ig-search-result__username">{{ u.username }}</span>
+                      <span class="ig-search-result__subtitle">Recent</span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="ig-search-panel__empty">No recent searches.</p>
+        }
+      }
+    </div>
+  </aside>
+
+  <button type="button" class="ig-search-backdrop" (click)="closeSearch()" aria-label="Close search"></button>
+}

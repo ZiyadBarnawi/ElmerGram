@@ -1,6 +1,73 @@
-<div (mouseover)="onMouseover()" (mouseout)="onMouseout()" class="position-relative z-10">
-  <div #likes class="likes position-absolute z-50" animate.enter="enter-animation">
+<div
+  #thumbnail
+  class="post-thumbnail position-relative z-10"
+  (click)="openDialog($event)"
+  role="button"
+  tabindex="0"
+  (keydown.enter)="openDialog($event)"
+>
+  <div #likes class="likes position-absolute z-50">
     {{ post()?.likes }}🤍
   </div>
-  <img #img src="/{{ post()?.media }}" alt="🌻" />
+  <img #img [src]="'/' + post()?.media" [alt]="post()?.description || 'Post'" />
 </div>
+
+<p-dialog
+  [visible]="dialogVisible()"
+  (visibleChange)="dialogVisible.set($event)"
+  [modal]="true"
+  [dismissableMask]="true"
+  [showHeader]="false"
+  [draggable]="false"
+  [resizable]="false"
+  [closeOnEscape]="true"
+  [transitionOptions]="'0ms'"
+  styleClass="post-dialog"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()"
+>
+  <div #dialogContent class="post-dialog-content d-flex">
+    <div class="post-dialog-media flex-shrink-0">
+      <img
+        [src]="'/' + post()?.media"
+        [alt]="post()?.description || 'Post'"
+        class="post-dialog-image"
+      />
+    </div>
+
+    <div class="post-dialog-sidebar d-flex flex-column flex-grow-1">
+      <div class="post-dialog-header d-flex align-items-center gap-3 p-3">
+        <span class="fw-semibold text-truncate">
+          {{ postUsername() }}
+        </span>
+        <button
+          type="button"
+          class="btn-close btn-close-white ms-auto flex-shrink-0"
+          (click)="closeDialog()"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="post-dialog-body flex-grow-1 p-3 overflow-auto">
+        @if (post()?.description) {
+          <p class="mb-0">{{ post()?.description }}</p>
+        }
+      </div>
+
+      <div class="post-dialog-footer p-3">
+        <div class="d-flex align-items-center gap-1 mb-2">
+          <button type="button" class="post-action-btn post-action-like" aria-label="Like">
+            <i class="pi pi-heart fs-4"></i>
+          </button>
+          <button type="button" class="post-action-btn post-action-comment" aria-label="Comment">
+            <i class="pi pi-comment fs-4"></i>
+          </button>
+          <button type="button" class="post-action-btn post-action-share" aria-label="Share">
+            <i class="pi pi-send fs-4"></i>
+          </button>
+        </div>
+        <p class="fw-bold mb-0">{{ post()?.likes | number }} likes</p>
+      </div>
+    </div>
+  </div>
+</p-dialog>

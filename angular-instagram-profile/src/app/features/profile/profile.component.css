@@ -1,120 +1,401 @@
-.img-pfp {
-  object-fit: cover;
-  width: 20rem;
-  height: 20rem;
+.profile-page {
+  position: relative;
+  width: 100%;
 }
 
-.div-profile-head {
-  width: 20rem;
-  gap: 2rem;
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 3rem 2rem 0;
 }
 
-.img-story {
-  object-fit: cover;
-  height: 10rem;
-  width: 10rem;
-  transition: 200ms;
-}
-.img-story:hover {
-  filter: brightness(80%);
-}
-
-.div-profile-details {
-  margin-left: 5rem;
-  width: auto;
-  flex: 0 0 auto;
-}
-.div-stories {
-  width: 90rem;
-  overflow-x: scroll;
+.profile-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+  width: 100%;
+  max-width: 935px;
+  margin-bottom: 4.4rem;
 }
 
-.div-action-button {
-  width: 20rem;
+.profile-header__avatar-col {
+  flex-shrink: 0;
 }
 
-.img-pfp--active {
+.profile-avatar-btn {
+  display: block;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
   cursor: pointer;
-  border: 3.5px solid #5d357a;
+}
+
+.profile-avatar-btn--active {
   padding: 0.3rem;
-  transition: 200ms;
-}
-.img-pfp--active:hover {
-  transform: scale(1.01);
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
 }
 
-.p-button-dialog {
-  right: 0;
-}
-
-p-avatar {
-  border: green solid 0.2rem;
+:host ::ng-deep .profile-avatar-btn p-avatar,
+:host ::ng-deep .profile-avatar-btn .p-avatar {
   width: 15rem;
   height: 15rem;
-  padding: 0.2rem;
-}
-.form-input-label {
-  font-size: 1.2rem;
-}
-.div-openHours {
-  height: 2rem;
-}
-.date-picker-work-hours {
-  width: 10rem;
+  border: 0.3rem solid rgb(21, 21, 21);
+  padding: 0;
 }
 
-.hidden {
+:host ::ng-deep .profile-avatar-btn .p-avatar img {
+  object-fit: cover;
+}
+
+.profile-header__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-header__row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.6rem;
+}
+
+.profile-header__row--actions {
+  margin-bottom: 2rem;
+}
+
+.profile-header__username {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.profile-header__buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.ig-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 0.8rem;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.8rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.ig-btn--primary {
+  background-color: #0095f6;
+  color: #fff;
+}
+
+.ig-btn--primary:hover {
+  background-color: #1877f2;
+}
+
+.ig-btn--secondary {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.ig-btn--secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.ig-btn--following {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ig-btn--following:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.ig-btn--icon {
+  min-width: 3rem;
+  padding: 0.7rem;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.ig-btn--icon:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.pi-trash {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.pi-trash {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: #fff;
+  font-size: 1.8rem;
+  transition: opacity 0.15s ease;
+}
+
+.pi-trash:hover {
+  opacity: 0.7;
+}
+
+.profile-header__stats {
+  gap: 4rem;
+  margin-bottom: 1.6rem;
+}
+
+.profile-header__stat {
+  font-size: 1.6rem;
+  line-height: 1.8rem;
+}
+
+.profile-header__stat-count {
+  font-weight: 600;
+}
+
+.profile-header__display-name {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.profile-header__bio-text {
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  white-space: pre-line;
+}
+
+.profile-header__meta {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.profile-highlights {
+  display: flex;
+  align-items: flex-start;
+  gap: 3.2rem;
+  width: 100%;
+  max-width: 935px;
+  margin-bottom: 4.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.stories-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.stories-scroll::-webkit-scrollbar {
   display: none;
 }
 
-.img-pfp {
-  width: 15rem;
-  max-height: fit-content;
-}
-.span-work-day {
-  font-size: 1.4rem;
-}
-
-p-message {
-  text-wrap: wrap;
-  /* margin: auto; */
-  font-size: 2.4rem;
-  z-index: 999999;
-}
-
-:host ::ng-deep .p-message,
-:host ::ng-deep .p-message-content,
-:host ::ng-deep .p-message-text {
-  padding: 0.2rem;
-  z-index: 9999;
-  font-size: 2.4rem;
-}
-
-:host ::ng-deep .p-button-dialog button {
-  font-size: 1.6rem;
-  padding: 0.5rem 2rem;
-  margin-right: 2rem;
-  background-color: rgba(17, 16, 16, 0.822);
-}
-:host ::ng-deep .pi-user-edit,
-:host ::ng-deep .pi-trash {
-  font-size: 2.2rem;
-  padding-left: 2rem;
+.story-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
   cursor: pointer;
-  transition: 200ms;
-}
-:host ::ng-deep .pi-user-edit:hover,
-:host ::ng-deep .pi-trash:hover {
-  transform: scale(1.1);
-}
-:host ::ng-deep .payment-radio {
-  font-size: 1.4rem;
 }
 
-::ng-deep .div-action-button span {
-  font-size: 1.6rem;
+.story-highlight__ring {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8.7rem;
+  height: 8.7rem;
+  padding: 0.3rem;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  transition: transform 0.2s ease;
 }
 
-::ng-deep .span-stats {
+.story-highlight:hover .story-highlight__ring {
+  transform: scale(1.04);
+}
+
+.story-highlight__img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 0.3rem solid rgb(21, 21, 21);
+}
+
+.story-highlight__label {
+  max-width: 8.7rem;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.story-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.story-viewer__content {
+  position: relative;
+  width: min(42rem, 100vw);
+  height: min(74rem, 100vh);
+  background: #000;
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+.story-viewer__progress {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  right: 0.8rem;
+  z-index: 3;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.story-viewer__progress-segment {
+  flex: 1;
+  height: 0.2rem;
+  border-radius: 0.2rem;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.story-viewer__progress-segment--viewed,
+.story-viewer__progress-segment--active {
+  background: #fff;
+}
+
+.story-viewer__close {
+  position: absolute;
+  top: 2.4rem;
+  right: 1.2rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.story-viewer__header {
+  position: absolute;
+  top: 2.4rem;
+  left: 1.2rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.story-viewer__avatar {
+  width: 3.2rem;
+  height: 3.2rem;
+  object-fit: cover;
+}
+
+.story-viewer__username {
   font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.story-viewer__time {
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.story-viewer__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-viewer__nav {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  width: 30%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.story-viewer__nav--prev {
+  left: 0;
+}
+
+.story-viewer__nav--next {
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    text-align: center;
+  }
+
+  .profile-header__row--actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-header__buttons {
+    justify-content: center;
+  }
+
+  .profile-header__stats {
+    justify-content: center;
+    gap: 2.4rem;
+  }
+
+  :host ::ng-deep .profile-avatar-btn p-avatar,
+  :host ::ng-deep .profile-avatar-btn .p-avatar {
+    width: 12rem;
+    height: 12rem;
+  }
 }

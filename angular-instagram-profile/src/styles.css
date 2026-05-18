@@ -26,3 +26,67 @@ body {
   font-family: 'Noto Sans JP';
   background-color: rgb(21, 21, 21);
 }
+
+.ig-dialog.p-dialog {
+  width: min(92vw, 56rem);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.2rem;
+  background: rgb(21, 21, 21);
+  box-shadow: 0 1.6rem 4.8rem rgba(0, 0, 0, 0.45);
+}
+
+.ig-dialog.p-dialog .p-dialog-header {
+  padding: 1.6rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+}
+
+.ig-dialog.p-dialog .p-dialog-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.ig-dialog.p-dialog .p-dialog-header-actions .p-button {
+  width: 3.2rem;
+  height: 3.2rem;
+  color: #fff;
+}
+
+.ig-dialog.p-dialog .p-dialog-content {
+  padding: 2rem;
+  background: transparent;
+}
+
+.ig-dialog--wide.p-dialog {
+  width: min(96vw, 72rem);
+}
+
+.ig-dialog--confirm.p-dialog {
+  width: min(92vw, 40rem);
+}
+
+.ig-dialog__intro {
+  margin-bottom: 2rem;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.ig-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.ig-dialog__actions--split {
+  justify-content: space-between;
+}
+
+.ig-dialog__section-title {
+  display: block;
+  margin-bottom: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}

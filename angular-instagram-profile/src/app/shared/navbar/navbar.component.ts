@@ -1,178 +1,156 @@
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  DestroyRef,
+  computed,
   inject,
-  input,
-  output,
   signal,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
-import { MenuModule } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
-import { Drawer, DrawerModule } from 'primeng/drawer';
-import { AutoCompleteModule, AutoComplete, AutoCompleteSelectEvent } from 'primeng/autocomplete';
-import { RippleModule } from 'primeng/ripple';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { AvatarModule } from 'primeng/avatar';
+import { Observable, catchError, firstValueFrom, of } from 'rxjs';
 
-import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { UserService } from '@core/services/user.service';
 import { environment } from '@environments/environment';
 import type { User } from '@shared/models/user.model';
-import { AvatarModule } from 'primeng/avatar';
+
+type RecentProfile = Pick<User, 'username'> & { pfpUrl?: string };
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [
-    MenuModule,
-    Drawer,
-    DrawerModule,
-    InputGroupAddonModule,
-    AutoComplete,
-    AutoCompleteModule,
-    InputGroupModule,
-    RippleModule,
-    RouterLink,
-    AvatarModule,
-  ],
+  imports: [RouterLink, RouterLinkActive, AvatarModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
 export class Navbar {
-  /** PrimeNG item template context is untyped; use this for strict template checks. */
-  asSuggestUser(row: unknown): User {
-    return row as User;
-  }
+  private static readonly MAX_RECENT = 12;
+  private readonly recentStorageKey = 'elmergram-recent-profile-searches';
 
-  suggestUserAvatarUrl(row: unknown): string {
-    const u = row as User;
-    const fallback = String(this.userService.Images[5]);
-    return u.pfpUrl ?? fallback;
-  }
-
-  pickSuggestedUser(row: unknown): void {
-    void this.updateCurrentUser({ value: row } as AutoCompleteSelectEvent);
-  }
-
-  user = output<User>();
   userService = inject(UserService);
-  username = input();
+  searchOpen = signal(false);
+  searchQuery = signal('');
+  cachedUsers = signal<User[]>([]);
+  recentProfiles = signal<RecentProfile[]>([]);
+  usersLoadError = signal<string | null>(null);
+  isLoadingUsers = signal(false);
+
+  filteredUsers = computed(() => {
+    const q = this.searchQuery().trim().toLowerCase();
+    if (!q) {
+      return [];
+    }
+    return this.cachedUsers().filter(
+      (u) => u.username && u.username.toLowerCase().includes(q),
+    );
+  });
+
   private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  visibleDrawer = false;
 
-  users: User[] = [];
-  suggestedUsers: User[] = [
-    { username: '', pfpUrl: this.userService.Images[1], password: '123456' },
-  ];
-  routerUsername = signal<string>('');
-  menuItems: MenuItem[] = [
-    {
-      label: 'Home',
-      icon: 'pi pi-home',
-      command: (): void => {},
-      routerLink: '/',
-    },
-    {
-      label: 'Search',
-      icon: 'pi pi-search',
-      command: (): void => {
-        this.visibleDrawer = !this.visibleDrawer;
-      },
-    },
-    {
-      label: 'Explore',
-      icon: 'pi pi-compass',
-      command: (): void => {},
-      routerLink: 'explore',
-    },
-    {
-      label: 'Reels',
-      icon: 'pi pi-video',
-      command: (): void => {},
-      routerLink: 'reels',
-    },
-    {
-      label: 'Messages',
-      icon: 'pi pi-file',
-      command: (): void => {},
-      routerLink: 'messages',
-    },
-    {
-      label: 'Post',
-      icon: 'pi pi-send',
-      command: (): void => {},
-      routerLink: 'posts',
-    },
-    {
-      label: 'Profile',
-      icon: 'pi pi-user',
-      command: async (): Promise<void> => {
-        const data: User = (await firstValueFrom(this.userService.GetJsonUser())) as User;
+  navProfileImageSrc(): string | null {
+    const pfp = this.userService.user()?.pfpUrl?.trim();
+    return pfp ? `/${pfp}` : null;
+  }
 
-        this.userService.user.set(data);
-      },
-      routerLink: 'profile/Ziyad',
-    },
-  ];
-  async search(searchWord: any): Promise<void> {
-    if (environment.production) {
-      let users = (await this.userService.getUsers()) as Observable<Object>;
-      let usersObservable = users
-        .pipe(
-          catchError((err) => {
-            console.log(err);
+  navProfileLabel(): string {
+    return this.userService.user()?.username ?? 'Profile';
+  }
 
-            throw err;
-          }),
-        )
-        .subscribe((data: any) => {
-          this.suggestedUsers = data.data.filter((user: any) =>
-            user.username.toLowerCase().includes(searchWord.query?.toLowerCase()),
-          ) as User[];
-        });
-      this.destroyRef.onDestroy(() => {
-        console.log('Unsubscribing');
+  profileRoute(): string {
+    const currentUser = this.userService.user()?.username ?? 'Ziyad';
+    return `/profile/${currentUser}`;
+  }
 
-        usersObservable.unsubscribe();
-      });
+  toggleSearch(): void {
+    const opening = !this.searchOpen();
+    this.searchOpen.set(opening);
+    if (opening) {
+      this.readRecentFromStorage();
+      void this.loadUsersCatalog();
     } else {
-      this.users = (await this.userService.getUsers()) as User[];
-      this.suggestedUsers = this.users?.filter((user) =>
-        user.username.toLowerCase().includes(searchWord.query?.toLowerCase()),
-      ) as User[];
+      this.searchQuery.set('');
     }
   }
 
-  async updateCurrentUser(event: AutoCompleteSelectEvent): Promise<void> {
-    if (!event?.value?.username) return;
+  closeSearch(): void {
+    this.searchOpen.set(false);
+    this.searchQuery.set('');
+  }
 
-    let user = await this.userService.getUsers(event.value.username);
+  openSignup(): void {
+    this.userService.visibleSignupDialog = true;
+    this.router.navigate(['/profile', this.userService.user()?.username ?? 'Ziyad', 'signup']);
+  }
 
-    if (environment.production) {
-      let userObservable = (user as Observable<Object>)
-        .pipe(
-          catchError((err) => {
-            throw err;
-          }),
-        )
-        .subscribe((data: any) => {
-          this.user.emit(data.data);
-          this.routerUsername.set(data.data.username);
-        });
-      this.destroyRef.onDestroy(() => {
-        console.log('Unsubscribed');
+  onSearchInputEvent(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchQuery.set(value);
+    if (this.cachedUsers().length === 0 && !this.isLoadingUsers()) {
+      void this.loadUsersCatalog();
+    }
+  }
 
-        userObservable.unsubscribe();
-      });
-    } else {
-      user = user as User;
-      this.userService.user.set(user);
-      this.router.navigate(['profile', `${user.username}`]);
-      this.user.emit(user);
+  suggestUserAvatarUrl(user: RecentProfile): string {
+    const fallback = String(this.userService.Images[5]);
+    return user.pfpUrl ? `/${user.pfpUrl}` : `/${fallback}`;
+  }
+
+  onUserPicked(user: RecentProfile): void {
+    this.pushRecent(user);
+    this.closeSearch();
+  }
+
+  private readRecentFromStorage(): void {
+    try {
+      const raw = sessionStorage.getItem(this.recentStorageKey);
+      const parsed = raw ? (JSON.parse(raw) as unknown) : [];
+      this.recentProfiles.set(Array.isArray(parsed) ? (parsed as RecentProfile[]) : []);
+    } catch {
+      this.recentProfiles.set([]);
+    }
+  }
+
+  private pushRecent(user: RecentProfile): void {
+    if (!user.username) {
+      return;
+    }
+    const next = [
+      { username: user.username, pfpUrl: user.pfpUrl },
+      ...this.recentProfiles().filter((r) => r.username !== user.username),
+    ].slice(0, Navbar.MAX_RECENT);
+    this.recentProfiles.set(next);
+    try {
+      sessionStorage.setItem(this.recentStorageKey, JSON.stringify(next));
+    } catch {
+      /* ignore quota / private mode */
+    }
+  }
+
+  private async loadUsersCatalog(): Promise<void> {
+    if (this.isLoadingUsers() || this.cachedUsers().length > 0) {
+      return;
+    }
+    this.isLoadingUsers.set(true);
+    this.usersLoadError.set(null);
+    try {
+      const raw = await this.userService.getUsers();
+      if (environment.production) {
+        const resp = await firstValueFrom(
+          (raw as Observable<{ data: User[] }>).pipe(
+            catchError(() => of({ data: [] as User[] })),
+          ),
+        );
+        this.cachedUsers.set(Array.isArray(resp.data) ? resp.data : []);
+      } else {
+        const list = raw as User[] | null | undefined;
+        this.cachedUsers.set(Array.isArray(list) ? list : []);
+      }
+    } catch {
+      this.usersLoadError.set('Could not load accounts to search.');
+      this.cachedUsers.set([]);
+    } finally {
+      this.isLoadingUsers.set(false);
     }
   }
 }

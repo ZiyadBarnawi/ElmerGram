@@ -1,9 +1,13 @@
 <p-dialog
-  header="Sign up"
+  header="Create account"
   [modal]="true"
   [(visible)]="userService.visibleSignupDialog"
+  styleClass="ig-dialog ig-dialog--wide"
+  [draggable]="false"
+  [resizable]="false"
   (onHide)="userService.previousRoute({ replaceUrl: true })"
 >
+  <p class="ig-dialog__intro mb-0">Sign up to share photos and connect with people on ElmerGram.</p>
   <p-stepper [value]="1">
     <p-step-list>
       <p-step [value]="1">Account Information</p-step>

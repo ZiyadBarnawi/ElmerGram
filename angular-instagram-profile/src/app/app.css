@@ -1,33 +1,33 @@
-app-profile {
-  padding: 10rem;
-}
-/* In app.component.css or global styles */
-:host {
-  display: block;
-  padding: 20px;
-  box-sizing: border-box; /* This includes padding in element's total width/height */
+.app-layout {
   min-height: 100vh;
+  background: rgb(21, 21, 21);
 }
 
-/* Ensure all children also use border-box */
-:host *,
-:host *::before,
-:host *::after {
-  box-sizing: border-box;
+.app-content {
+  min-height: 100vh;
+  margin-left: 24.5rem;
+  padding: 0 2rem 2rem;
 }
 
-:host ::ng-deep .p-drawer {
-  width: 35rem;
-}
-
-:host ::ng-deep p-toats {
-  width: 10rem;
-}
 :host ::ng-deep .p-toast-message,
 :host ::ng-deep .p-toast-message-content,
 :host ::ng-deep .p-toast-detail {
   font-size: 1.2rem;
 }
+
 :host ::ng-deep .p-toast-summary {
   font-size: 1.6rem;
+}
+
+@media (max-width: 1264px) {
+  .app-content {
+    margin-left: 7.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    margin-left: 0;
+    padding-bottom: 8rem;
+  }
 }

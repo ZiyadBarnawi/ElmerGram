@@ -1,54 +1,310 @@
-.span-search-username {
-  font-size: 1.4rem;
+:host {
+  display: block;
 }
 
-:host ::ng-deep .p-menu {
-  height: 100%;
-  font-size: 2.2rem;
-  border: none;
-  background: transparent !important;
-}
-:host ::ng-deep .p-menu ul {
-  gap: 4rem;
-  height: 50%;
+.ig-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 200;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  width: 24.5rem;
+  padding: 0.8rem 1.2rem 2.4rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(21, 21, 21);
 }
 
-:host ::ng-deep .p-menu-item-icon {
-  font-size: 2rem !important;
+.ig-sidebar__logo {
+  display: block;
+  margin: 2.5rem 1.2rem 1.9rem;
+  font-family: 'Playfair Display SC', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
 }
 
-:host ::ng-deep .p-drawer-left {
-  width: 100rem;
-  background-color: rgb(21, 21, 21);
-  border: transparent;
+.ig-sidebar__nav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 0 0.8rem;
 }
-:host ::ng-deep .p-drawer-left {
-  width: 40rem;
+
+.ig-sidebar__footer {
+  padding: 0 0.8rem;
 }
-:host ::ng-deep .auto-complete div input,
-:host ::ng-deep .auto-complete div {
+
+.ig-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
   width: 100%;
+  min-height: 4.8rem;
+  padding: 1.2rem;
+  border: none;
+  border-radius: 0.8rem;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
 }
 
-:host ::ng-deep div.p-menu-item-content {
-  padding: 0.1rem 0.1rem;
-  border-radius: 1rem;
-}
-:host ::ng-deep .span-search-username {
-  font-size: 2rem;
-}
-:host ::ng-deep .div-suggested-user {
-  height: 5rem;
+.ig-nav-item:hover,
+.ig-nav-item--active {
+  background: rgba(255, 255, 255, 0.08);
 }
 
-:host ::ng-deep .avatar-pfp {
-  width: 6rem;
-  height: 6rem;
+.ig-nav-item__icon {
+  flex-shrink: 0;
+  width: 2.4rem;
+  font-size: 2.4rem;
+  line-height: 1;
+  text-align: center;
 }
 
-:host ::ng-deep li.p-autocomplete-option {
-  pointer-events: all;
+.ig-nav-item__avatar {
+  flex-shrink: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ig-nav-item__label {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 2.4rem;
+}
+
+.ig-search-panel {
+  position: fixed;
+  top: 0;
+  left: 24.5rem;
+  bottom: 0;
+  z-index: 190;
+  display: flex;
+  flex-direction: column;
+  width: 39.7rem;
+  padding: 0.8rem 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(21, 21, 21);
+  box-shadow: 0.4rem 0 2.4rem rgba(0, 0, 0, 0.35);
+}
+
+.ig-search-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.4rem 2.4rem 1.6rem;
+}
+
+.ig-search-panel__title {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ig-search-panel__close {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.ig-search-panel__input-wrap {
+  position: relative;
+  padding: 0 2.4rem 1.6rem;
+}
+
+.ig-search-panel__input-icon {
+  position: absolute;
+  top: 50%;
+  left: 3.6rem;
+  z-index: 2;
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.ig-search-panel__section {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 1.6rem;
+  scrollbar-width: none;
+}
+
+.ig-search-panel__section::-webkit-scrollbar {
+  display: none;
+}
+
+.ig-search-panel__section-title {
+  display: block;
+  padding: 0.8rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.ig-search-panel__empty {
+  padding: 0.8rem;
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ig-search-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  border: none;
+  background: rgba(0, 0, 0, 0.65);
+  cursor: pointer;
+}
+
+.ig-search-result {
+  display: block;
+  color: inherit;
+}
+
+.ig-search-result__card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(38, 38, 38);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.ig-search-result:hover .ig-search-result__card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+:host ::ng-deep .ig-search-result__avatar,
+:host ::ng-deep .ig-search-result__avatar .p-avatar {
+  width: 4.4rem;
+  height: 4.4rem;
+}
+
+.ig-search-result__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ig-search-result__username {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.8rem;
+}
+
+.ig-search-result__subtitle {
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.8rem;
+}
+
+.ig-search-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 4.4rem;
+  padding: 0 1.6rem 0 4rem;
+  border: none;
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 1.6rem;
+}
+
+.ig-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ig-search-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+@media (max-width: 1264px) {
+  .ig-sidebar {
+    width: 7.2rem;
+    padding-inline: 1.2rem;
+  }
+
+  .ig-sidebar__logo,
+  .ig-nav-item__label {
+    display: none;
+  }
+
+  .ig-nav-item {
+    justify-content: center;
+    padding: 1.2rem;
+  }
+
+  .ig-search-panel {
+    left: 7.2rem;
+    width: min(39.7rem, calc(100vw - 7.2rem));
+  }
+
+  .ig-search-panel__close {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .ig-sidebar {
+    width: 100%;
+    height: 6rem;
+    top: auto;
+    bottom: 0;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 0.8rem;
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .ig-sidebar__logo,
+  .ig-sidebar__footer,
+  .ig-nav-item__label {
+    display: none;
+  }
+
+  .ig-sidebar__nav {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    gap: 0;
+    padding: 0;
+  }
+
+  .ig-nav-item {
+    width: auto;
+    min-height: auto;
+    padding: 0.8rem;
+  }
+
+  .ig-search-panel {
+    left: 0;
+    width: 100%;
+    bottom: 6rem;
+  }
 }

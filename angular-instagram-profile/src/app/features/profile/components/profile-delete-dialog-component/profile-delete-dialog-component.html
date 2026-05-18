@@ -1,14 +1,22 @@
-<p-dialog [modal]="true" [(visible)]="userService.visibleDeleteDialog" header="Are you sure?">
-  <div class="d-flex gap-4">
+<p-dialog
+  header="Delete account?"
+  [modal]="true"
+  [(visible)]="userService.visibleDeleteDialog"
+  styleClass="ig-dialog ig-dialog--confirm"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="userService.previousRoute({ replaceUrl: true })"
+>
+  <p class="ig-dialog__intro mb-0">
+    This will permanently delete your account, profile, and posts. This action cannot be undone.
+  </p>
+
+  <div class="ig-dialog__actions">
     <p-button
-      class=""
-      severity="danger"
+      label="Cancel"
+      severity="secondary"
       (onClick)="userService.visibleDeleteDialog = false"
-      (onClick)="deleteUser()"
-      >Delete</p-button
-    >
-    <p-button class="" severity="secondary" (onClick)="userService.visibleDeleteDialog = false"
-      >Cancel</p-button
-    >
+    />
+    <p-button label="Delete account" severity="danger" (onClick)="deleteUser()" />
   </div>
 </p-dialog>

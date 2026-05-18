@@ -1,8 +1,13 @@
 <p-dialog
+  header="Edit profile"
   [modal]="true"
   [(visible)]="userService.visibleEditDialog"
+  styleClass="ig-dialog ig-dialog--wide"
+  [draggable]="false"
+  [resizable]="false"
   (onHide)="userService.previousRoute({ replaceUrl: true })"
 >
+  <p class="ig-dialog__intro mb-0">Update your profile details, bio, and account information.</p>
   <form [formGroup]="userService.userForm" class="h-auto overflow-visible">
     <div class="my-5 d-flex justify-content-center align-content-center">
       <p-fileupload
@@ -292,13 +297,13 @@
         ></textarea>
       </div>
     }
-    <div class="d-flex g-2 justify-content-center gap-5 my-5">
+    <div class="ig-dialog__actions">
       <p-button
         label="Cancel"
         (onClick)="userService.visibleEditDialog = false"
         severity="secondary"
       />
-      <p-button label="Save" (onClick)="submitForm()" severity="success" />
+      <p-button label="Save changes" (onClick)="submitForm()" severity="success" />
     </div>
   </form>
 </p-dialog>

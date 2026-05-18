@@ -1,86 +1,156 @@
-<div class="d-flex justify-content-between w-100">
-  <a routerLink="signup" class="text-decoration-none">
-    <p-button
-      class="p-button-dialog position-absolute"
-      (onClick)="userService.visibleSignupDialog = true"
-      label="Sign up
-"
-    >
-    </p-button>
-  </a>
+<div class="profile-page">
+  <section class="profile-main">
+    @if (userService.user(); as user) {
+      <header class="profile-header">
+        <div class="profile-header__avatar-col">
+          <button
+            type="button"
+            class="profile-avatar-btn"
+            [class.profile-avatar-btn--active]="displayedStories().length > 0"
+            (click)="displayedStories().length ? openStory(0) : null"
+            [attr.aria-label]="displayedStories().length ? 'View story' : 'Profile picture'"
+          >
+            <p-avatar [image]="'/' + (user.pfpUrl || Images[5])" size="xlarge" shape="circle" />
+          </button>
+        </div>
 
-  <!--! NAV -->
-  <section class="w-100 d-flex justify-content-center">
-    @if (userService.user()) {
-      <div class="d-flex flex-column w-75 gap-5">
-        <div class="div-profile-head d-flex align-items-center">
-          <!--! Profile Pic -->
-          <div class="div-profile-picture-container">
-            <p-avatar
-              [image]="userService.user()!.pfpUrl || Images[6]"
-              class="mr-2"
-              size="xlarge"
-              shape="circle"
-            />
-          </div>
-          <!--! ProfileComponent Details -->
-          <div class="div-profile-details">
-            <div class="d-flex w-100">
-              <div class="div-profile-states d-flex flex-column gap-3 w-100">
-                <!--! Username -->
+        <div class="profile-header__info">
+          <div class="profile-header__row profile-header__row--actions">
+            <h1 class="profile-header__username">{{ user.username }}</h1>
 
-                <h1 class="span-username w-100">
-                  {{ userService.user()!.username }}
-                  <!--! Edit icon  -->
-                  <a
-                    (click)="userService.visibleEditDialog = true"
-                    routerLink="/profile/{{ username() }}/edit"
-                  >
-                    <i class="pi pi-user-edit"></i>
-                  </a>
-                  <!--! Delete icon  -->
-
-                  <a class="text-decoration-none" routerLink="delete">
-                    <i (click)="userService.visibleDeleteDialog = true" class="pi pi-trash"></i>
-                  </a>
-                </h1>
-                <!--! Account follow numbers  -->
-
-                <span class="span-stats w-100"
-                  >Followers:<span>{{ userService.user()!.followers || 0 }}</span> Following:
-                  <span>{{ userService.user()!.following || 0 }} </span> <br />
-                  Posts: <span>{{ userService.user()!.posts?.length || '0' }}</span></span
+            @if (isOwnProfile()) {
+              <div class="profile-header__buttons">
+                <a
+                  routerLink="/profile/{{ username() }}/edit"
+                  class="text-decoration-none"
+                  (click)="userService.visibleEditDialog = true"
                 >
-                <!--! Bio  -->
-                <span class="fs-5">{{ userService.user()!.bio }}</span>
+                  <button type="button" class="ig-btn ig-btn--secondary">Edit profile</button>
+                </a>
+                <button type="button" class="ig-btn ig-btn--secondary">View archive</button>
+                <a
+                  routerLink="delete"
+                  class="ig-btn ig-btn--icon text-decoration-none"
+                  (click)="userService.visibleDeleteDialog = true"
+                  aria-label="delete"
+                >
+                  <i class="pi pi-trash"></i>
+                </a>
               </div>
+            } @else {
+              <div class="profile-header__buttons">
+                <button
+                  type="button"
+                  class="ig-btn"
+                  [class.ig-btn--primary]="!isFollowed()"
+                  [class.ig-btn--following]="isFollowed()"
+                  (click)="toggleFollow()"
+                >
+                  {{ isFollowed() ? 'Following' : 'Follow' }}
+                </button>
+                <button type="button" class="ig-btn ig-btn--secondary">Message</button>
+                <button type="button" class="ig-btn ig-btn--icon" aria-label="More options">
+                  <i class="pi pi-ellipsis-h"></i>
+                </button>
+              </div>
+            }
+          </div>
+
+          <ul class="profile-header__stats list-unstyled d-flex mb-0">
+            <li class="profile-header__stat">
+              <span class="profile-header__stat-count">{{ postCount() }}</span> posts
+            </li>
+            <li class="profile-header__stat">
+              <span class="profile-header__stat-count">{{ user.followers ?? 0 }}</span> followers
+            </li>
+            <li class="profile-header__stat">
+              <span class="profile-header__stat-count">{{ user.following ?? 0 }}</span> following
+            </li>
+          </ul>
+
+          <div class="profile-header__bio">
+            <span class="profile-header__display-name">{{ user.username }}</span>
+            @if (user.bio) {
+              <p class="profile-header__bio-text mb-0">{{ user.bio }}</p>
+            }
+            @if (user.city) {
+              <span class="profile-header__meta">{{ user.city }}</span>
+            }
+          </div>
+        </div>
+      </header>
+
+      @if (displayedStories().length > 0) {
+        <div class="profile-highlights stories-scroll">
+          @for (story of displayedStories(); track story; let i = $index) {
+            <button type="button" class="story-highlight" (click)="openStory(i)">
+              <span class="story-highlight__ring">
+                <img class="story-highlight__img" [src]="'/' + story" [alt]="storyLabel(i)" />
+              </span>
+              <span class="story-highlight__label">{{ storyLabel(i) }}</span>
+            </button>
+          }
+        </div>
+      }
+
+      <app-posts (tabChanged)="refreshStories()" />
+
+      @if (activeStoryIndex() !== null) {
+        <div class="story-viewer" (click)="closeStory()">
+          <div class="story-viewer__content" (click)="$event.stopPropagation()">
+            <div class="story-viewer__progress">
+              @for (story of displayedStories(); track story; let i = $index) {
+                <span
+                  class="story-viewer__progress-segment"
+                  [class.story-viewer__progress-segment--active]="i === activeStoryIndex()"
+                  [class.story-viewer__progress-segment--viewed]="i < activeStoryIndex()!"
+                ></span>
+              }
             </div>
-            <!--! Action Buttons  -->
-            <div class="div-action-button my-3">
-              <p-button
-                class=""
-                size="large"
-                label="Follow"
-                [label]="isFollowed() ? 'UnFollow' : 'Follow'"
-                (onClick)="toggleFollow()"
-                [icon]="isFollowed() ? '' : 'pi pi-plus'"
-                [severity]="isFollowed() ? 'secondary' : 'success'"
+
+            <button
+              type="button"
+              class="story-viewer__close"
+              (click)="closeStory()"
+              aria-label="Close story"
+            >
+              <i class="pi pi-times"></i>
+            </button>
+
+            <button
+              type="button"
+              class="story-viewer__nav story-viewer__nav--prev"
+              (click)="prevStory($event)"
+              aria-label="Previous story"
+            ></button>
+
+            <img
+              class="story-viewer__media"
+              [src]="'/' + displayedStories()[activeStoryIndex()!]"
+              [alt]="storyLabel(activeStoryIndex()!)"
+            />
+
+            <button
+              type="button"
+              class="story-viewer__nav story-viewer__nav--next"
+              (click)="nextStory($event)"
+              aria-label="Next story"
+            ></button>
+
+            <div class="story-viewer__header">
+              <img
+                class="story-viewer__avatar rounded-circle"
+                [src]="'/' + (user.pfpUrl || Images[5])"
+                [alt]="user.username"
               />
+              <span class="story-viewer__username">{{ user.username }}</span>
+              <span class="story-viewer__time">2h</span>
             </div>
           </div>
         </div>
-
-        <!--! Stories -->
-        <div class="div-stories d-flex gap-5 overflow-x-scroll overflow-y-visible">
-          @for (storyCoverImage of userService.user()!.stories; track $index) {
-            <img class="img-story rounded-circle" src="/{{ storyCoverImage }}" alt="" />
-          }
-          <!--! Posts  -->
-        </div>
-        <app-posts />
-      </div>
+      }
     }
   </section>
-  <!--! Dialogs  -->
+
   <router-outlet />
 </div>
