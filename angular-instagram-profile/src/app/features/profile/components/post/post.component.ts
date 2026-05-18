@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, input, ViewChild } from '@angular/core';
-import { Post as PostModel } from '../../models/post.model';
+import type { Post as PostModel } from '@shared/models/post.model';
 import { gsap } from 'gsap';
 @Component({
   selector: 'app-post',

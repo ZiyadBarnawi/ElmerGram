@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
-import { UserService } from './../../components/index';
+import { UserService } from '@core/services/user.service';
 
 @Component({
   selector: 'app-profile-delete-dialog-component',

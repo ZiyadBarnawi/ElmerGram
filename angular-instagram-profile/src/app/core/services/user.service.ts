@@ -6,7 +6,10 @@ import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { FileUploadEvent } from 'primeng/fileupload';
 
-import { Form, Images, User, environment } from '../components/index';
+import { environment } from '@environments/environment';
+import type { Form } from '@shared/models/form.model';
+import { Images } from '@shared/models/images.enum';
+import type { User } from '@shared/models/user.model';
 import { Router } from '@angular/router';
 
 @Injectable({

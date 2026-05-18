@@ -18,8 +18,11 @@ import { Button } from 'primeng/button';
 import { Avatar } from 'primeng/avatar';
 import { MessageService } from 'primeng/api';
 
-import { PostsComponent } from '../../components/posts/posts.component';
-import { UserService, environment, type User } from './../../components/index';
+import { UserService } from '@core/services/user.service';
+import { environment } from '@environments/environment';
+import type { User } from '@shared/models/user.model';
+
+import { PostsComponent } from './components/posts/posts.component';
 @Component({
   selector: 'app-profile',
   imports: [Button, Avatar, ReactiveFormsModule, RouterOutlet, RouterLinkWithHref, PostsComponent],

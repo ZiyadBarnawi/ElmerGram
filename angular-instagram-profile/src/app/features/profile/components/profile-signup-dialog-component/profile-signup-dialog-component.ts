@@ -21,8 +21,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { MessageService } from 'primeng/api';
 
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
+import { UserService } from '@core/services/user.service';
+import type { User } from '@shared/models/user.model';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({

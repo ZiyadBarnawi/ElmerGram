@@ -18,7 +18,9 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 import { catchError, firstValueFrom, Observable } from 'rxjs';
-import { User, UserService, environment } from './../../components/index';
+import { UserService } from '@core/services/user.service';
+import { environment } from '@environments/environment';
+import type { User } from '@shared/models/user.model';
 import { AvatarModule } from 'primeng/avatar';
 @Component({
   selector: 'app-navbar',
@@ -40,6 +42,21 @@ import { AvatarModule } from 'primeng/avatar';
   styleUrl: './navbar.component.css',
 })
 export class Navbar {
+  /** PrimeNG item template context is untyped; use this for strict template checks. */
+  asSuggestUser(row: unknown): User {
+    return row as User;
+  }
+
+  suggestUserAvatarUrl(row: unknown): string {
+    const u = row as User;
+    const fallback = String(this.userService.Images[5]);
+    return u.pfpUrl ?? fallback;
+  }
+
+  pickSuggestedUser(row: unknown): void {
+    void this.updateCurrentUser({ value: row } as AutoCompleteSelectEvent);
+  }
+
   user = output<User>();
   userService = inject(UserService);
   username = input();

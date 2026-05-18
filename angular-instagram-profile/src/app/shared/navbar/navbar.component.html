@@ -15,18 +15,18 @@
       <ng-template class="m-4" #item let-suggestedUser>
         <a
           class="a-suggested-user text-decoration-none"
-          routerLink="/profile/{{ suggestedUser.username }}"
+          routerLink="/profile/{{ asSuggestUser(suggestedUser).username }}"
         >
           <div
-            (click)="updateCurrentUser(suggestedUser)"
+            (click)="pickSuggestedUser(suggestedUser)"
             class="div-suggested-user d-flex align-items-center gap-1"
           >
             <p-avatar
-              [image]="suggestedUser.pfpUrl || userService.Images[5]"
+              [image]="suggestUserAvatarUrl(suggestedUser)"
               shape="circle"
               class="avatar-pfp"
             />
-            <span class="span-search-username">{{ suggestedUser.username }}</span>
+            <span class="span-search-username">{{ asSuggestUser(suggestedUser).username }}</span>
           </div>
         </a>
       </ng-template>

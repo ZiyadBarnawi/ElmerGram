@@ -1,14 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { Drawer, DrawerModule } from 'primeng/drawer';
-import { Toast, ToastModule } from 'primeng/toast';
+import { Drawer } from 'primeng/drawer';
+import { Toast } from 'primeng/toast';
 
-import { Navbar } from './components/navbar/navbar.component';
+import { Navbar } from './shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, DrawerModule, Drawer, ToastModule, Toast],
+  imports: [RouterOutlet, Navbar, Drawer, Toast],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

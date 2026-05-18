@@ -1,7 +1,7 @@
 import { CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
 
-import { profileRoutes } from './router/routes';
+import { profileRoutes } from './features/profile/profile.routes';
 
 const redirectToUnAuthorize: CanMatchFn = (route, segment) => {
   console.log(route, segment);
@@ -14,7 +14,7 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: () => import('./home/home.component').then((m) => m.Home),
+    loadComponent: () => import('./features/home/home.component').then((m) => m.Home),
     title: 'ElmerGram ',
   },
   ...(profileRoutes as Routes),
@@ -25,6 +25,6 @@ export const routes: Routes = [
     title: 'ElmerGram',
 
     loadComponent: () =>
-      import('./shared/not-found-component/not-found-component').then((m) => m.NotFoundComponent),
+      import('./shared/components/not-found/not-found.component').then((m) => m.NotFoundComponent),
   },
 ];

@@ -16,7 +16,9 @@ import { Dialog, DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 
-import { environment, User, UserService } from '../../components/index';
+import { UserService } from '@core/services/user.service';
+import { environment } from '@environments/environment';
+import type { User } from '@shared/models/user.model';
 import { TextareaModule } from 'primeng/textarea';
 import { Router } from '@angular/router';
 
