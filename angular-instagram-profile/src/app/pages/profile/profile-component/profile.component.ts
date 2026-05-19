@@ -17,9 +17,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Button } from 'primeng/button';
 import { Avatar } from 'primeng/avatar';
 import { MessageService } from 'primeng/api';
+import { UserService } from '@core/services/user.service';
+import { environment } from '@core/environments/environment';
+import { User } from '@shared/models/user.model';
+import { PostsComponent } from '@shared/components/posts/posts.component';
 
-import { PostsComponent } from '../../components/posts/posts.component';
-import { UserService, environment, type User } from './../../components/index';
 @Component({
   selector: 'app-profile',
   imports: [Button, Avatar, ReactiveFormsModule, RouterOutlet, RouterLinkWithHref, PostsComponent],

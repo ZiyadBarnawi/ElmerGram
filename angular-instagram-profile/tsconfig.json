@@ -3,6 +3,12 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+
+      "@core/*":["./src/app/core/*"],
+      "@pages/*":["./src/app/pages/*"],
+      "@shared/*":["./src/app/shared/*"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -30,5 +36,7 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+    
+  ],
+  
 }

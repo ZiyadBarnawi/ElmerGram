@@ -3,7 +3,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 
 import { Post } from '../post/post.component';
-import { User, UserService } from '../../components/index';
+import { UserService } from '@core/services/user.service';
 @Component({
   standalone: true,
   selector: 'app-posts',

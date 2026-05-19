@@ -21,9 +21,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { MessageService } from 'primeng/api';
 
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
+
 import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '@shared/models/user.model';
 
 @Component({
   selector: 'app-profile-signup-dialog-component',
@@ -63,7 +64,7 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './profile-signup-dialog-component.css',
 })
 export class ProfileSignupDialogComponent {
-  userService = inject(UserService);
+  public userService = inject(UserService);
   messagesService = inject(MessageService);
   private router = inject(Router);
   submitForm(): void {

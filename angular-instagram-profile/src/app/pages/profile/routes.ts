@@ -1,7 +1,7 @@
-import { CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { resolveTitle, resolveRouteData } from '../profile/profile-component/profile.component';
-import { inject } from '@angular/core';
 import { ProfileSignupDialogComponent } from './../profile/profile-signup-dialog-component/profile-signup-dialog-component';
+import { UserService } from '../../core/services/user.service';
 
 export const profileRoutes: Routes = [
   {
@@ -37,7 +37,10 @@ export const profileRoutes: Routes = [
         path: 'signup',
         canDeactivate: [
           (component: ProfileSignupDialogComponent) => {
-            if (component.userService.userForm.touched && component.userService.userForm.dirty)
+            if (
+              (component.userService as UserService).userForm.touched &&
+              (component.userService as UserService).userForm.dirty
+            )
               return window.alert("Don't worry. Your data will remain ✨");
             return true;
           },

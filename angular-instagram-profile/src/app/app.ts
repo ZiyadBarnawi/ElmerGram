@@ -3,8 +3,8 @@ import { RouterOutlet } from '@angular/router';
 
 import { Drawer, DrawerModule } from 'primeng/drawer';
 import { Toast, ToastModule } from 'primeng/toast';
+import { Navbar } from './shared/components/navbar/navbar.component';
 
-import { Navbar } from './components/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',

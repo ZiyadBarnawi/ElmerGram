@@ -13,7 +13,7 @@ import { providePrimeNG } from 'primeng/config';
 import { CustomLaraPreset } from './customeLara.preset';
 import { provideHttpClient } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
-import { UserService } from './services/user.service';
+import { UserService } from './core/services/user.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [

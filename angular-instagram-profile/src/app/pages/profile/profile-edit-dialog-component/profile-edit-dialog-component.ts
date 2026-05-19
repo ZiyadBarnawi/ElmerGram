@@ -16,9 +16,11 @@ import { Dialog, DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 
-import { environment, User, UserService } from '../../components/index';
 import { TextareaModule } from 'primeng/textarea';
 import { Router } from '@angular/router';
+import { environment } from '@core/environments/environment';
+import { UserService } from '@core/services/user.service';
+import { User } from '@shared/models/user.model';
 
 @Component({
   selector: 'app-profile-edit-dialog-component',

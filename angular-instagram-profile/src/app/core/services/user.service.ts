@@ -6,8 +6,11 @@ import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { FileUploadEvent } from 'primeng/fileupload';
 
-import { Form, Images, User, environment } from '../components/index';
 import { Router } from '@angular/router';
+import { Images } from '@shared/models/images.enum';
+import { User } from '@shared/models/user.model';
+import { Form } from '@shared/models/form.model';
+import { environment } from '@core/environments/environment';
 
 @Injectable({
   providedIn: 'root',

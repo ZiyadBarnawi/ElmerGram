@@ -18,8 +18,10 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 import { catchError, firstValueFrom, Observable } from 'rxjs';
-import { User, UserService, environment } from './../../components/index';
 import { AvatarModule } from 'primeng/avatar';
+import { UserService } from '@core/services/user.service';
+import { User } from '@shared/models/user.model';
+import { environment } from '@core/environments/environment';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -95,7 +97,6 @@ export class Navbar {
       icon: 'pi pi-user',
       command: async (): Promise<void> => {
         const data: User = (await firstValueFrom(this.userService.GetJsonUser())) as User;
-
         this.userService.user.set(data);
       },
       routerLink: 'profile/Ziyad',
