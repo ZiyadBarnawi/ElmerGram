@@ -15,7 +15,7 @@ export const profileRoutes: Routes = [
     pathMatch: 'prefix',
     // component:ProfileComponent , //TIP: eagerly loaded component: loaded immediately
     loadComponent: () =>
-      import('./../profile/profile-component/profile.component').then((m) => m.ProfileComponent),
+      import('@pages/profile/profile-component/profile.component').then((m) => m.ProfileComponent),
     // TIP: Lazy loaded: loaded when needed
     title: resolveTitle,
     data: { text: "I'm a static route text!✨" },
@@ -29,7 +29,7 @@ export const profileRoutes: Routes = [
         path: 'edit',
         pathMatch: 'prefix',
         loadComponent: () =>
-          import('./../profile/profile-edit-dialog-component/profile-edit-dialog-component').then(
+          import('@pages/profile/profile-edit-dialog-component/profile-edit-dialog-component').then(
             (m) => m.ProfileEditDialogComponent,
           ),
       },
@@ -47,7 +47,7 @@ export const profileRoutes: Routes = [
         ],
         pathMatch: 'prefix',
         loadComponent: () =>
-          import('./../profile/profile-signup-dialog-component/profile-signup-dialog-component').then(
+          import('@pages/profile/profile-signup-dialog-component/profile-signup-dialog-component').then(
             (m) => m.ProfileSignupDialogComponent,
           ),
       },
@@ -55,7 +55,7 @@ export const profileRoutes: Routes = [
         path: 'delete',
         pathMatch: 'prefix',
         loadComponent: () =>
-          import('./../profile/profile-delete-dialog-component/profile-delete-dialog-component').then(
+          import('@pages/profile/profile-delete-dialog-component/profile-delete-dialog-component').then(
             (m) => m.ProfileDeleteDialogComponent,
           ),
       },

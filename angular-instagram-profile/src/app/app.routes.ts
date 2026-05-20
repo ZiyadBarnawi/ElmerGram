@@ -14,10 +14,13 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: () => import('./pages/home/home.component').then((m) => m.Home),
+    loadComponent: () => import('@pages/home/home.component').then((m) => m.Home),
     title: 'ElmerGram ',
   },
   ...(profileRoutes as Routes),
+  {path:'reels',
+    loadComponent:()=>import('@pages/reels/reels').then(m=>m.Reels)
+  },
 
   {
     path: '**',
@@ -25,6 +28,6 @@ export const routes: Routes = [
     title: 'ElmerGram',
 
     loadComponent: () =>
-      import('./shared/components/not-found-component/not-found-component').then((m) => m.NotFoundComponent),
+      import('@shared/components/not-found-component/not-found-component').then((m) => m.NotFoundComponent),
   },
 ];

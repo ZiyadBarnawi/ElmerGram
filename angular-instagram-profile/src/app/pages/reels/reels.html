@@ -1,0 +1,8 @@
+<h2 class="fw-bold">Reels</h2>
+<div class="w-100 h-100 d-flex gap-2 flex-wrap">
+@for (post of posts; track $index) {
+    <div appPost >
+        <app-post   [post]="post"/>
+    </div>
+}
+</div>

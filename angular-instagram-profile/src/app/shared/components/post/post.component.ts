@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, input, ViewChild } from '@angular/core';
 import { Post as PostModel } from '../../models/post.model';
 import { gsap } from 'gsap';
 @Component({
@@ -6,12 +6,20 @@ import { gsap } from 'gsap';
   imports: [],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
+  hostDirectives:[
+
+    // DIrectives that will apply by default to this component
+  ]
 })
-export class Post {
+export class Post implements AfterViewInit {
   post = input<PostModel>();
   @ViewChild('likes') likes!: ElementRef;
   @ViewChild('img') img!: ElementRef;
-
+  ngAfterViewInit(): void {
+    // Prime GSAP with the initial states
+    gsap.set(this.likes.nativeElement, { opacity: 0 });
+    gsap.set(this.img.nativeElement, { filter: 'blur(0rem) brightness(100%)' });
+  }
   @HostListener('mouseenter')
   onMouseover(): void {
     gsap.to(this.likes.nativeElement, {
