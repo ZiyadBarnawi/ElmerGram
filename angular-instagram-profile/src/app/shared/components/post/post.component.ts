@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, HostListener, input, ViewChild } from '@angular/core';
 import { Post as PostModel } from '../../models/post.model';
 import { gsap } from 'gsap';
+import { likes } from '@shared/pipes/likes';
 @Component({
   selector: 'app-post',
-  imports: [],
+  imports: [likes],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
   hostDirectives:[
