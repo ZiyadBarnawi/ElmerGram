@@ -9,5 +9,8 @@
     "primeng",
     "selectbutton"
   ],
-  "FSharp.suggestGitignore": false
+  "FSharp.suggestGitignore": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": true
 }
