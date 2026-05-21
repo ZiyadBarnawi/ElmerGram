@@ -4,7 +4,6 @@ import gsap from 'gsap';
 @Directive({
   selector: '[appPost]',
   host:{
-    "(click)": 'open()',
     "(mouseenter)":"expand()",
     "(mouseleave)":"shrink()"
   }
@@ -17,9 +16,7 @@ export class Post {
   shrink(){
     gsap.to(this.el.nativeElement, { scale: 1, duration: 0.35, zIndex: 0 });
   }
-  open(){    
-    console.log("Clicked!!");
-  }
+
   constructor() { }
 
 }

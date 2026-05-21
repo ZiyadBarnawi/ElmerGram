@@ -1,13 +1,10 @@
 import {
   AfterViewInit,
   Component,
-  effect,
   ElementRef,
   HostListener,
   inject,
   input,
-  OnInit,
-  signal,
   ViewChild,
 } from '@angular/core';
 import { Post as PostModel } from '../../models/post.model';
@@ -19,9 +16,11 @@ import { Avatar } from 'primeng/avatar';
 import { Images } from '@shared/models/images.enum';
 import { BounceUp } from '@shared/directives/bounce-up';
 import { UserService } from '@core/services/user.service';
+import { DatePipe } from '@angular/common';
+import { ImageModule } from 'primeng/image';
 @Component({
   selector: 'app-post',
-  imports: [likes, Dialog, Button, Avatar, BounceUp],
+  imports: [likes, Dialog, Button, Avatar, BounceUp, DatePipe, ImageModule],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
   hostDirectives: [
@@ -36,6 +35,7 @@ export class Post implements AfterViewInit {
   images = Images;
   expandedPost = false;
   ngAfterViewInit(): void {
+    if (!this.img) return;
     // Prime GSAP with the initial states
     gsap.set(this.likes.nativeElement, { opacity: 0 });
     gsap.set(this.img.nativeElement, { filter: 'blur(0rem) brightness(100%)' });
@@ -56,6 +56,7 @@ export class Post implements AfterViewInit {
   }
   @HostListener('mouseenter')
   onMouseover(): void {
+    if (!this.img) return;
     gsap.to(this.likes.nativeElement, {
       opacity: 1,
       duration: 0.2,
@@ -69,6 +70,7 @@ export class Post implements AfterViewInit {
   }
   @HostListener('mouseleave')
   onMouseout(): void {
+    if (!this.img) return;
     gsap.to(this.likes.nativeElement, {
       opacity: 0,
       duration: 0.2,

@@ -4,5 +4,5 @@ export interface Post {
   media?: string;
   description?: string;
   likes?: number;
-  createdAt?: Date;
+  createdAt?: string;
 }

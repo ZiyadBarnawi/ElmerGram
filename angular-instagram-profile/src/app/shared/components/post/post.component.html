@@ -1,4 +1,4 @@
-<div (mouseover)="onMouseover()" (mouseout)="onMouseout()" class="position-relative z-10">
+<div (mouseover)="onMouseover()" (mouseout)="onMouseout()" class="position-relative z-10 d-inline-block">
   <div
     #likes
     class="likes position-absolute z-50 text-nowrap"
@@ -8,7 +8,6 @@
   <img (click)="toggleExpandedPost()" #img src="/{{ post()?.media }}" alt="🌻img" />
   <p-dialog
     [header]="post()?.username || 'Unknown User'"
-    [style]="{ width: '50rem' }"
     closable="true"
     appendTo="body"
     draggable="false"
@@ -16,144 +15,46 @@
     [modal]="true"
     [(visible)]="expandedPost"
     [dismissableMask]="true"
-  >
+  >                              
     <div
-      class="d-flex justify-content-between align-items-stretch w-100"
-      [style]="{ height: '40rem' }"
+      class="d-flex gap-4 justify-content-between align-items-stretch w-100 "
+      [style]="{ 'align-items': 'stretch','height':'55rem' }"
     >
-      <img [style]="{}" class="align-self-start" [src]="post()?.media" alt="post img" />
-      <section class="d-flex flex-column justify-content-between">
+      <div class="d-flex flex-column ">
+        <p-image [src]="post()?.media" appendTo="body" height="350" preview="true" />
+        <div class="d-flex gap-3">
+          <span class="text-secondary">Posted: {{ post()?.createdAt | date }}</span>
+          <span  [innerHTML]="post()?.likes! | likes"></span>
+        </div>
+      </div>
+      <section  class="d-flex flex-column justify-content-between h-100">
         <div
           class="d-flex flex-column gap-5"
-          [style]="{ height: '100%', width: '15rem', 'overflow-y': 'scroll' }"
+          [style]="{ width: '15rem', 'overflow-y': 'scroll','min-height':0 }"
         >
-          <div class="d-flex justify-content-center gap-4">
-            <p-avatar
-              [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
-              [image]="images[3]"
-              shape="circle"
-              size="xlarge"
-            />
-            <span
-              [style]="{
-                'font-size': '1.35rem',
-                background: '#80808033',
-                'text-align': 'center',
-                'border-radius': '1.5rem',
-                padding: '1rem',
-              }"
-              >Nice!!</span
-            >
-          </div>
-          <div class="d-flex justify-content-center gap-4">
-            <p-avatar
-              [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
-              [image]="images[3]"
-              shape="circle"
-              size="xlarge"
-            />
-            <span
-              [style]="{
-                'font-size': '1.35rem',
-                background: '#80808033',
-                'text-align': 'center',
-                'border-radius': '1.5rem',
-                padding: '1rem',
-              }"
-              >Nice!!</span
-            >
-          </div>
-          <div class="d-flex justify-content-center gap-4">
-            <p-avatar
-              [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
-              [image]="images[3]"
-              shape="circle"
-              size="xlarge"
-            />
-            <span
-              [style]="{
-                'font-size': '1.35rem',
-                background: '#80808033',
-                'text-align': 'center',
-                'border-radius': '1.5rem',
-                padding: '1rem',
-              }"
-              >Nice!!</span
-            >
-          </div>
-          <div class="d-flex justify-content-center gap-4">
-            <p-avatar
-              [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
-              [image]="images[3]"
-              shape="circle"
-              size="xlarge"
-            />
-            <span
-              [style]="{
-                'font-size': '1.35rem',
-                background: '#80808033',
-                'text-align': 'center',
-                'border-radius': '1.5rem',
-                padding: '1rem',
-              }"
-              >Nice!!</span
-            >
-          </div>
-          <div class="d-flex justify-content-center gap-4">
-            <p-avatar
-              [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
-              [image]="images[3]"
-              shape="circle"
-              size="xlarge"
-            />
-            <span
-              [style]="{
-                'font-size': '1.35rem',
-                background: '#80808033',
-                'text-align': 'center',
-                'border-radius': '1.5rem',
-                padding: '1rem',
-              }"
-              >Nice!!</span
-            >
-          </div>
-          <div class="d-flex justify-content-center gap-4">
-            <p-avatar
-              [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
-              [image]="images[3]"
-              shape="circle"
-              size="xlarge"
-            />
-            <span
-              [style]="{
-                'font-size': '1.35rem',
-                background: '#80808033',
-                'text-align': 'center',
-                'border-radius': '1.5rem',
-                padding: '1rem',
-              }"
-              >Nice!!</span
-            >
-          </div>
-          <div class="d-flex justify-content-center gap-4">
-            <p-avatar
-              [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
-              [image]="images[3]"
-              shape="circle"
-              size="xlarge"
-            />
-            <span
-              [style]="{
-                'font-size': '1.35rem',
-                background: '#80808033',
-                'text-align': 'center',
-                'border-radius': '1.5rem',
-                padding: '1rem',
-              }"
-              >Nice!!</span
-            >
-          </div>
+          @for (_ of [].constructor(10); track $index) {
+            <div class="d-flex justify-content-center gap-4">
+              <p-avatar
+                [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
+                [image]="images[3]"
+                shape="circle"
+                size="xlarge"
+              />
+              <span
+                [style]="{
+                  'font-size': '1.35rem',
+                  background: '#80808033',
+                  'text-align': 'center',
+                  'border-radius': '1.5rem',
+                  padding: '1rem',
+                }"
+                >Nice!!</span
+              >
+            </div>
+          }
         </div>
+        <!--! Action buttons  -->
+
         <div class="d-flex gap-4">
           <p-button
             size="large"
