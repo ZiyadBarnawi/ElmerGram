@@ -2,12 +2,13 @@ import { Routes } from '@angular/router';
 import { resolveTitle, resolveRouteData } from '../profile/profile-component/profile.component';
 import { ProfileSignupDialogComponent } from './../profile/profile-signup-dialog-component/profile-signup-dialog-component';
 import { UserService } from '../../core/services/user.service';
+import { environment } from '@core/environments/environment';
 
 export const profileRoutes: Routes = [
   {
     path: 'profile', // http://localhost:4200/profile
     pathMatch: 'full',
-    redirectTo: 'profile/Ziyad',
+    redirectTo: `profile/${environment.production ? 'Jafar' : 'Ziyad'}`,
   },
   {
     path: 'profile/:username',

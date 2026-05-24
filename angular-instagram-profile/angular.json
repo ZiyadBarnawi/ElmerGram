@@ -47,7 +47,7 @@
               "fileReplacements": [
                 {
                   "replace": "./src/app/core/environments/environment.ts",
-                  "with": "./src/app/core/environments/environment.development.ts"
+                  "with": "./src/app/core/environments/environment.nodeDevelopment.ts"
                 }
               ]
             },
@@ -62,16 +62,21 @@
                 }
               ]
             },
-            "localDevelopment": {
+            "nodeDevelopment": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.localDevelopment.ts"
+                  "replace": "./src/app/core/environments/environment.ts",
+                  "with": "src/app/core/environments/environment.nodeDevelopment.ts"
                 }
               ]
+            },
+            "localDevelopment": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             },
             "test": {
               "optimization": false,
@@ -102,7 +107,7 @@
             "localDevelopment": {
               "buildTarget": "angular-instagram-profile:build:localDevelopment"
             },
-            "test:": { "buildTarget": "angular-instagram-profile:build:test" }
+            "nodeDevelopment": { "buildTarget": "angular-instagram-profile:build:nodeDevelopment" }
           },
           "defaultConfiguration": "development"
         },

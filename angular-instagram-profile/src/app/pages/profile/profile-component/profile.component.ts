@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
   signalObserver = toSignal(this.interval$, {
     initialValue: 0,
     equal: (
-      a, //curr val
+      a, // curr val
       b, // new val
     ) => {
       return a === b;
@@ -70,28 +70,13 @@ export class ProfileComponent implements OnInit {
   constructor() {
     effect(async () => {
       let user =
-        this.username()?.toLowerCase() === 'ziyad'
-          ? await firstValueFrom(this.userService.GetJsonUser())
+        this.username()?.toLowerCase() === 'ziyad' || this.username()?.toLowerCase() === 'jafar'
+          ? await this.userService.getInitialUser()
           : await this.userService.getUsers(this.username());
-      if (environment.production) {
-        let userObservable = (user as Observable<Object>)
-          .pipe(
-            catchError((err) => {
-              throw err;
-            }),
-          )
-          .subscribe((data: any) => {
-            this.userService.user.set(data.data);
-          });
-        this.destroyRef.onDestroy(() => {
-          userObservable.unsubscribe();
-        });
-      } else {
-        this.userService.user.set(user as User);
-      }
+
+      this.userService.user.set(user as User);
     });
   }
-
   async ngOnInit(): Promise<void> {
     this.destroyRef.onDestroy(() => {
       console.log('Destroyed');

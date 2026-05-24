@@ -235,8 +235,12 @@ export class UserService {
       ],
     }),
   });
-  GetJsonUser(): Observable<Object> {
-    return this.http.get('data/user.json');
+  async getInitialUser() {
+    if (environment.production) {
+      return await firstValueFrom(this.http.get(`${environment.apiUrl}/user`));
+    } else {
+      return await firstValueFrom(this.http.get('data/user.json'));
+    }
   }
 
   async getUsers(

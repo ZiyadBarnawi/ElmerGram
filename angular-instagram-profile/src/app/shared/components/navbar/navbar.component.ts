@@ -96,10 +96,10 @@ export class Navbar {
       label: 'Profile',
       icon: 'pi pi-user',
       command: async (): Promise<void> => {
-        const data: User = (await firstValueFrom(this.userService.GetJsonUser())) as User;
+        const data: User = (await this.userService.getInitialUser()) as User;
         this.userService.user.set(data);
       },
-      routerLink: 'profile/Ziyad',
+      routerLink: `profile/${environment.production ? 'Jafar' : 'Ziyad'}`,
     },
   ];
   async search(searchWord: any): Promise<void> {
