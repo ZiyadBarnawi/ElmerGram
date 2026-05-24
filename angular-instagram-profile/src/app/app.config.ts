@@ -16,6 +16,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from './core/services/user.service';
 
 export const appConfig: ApplicationConfig = {
+  // TIP: Providing services here means they'll be in the initial bundle. using @injectable doesn't have this behavior
   providers: [
     provideAnimationsAsync(),
     providePrimeNG({
@@ -32,10 +33,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
-      withComponentInputBinding(),
+      withComponentInputBinding(), // TIP:  returns a config object that would sets inputs() to the current dynamic url part
       withRouterConfig({
         paramsInheritanceStrategy: 'always',
-      })
-    ), // TIP: The second argument returns a config object that would sets inputs() to the current dynamic url part
+      }),
+    ),
   ],
 };

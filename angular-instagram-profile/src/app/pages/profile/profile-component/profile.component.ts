@@ -34,7 +34,7 @@ import { PostsComponent } from '@shared/components/posts/posts.component';
 export class ProfileComponent implements OnInit {
   userService = inject(UserService);
   messagesService = inject(MessageService);
-  private destroyRed = inject(DestroyRef);
+  private destroyRef = inject(DestroyRef);
 
   userForm = this.userService.userForm;
   // user = this.userService.user;
@@ -83,7 +83,7 @@ export class ProfileComponent implements OnInit {
           .subscribe((data: any) => {
             this.userService.user.set(data.data);
           });
-        this.destroyRed.onDestroy(() => {
+        this.destroyRef.onDestroy(() => {
           userObservable.unsubscribe();
         });
       } else {
@@ -93,7 +93,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.destroyRed.onDestroy(() => {
+    this.destroyRef.onDestroy(() => {
       console.log('Destroyed');
     });
     console.log(this.text());

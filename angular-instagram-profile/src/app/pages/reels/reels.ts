@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, viewChild } from '@angular/core';
 import { Images } from '@shared/models/images.enum';
 import { Post as PostModel } from '@shared/models/post.model';
-import { Post } from "@shared/components/post/post.component";
-import { Post as PostDirective } from "@shared/directives/post";
+import { Post } from '@shared/components/post/post.component';
+import { Post as PostDirective } from '@shared/directives/post';
+import { PostsComponent } from '@shared/components/posts/posts.component';
 
 @Component({
   selector: 'app-reels',
