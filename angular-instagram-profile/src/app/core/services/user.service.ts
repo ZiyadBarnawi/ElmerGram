@@ -243,24 +243,23 @@ export class UserService {
     }
   }
 
-  async getUsers(
-    username?: string,
-  ): Promise<Observable<Object> | Promise<User[]> | Promise<User> | null> {
+  async getUsers(username?: string): Promise<User[] | User> {
     // Spring environment
     if (environment?.production) {
-      return this.http.get(`${environment?.apiUrl}/api/v1/users${username ? `/${username}` : ''}`, {
-        headers: { 'ngrok-skip-browser-warning': 'true' },
-        timeout: 20000,
-      });
+      return (await firstValueFrom(
+        this.http.get(`${environment?.apiUrl}/users${username ? `/${username}` : ''}`, {
+          headers: { 'ngrok-skip-browser-warning': 'true' },
+          timeout: 20000,
+        }),
+      )) as User | User[];
     }
     //Local environment
     else {
+      const users = JSON.parse(localStorage.getItem('users') as string) as User[];
       if (username) {
-        const users = JSON.parse(localStorage.getItem('users') as string) as User[];
         return users?.find((_user) => _user.username === username) as User;
       }
-
-      return JSON.parse(localStorage.getItem('users') as string) as User[];
+      return users;
     }
   }
   async addUser(): Promise<void> {

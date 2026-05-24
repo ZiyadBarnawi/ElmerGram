@@ -1,7 +1,7 @@
 <h2 #temp class="fw-bold">Reels</h2>
-<div class="w-100 h-100 d-flex gap-2 flex-wrap">
+<div #demo_container class="w-100 h-100 d-flex gap-2 flex-wrap">
   @for (post of posts; track $index) {
-    <div appPost>
+    <div [class]="`post-${$index}`" appPost>
       <app-post [post]="post" />
     </div>
   }

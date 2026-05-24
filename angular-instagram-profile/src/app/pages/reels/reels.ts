@@ -3,7 +3,7 @@ import { Images } from '@shared/models/images.enum';
 import { Post as PostModel } from '@shared/models/post.model';
 import { Post } from '@shared/components/post/post.component';
 import { Post as PostDirective } from '@shared/directives/post';
-import { PostsComponent } from '@shared/components/posts/posts.component';
+import { createAnimatable, createDraggable, utils } from 'animejs';
 
 @Component({
   selector: 'app-reels',
@@ -13,6 +13,13 @@ import { PostsComponent } from '@shared/components/posts/posts.component';
 })
 export class Reels {
   private date = new Date();
+
+  ngAfterViewInit() {
+    this.posts.forEach((post, i) => {
+      createDraggable(`.post-${i}`, { container: [-5, 5, 5, -5], containerFriction: 0.8 });
+    });
+  }
+
   protected posts: PostModel[] = [
     {
       media: Images[0],

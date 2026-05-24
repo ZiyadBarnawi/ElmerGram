@@ -1,35 +1,58 @@
-<nav>
-  <h1 class="logo">ElmerGram</h1>
-  <p-menu [model]="menuItems" class="flex justify-center" class="auto-complete w-full"> </p-menu>
-  <p-drawer appendTo="body" class="drawer" [(visible)]="visibleDrawer">
-    <h2 class="my-4">Search</h2>
-    <p-auto-complete
-      class="auto-complete"
-      [suggestions]="suggestedUsers"
-      optionLabel="username"
-      (completeMethod)="search($event)"
-      (onSelect)="updateCurrentUser($event)"
-    >
-      <!-- TIP: ng-template is a tag not rendered by default, but when you instructs it to do so. -->
-      <!-- TIP: PrimeNG has a set of templates ids (e.g.: #item) you cas specify to -->
-      <ng-template class="m-4" #item let-suggestedUser>
-        <a
-          class="a-suggested-user text-decoration-none"
-          routerLink="/profile/{{ suggestedUser.username }}"
+<nav class="d-flex justify-content-center">
+  <div #dummy></div>
+  <div
+    class="navigation-card d-flex align-items-center justify-content-center gap-4 position-absolute"
+  >
+    @for (item of menuItems; track $index) {
+      @if (item.label === 'Search') {
+        <p-popover
+          (onHide)="reset()"
+          dismissable="true"
+          baseZIndex="99999"
+          #pop
+          class="d-flex flex-column align-items-center justify-content-center"
         >
-          <div
-            (click)="updateCurrentUser(suggestedUser)"
-            class="div-suggested-user d-flex align-items-center gap-1"
-          >
-            <p-avatar
-              [image]="suggestedUser.pfpUrl || userService.Images[5]"
-              shape="circle"
-              class="avatar-pfp"
-            />
-            <span class="span-search-username">{{ suggestedUser.username }}</span>
+          <input
+            [formControl]="searchForm"
+            [fluid]="true"
+            variant="outlined"
+            pSize="large"
+            pInputText
+            type="text"
+            name=""
+            id=""
+          />
+          <div class="cards-container" [style]="{ 'max-height': '20rem', 'overflow-y': 'scroll' }">
+            @for (user of users; track $index) {
+              <p-card (click)="searchSelectedUser(user.username)">
+                <div class="card d-flex flex-row gap-3 justify-content-start align-items-center">
+                  <p-avatar shape="circle" size="xlarge" image="{{ user.pfpUrl }}"></p-avatar>
+                  <div class="d-flex flex-column">
+                    <p class="username">{{ user.username }}</p>
+                    <p class="bio">{{ user.bio }}</p>
+                  </div>
+                </div>
+              </p-card>
+            }
           </div>
+        </p-popover>
+        <a
+          (click)="pop.toggle($event)"
+          routerLinkActive="tab--active"
+          [routerLink]="item.routerLink"
+          class="tab d-flex justify-content-center align-items-center"
+        >
+          <i style="font-size: 2.5rem" [class]="item.icon"></i>
         </a>
-      </ng-template>
-    </p-auto-complete>
-  </p-drawer>
+      } @else {
+        <a
+          routerLinkActive="tab--active"
+          [routerLink]="item.routerLink"
+          class="tab d-flex justify-content-center align-items-center"
+        >
+          <i style="font-size: 2.5rem" [class]="item.icon"></i>
+        </a>
+      }
+    }
+  </div>
 </nav>

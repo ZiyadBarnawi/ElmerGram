@@ -2,96 +2,107 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   DestroyRef,
+  ElementRef,
   inject,
   input,
+  OnInit,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { MenuModule } from 'primeng/menu';
+import { PopoverModule } from 'primeng/popover';
 import { MenuItem } from 'primeng/api';
-import { Drawer, DrawerModule } from 'primeng/drawer';
-import { AutoCompleteModule, AutoComplete, AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { DrawerModule } from 'primeng/drawer';
+import { AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { RippleModule } from 'primeng/ripple';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { CardModule } from 'primeng/card';
 
-import { catchError, firstValueFrom, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { UserService } from '@core/services/user.service';
 import { User } from '@shared/models/user.model';
 import { environment } from '@core/environments/environment';
+import { InputText } from 'primeng/inputtext';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     MenuModule,
-    Drawer,
     DrawerModule,
-    InputGroupAddonModule,
-    AutoComplete,
-    AutoCompleteModule,
-    InputGroupModule,
+    PopoverModule,
     RippleModule,
     RouterLink,
     AvatarModule,
+    RouterLinkActive,
+    CardModule,
+    InputText,
+    ReactiveFormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class Navbar {
+export class Navbar implements OnInit {
   user = output<User>();
   userService = inject(UserService);
   username = input();
   private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  visibleDrawer = false;
+  protected environment = environment;
+  protected searchForm = new FormControl('');
+  protected users: User[] = [];
+  ngOnInit() {
+    this.searchForm.valueChanges.pipe(distinctUntilChanged(), debounceTime(500)).subscribe({
+      next: async (val) => {
+        const data = await this.userService.getUsers(val!);
+        this.users = data as User[];
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
 
-  users: User[] = [];
-  suggestedUsers: User[] = [
-    { username: '', pfpUrl: this.userService.Images[1], password: '123456' },
-  ];
   routerUsername = signal<string>('');
   menuItems: MenuItem[] = [
     {
       label: 'Home',
       icon: 'pi pi-home',
       command: (): void => {},
-      routerLink: '/',
+      routerLink: '/landing',
     },
     {
       label: 'Search',
       icon: 'pi pi-search',
-      command: (): void => {
-        this.visibleDrawer = !this.visibleDrawer;
-      },
-    },
-    {
-      label: 'Explore',
-      icon: 'pi pi-compass',
       command: (): void => {},
-      routerLink: 'explore',
     },
+    // {
+    //   label: 'Explore',
+    //   icon: 'pi pi-compass',
+    //   command: (): void => {},
+    //   routerLink: 'explore',
+    // },
     {
       label: 'Reels',
       icon: 'pi pi-video',
       command: (): void => {},
       routerLink: 'reels',
     },
-    {
-      label: 'Messages',
-      icon: 'pi pi-file',
-      command: (): void => {},
-      routerLink: 'messages',
-    },
-    {
-      label: 'Post',
-      icon: 'pi pi-send',
-      command: (): void => {},
-      routerLink: 'posts',
-    },
+    // {
+    //   label: 'Messages',
+    //   icon: 'pi pi-file',
+    //   command: (): void => {},
+    //   routerLink: 'messages',
+    // },
+    // {
+    //   label: 'Post',
+    //   icon: 'pi pi-send',
+    //   command: (): void => {},
+    //   routerLink: 'posts',
+    // },
     {
       label: 'Profile',
       icon: 'pi pi-user',
@@ -102,61 +113,36 @@ export class Navbar {
       routerLink: `profile/${environment.production ? 'Jafar' : 'Ziyad'}`,
     },
   ];
+
   async search(searchWord: any): Promise<void> {
     if (environment.production) {
-      let users = (await this.userService.getUsers()) as Observable<Object>;
-      let usersObservable = users
-        .pipe(
-          catchError((err) => {
-            console.log(err);
-
-            throw err;
-          }),
-        )
-        .subscribe((data: any) => {
-          this.suggestedUsers = data.data.filter((user: any) =>
-            user.username.toLowerCase().includes(searchWord.query?.toLowerCase()),
-          ) as User[];
-        });
-      this.destroyRef.onDestroy(() => {
-        console.log('Unsubscribing');
-
-        usersObservable.unsubscribe();
-      });
+      let users = (await this.userService.getUsers()) as User[];
     } else {
       this.users = (await this.userService.getUsers()) as User[];
-      this.suggestedUsers = this.users?.filter((user) =>
-        user.username.toLowerCase().includes(searchWord.query?.toLowerCase()),
-      ) as User[];
     }
   }
+  async searchSelectedUser(username: string) {
+    const data = await this.userService.getUsers(username);
+    console.log(data);
+  }
 
+  //TODO: Update the method below 👇🏽 and the services method it is using if needed. too tired I didn't event look if it needs any changing :)
   async updateCurrentUser(event: AutoCompleteSelectEvent): Promise<void> {
     if (!event?.value?.username) return;
 
     let user = await this.userService.getUsers(event.value.username);
 
     if (environment.production) {
-      let userObservable = (user as Observable<Object>)
-        .pipe(
-          catchError((err) => {
-            throw err;
-          }),
-        )
-        .subscribe((data: any) => {
-          this.user.emit(data.data);
-          this.routerUsername.set(data.data.username);
-        });
-      this.destroyRef.onDestroy(() => {
-        console.log('Unsubscribed');
-
-        userObservable.unsubscribe();
-      });
+      this.user.emit(user as User);
+      this.routerUsername.set((user as User).username);
     } else {
       user = user as User;
       this.userService.user.set(user);
       this.router.navigate(['profile', `${user.username}`]);
       this.user.emit(user);
     }
+  }
+  reset() {
+    this.searchForm.setValue('');
   }
 }

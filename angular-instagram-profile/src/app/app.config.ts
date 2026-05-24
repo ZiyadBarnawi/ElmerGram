@@ -24,6 +24,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: CustomLaraPreset,
       },
+      ripple: true,
       // ripple: true,
     }),
     UserService,

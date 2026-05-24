@@ -1,54 +1,50 @@
-.span-search-username {
-  font-size: 1.4rem;
+nav {
+  position: fixed;
+  width: 100vw;
+  height: 10rem;
+  bottom: 1%;
+  z-index: 99999;
 }
-
-:host ::ng-deep .p-menu {
-  height: 100%;
-  font-size: 2.2rem;
-  border: none;
-  background: transparent !important;
+.navigation-card {
+  bottom: 0%;
+  /* left: 50%; */
+  width: fit-content;
+  height: fit-content;
+  background-color: #3e3d3d7c;
+  padding: 1.5rem 2rem;
+  border-radius: 5rem;
 }
-:host ::ng-deep .p-menu ul {
-  gap: 4rem;
-  height: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-:host ::ng-deep .p-menu-item-icon {
-  font-size: 2rem !important;
-}
-
-:host ::ng-deep .p-drawer-left {
-  width: 100rem;
-  background-color: rgb(21, 21, 21);
-  border: transparent;
-}
-:host ::ng-deep .p-drawer-left {
-  width: 40rem;
-}
-:host ::ng-deep .auto-complete div input,
-:host ::ng-deep .auto-complete div {
-  width: 100%;
-}
-
-:host ::ng-deep div.p-menu-item-content {
-  padding: 0.1rem 0.1rem;
-  border-radius: 1rem;
-}
-:host ::ng-deep .span-search-username {
-  font-size: 2rem;
-}
-:host ::ng-deep .div-suggested-user {
+.tab {
+  width: 5rem;
   height: 5rem;
+  padding: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.tab--active {
+  background-color: #3e3d3d91;
+}
+/* From Uiverse.io by JohnnyCSilva */
+.card {
+  font-size: 1.6rem;
+  padding: 1rem;
+  width: fit-content;
+  min-width: 30rem;
+  height: 7rem;
+  background: #353535;
+  border-radius: 2rem;
+  backdrop-filter: blur(1rem);
+  transition: 150ms;
+}
+.bio {
+  font-size: 1.2rem;
+  color: rgba(190, 189, 189, 0.808);
 }
 
-:host ::ng-deep .avatar-pfp {
-  width: 6rem;
-  height: 6rem;
-}
-
-:host ::ng-deep li.p-autocomplete-option {
-  pointer-events: all;
+::ng-deep .card:hover {
+  transform: scale(1.01);
+  cursor: pointer;
+  box-shadow: 1rem 0.5rem 2rem 0.5rem #78dab931;
 }

@@ -16,10 +16,6 @@ app-profile {
   box-sizing: border-box;
 }
 
-:host ::ng-deep .p-drawer {
-  width: 35rem;
-}
-
 :host ::ng-deep p-toats {
   width: 10rem;
 }
@@ -30,4 +26,17 @@ app-profile {
 }
 :host ::ng-deep .p-toast-summary {
   font-size: 1.6rem;
+}
+
+.circle {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background: #78dab905;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  box-shadow: 0rem 0rem 10rem 15rem #78dab905;
+  z-index: 99999;
 }
