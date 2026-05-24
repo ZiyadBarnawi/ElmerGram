@@ -15,13 +15,13 @@ app.use(morgan('tiny'));
 app.use(cors({ origin: '*' }));
 app.get('/user', (req, res) => {
   const data = JSON.parse(fs.readFileSync('./data/user.json', { encoding: 'utf-8' }));
-  res.json({ ...data });
+  res.json(data);
 });
 app.get('/reels', (req, res) => {
   const data = JSON.parse(fs.readFileSync('./data/reels.json', { encoding: 'utf-8' }));
   const date = new Date();
   data.forEach((reel) => (reel.createdAt = (date.getDate() + Math.random() * 10).toString()));
-  return res.json({ data });
+  return res.send(data);
 });
 app.listen('3000', '127.0.0.1', () => {
   console.log('Listening on port 3000 📞...');
