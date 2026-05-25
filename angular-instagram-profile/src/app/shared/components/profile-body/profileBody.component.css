@@ -25,3 +25,24 @@ p-tab {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
 }
+.profile-card {
+  background: #363636a0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0.5rem 0.5rem;
+  max-width: 22rem;
+  transition: 250ms;
+}
+
+.profile-name {
+  color: #bec1c4;
+  margin-bottom: 0.1rem;
+}
+
+.profile-bio {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+.profile-card:hover {
+  transform: translateY(-0.51rem);
+}

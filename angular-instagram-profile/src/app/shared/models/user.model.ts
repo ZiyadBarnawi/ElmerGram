@@ -9,8 +9,8 @@ export interface User {
   dateOfBirth?: string;
   bio?: string;
   pfpUrl?: string;
-  followers?: number;
-  following?: number;
+  followers?: User[];
+  following?: User[];
   posts?: Post[];
   stories?: string[];
   hasActiveStory?: boolean;

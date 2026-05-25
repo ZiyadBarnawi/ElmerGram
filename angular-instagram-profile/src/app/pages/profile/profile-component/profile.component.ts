@@ -11,20 +11,25 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet, RouterLinkWithHref, ResolveFn } from '@angular/router';
-
-import { Observable, catchError, firstValueFrom, interval } from 'rxjs';
+import { interval } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Button } from 'primeng/button';
 import { Avatar } from 'primeng/avatar';
 import { MessageService } from 'primeng/api';
 import { UserService } from '@core/services/user.service';
-import { environment } from '@core/environments/environment';
 import { User } from '@shared/models/user.model';
-import { PostsComponent } from '@shared/components/posts/posts.component';
+import { ProfileBodyComponent } from '@shared/components/profile-body/profileBody.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [Button, Avatar, ReactiveFormsModule, RouterOutlet, RouterLinkWithHref, PostsComponent],
+  imports: [
+    Button,
+    Avatar,
+    ReactiveFormsModule,
+    RouterOutlet,
+    RouterLinkWithHref,
+    ProfileBodyComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   standalone: true,
   templateUrl: './profile.component.html',

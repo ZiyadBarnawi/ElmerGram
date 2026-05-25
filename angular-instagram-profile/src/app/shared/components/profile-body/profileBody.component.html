@@ -1,0 +1,39 @@
+<p-tabs value="0" class="">
+  <p-tablist>
+    <p-tab (click)="updateRandomValue()" value="0" class="pi pi-video"></p-tab>
+    <p-tab (click)="updateRandomValue()" value="1" class="pi pi-bookmark"></p-tab>
+    <p-tab (click)="updateRandomValue()" value="2" class="pi pi-user"></p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      @for (post of user()?.posts?.slice(0, randomNum()); track $index) {
+        <app-post [post]="post" />
+      }
+    </p-tabpanel>
+    <p-tabpanel value="1">
+      @for (post of user()?.posts?.slice(0, randomNum()); track $index) {
+        <app-post [post]="post" />
+      }
+    </p-tabpanel>
+    <p-tabpanel value="2">
+      <div class="d-flex flex-wrap gap-4">
+        @for (user of user()?.following; track $index) {
+          <div [class]="`profile-card w-100 text-center profile-${$index}`">
+            <!-- Avatar icon -->
+            <div class="profile-icon mb-3">
+              <p-avatar
+                [style]="{ width: '10rem', height: '10rem' }"
+                [image]="user.pfpUrl"
+                shape="circle"
+                size="xlarge"
+              />
+            </div>
+            <!-- Name & handle -->
+            <h5 class="profile-name fw-bolder">{{ user.username }}</h5>
+            <p class="profile-bio mb-0">{{ user.bio }}</p>
+          </div>
+        }
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

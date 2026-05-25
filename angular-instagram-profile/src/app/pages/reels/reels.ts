@@ -3,7 +3,7 @@ import { Images } from '@shared/models/images.enum';
 import { Post as PostModel } from '@shared/models/post.model';
 import { Post } from '@shared/components/post/post.component';
 import { Post as PostDirective } from '@shared/directives/post';
-import { createAnimatable, createDraggable, utils } from 'animejs';
+import { createDraggable } from 'animejs';
 
 @Component({
   selector: 'app-reels',

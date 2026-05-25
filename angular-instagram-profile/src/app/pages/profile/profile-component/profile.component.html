@@ -26,18 +26,19 @@
           <!--! ProfileComponent Details -->
           <div class="div-profile-details">
             <div class="d-flex w-100">
-              <div class="div-profile-states d-flex flex-column gap-3 w-100">
+              <div class="div-profile-states d-flex flex-column gap-5 w-100">
                 <!--! Username -->
 
                 <h1 class="span-username w-100">
                   {{ userService.user()!.username }}
                   <!--! Edit icon  -->
-                  <a
+                  <p-button variant="outlined" size="large"> Edit </p-button>
+                  <!-- <a
                     (click)="userService.visibleEditDialog = true"
                     routerLink="/profile/{{ username() }}/edit"
                   >
                     <i class="pi pi-user-edit"></i>
-                  </a>
+                  </a> -->
                   <!--! Delete icon  -->
 
                   <a class="text-decoration-none" routerLink="delete">
@@ -47,8 +48,8 @@
                 <!--! Account follow numbers  -->
 
                 <span class="span-stats w-100"
-                  >Followers: <b>{{ userService.user()!.followers || 0 }}</b> Following:
-                  <b>{{ userService.user()!.following || 0 }} </b> <br />
+                  >Followers: <b>{{ userService.user()!.followers!.length || 0 }}</b> Following:
+                  <b>{{ userService.user()!.following?.length }} </b> <br />
                   Posts: <b>{{ userService.user()!.posts?.length || '0' }}</b></span
                 >
                 <!--! Bio  -->
@@ -77,7 +78,7 @@
           }
           <!--! Posts  -->
         </div>
-        <app-posts />
+        <app-profile-body />
       </div>
     }
   </section>
