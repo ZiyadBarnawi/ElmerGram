@@ -39,9 +39,13 @@ Weekly report:
   # 1/1/2026 - 8/2/2026
   - Open PRs and learned its pipe line
   - Solved Jira tickets and discuessed possible solitions with QA and co-worker devs
+# ~ 25/5/2026
+  - better folder structure
+  - Code Refactor and clean up
+  - New layout
 
-  # 8/2/2026 - 15/2/2026
- 
+    
+Current State: 
 
 <img width="1912" height="916" alt="image" src="https://github.com/user-attachments/assets/b3aee474-adb7-4d42-840b-be6f4c926419" />
 
