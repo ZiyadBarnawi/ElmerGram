@@ -237,7 +237,9 @@ export class UserService {
   });
   async getInitialUser() {
     if (environment.production) {
-      return await firstValueFrom(this.http.get(`${environment.apiUrl}/user`));
+      return (
+        (await firstValueFrom(this.http.get(`${environment.apiUrl}/users/jafar`))) as User[]
+      )[0];
     } else {
       return await firstValueFrom(this.http.get('data/user.json'));
     }
@@ -321,10 +323,7 @@ export class UserService {
   async editUser(): Promise<User | Observable<Object> | null> {
     if (environment.production) {
       return this.http
-        .patch(
-          `${environment.apiUrl}/api/v1/users/${this.userForm.value.username}`,
-          this.userForm.value,
-        )
+        .patch(`${environment.apiUrl}/users/${this.userForm.value.username}`, this.userForm.value)
         .pipe(
           catchError((err) => {
             throw err;
@@ -357,7 +356,7 @@ export class UserService {
   }
   async deleteUser(username: string): Promise<void> {
     if (environment.production) {
-      firstValueFrom(this.http.delete(`${environment.apiUrl}/api/v1/users/${username}`));
+      firstValueFrom(this.http.delete(`${environment.apiUrl}/users/${username}`));
     } else {
       let users = JSON.parse(localStorage.getItem('users') as string) as User[];
 

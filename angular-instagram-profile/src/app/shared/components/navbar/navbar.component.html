@@ -6,7 +6,6 @@
     @for (item of menuItems; track $index) {
       @if (item.label === 'Search') {
         <p-popover
-          (onHide)="reset()"
           dismissable="true"
           baseZIndex="99999"
           #pop
@@ -24,7 +23,7 @@
           />
           <div class="cards-container" [style]="{ 'max-height': '20rem', 'overflow-y': 'scroll' }">
             @for (user of users; track $index) {
-              <p-card (click)="searchSelectedUser(user.username)">
+              <p-card (click)="switchToSelectedUser(user.username)">
                 <div class="card d-flex flex-row gap-3 justify-content-start align-items-center">
                   <p-avatar shape="circle" size="xlarge" image="{{ user.pfpUrl }}"></p-avatar>
                   <div class="d-flex flex-column">

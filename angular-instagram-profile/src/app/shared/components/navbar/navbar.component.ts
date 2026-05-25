@@ -121,28 +121,8 @@ export class Navbar implements OnInit {
       this.users = (await this.userService.getUsers()) as User[];
     }
   }
-  async searchSelectedUser(username: string) {
+  async switchToSelectedUser(username: string) {
     const data = await this.userService.getUsers(username);
-    console.log(data);
-  }
-
-  //TODO: Update the method below 👇🏽 and the services method it is using if needed. too tired I didn't event look if it needs any changing :)
-  async updateCurrentUser(event: AutoCompleteSelectEvent): Promise<void> {
-    if (!event?.value?.username) return;
-
-    let user = await this.userService.getUsers(event.value.username);
-
-    if (environment.production) {
-      this.user.emit(user as User);
-      this.routerUsername.set((user as User).username);
-    } else {
-      user = user as User;
-      this.userService.user.set(user);
-      this.router.navigate(['profile', `${user.username}`]);
-      this.user.emit(user);
-    }
-  }
-  reset() {
-    this.searchForm.setValue('');
+    this.userService.user.set((data as User[])[0]);
   }
 }

@@ -7,23 +7,16 @@ import cors from 'cors';
 const app = express();
 app.use(morgan('tiny'));
 
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Header', 'Content-Type');
-//   next();
-// });
 app.use(cors({ origin: '*' }));
-app.get('/user', (req, res) => {
-  const data = JSON.parse(fs.readFileSync('./data/user.json', { encoding: 'utf-8' }));
+app.get('/users', (req, res) => {
+  const data = JSON.parse(fs.readFileSync('./data/users.json', { encoding: 'utf-8' }));
   res.json(data);
 });
-app.get('/user/:username', (req, res) => {
-  const data = JSON.parse(fs.readFileSync('./data/user.json', { encoding: 'utf-8' }));
-  res.json(data.find((user) => user.username.toLowerCase() === req.params.username.toLowerCase()));
-});
+
 app.get('/users/:username', (req, res) => {
   let data = JSON.parse(fs.readFileSync('./data/users.json', { encoding: 'utf-8' }));
   if (!data) return;
+
   data = data.filter((user) =>
     user.username.toLowerCase().includes(req.params.username.toLowerCase()),
   );
