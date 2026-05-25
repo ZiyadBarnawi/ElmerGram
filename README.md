@@ -43,5 +43,5 @@ Weekly report:
   # 8/2/2026 - 15/2/2026
  
 
-<img width="2879" height="1577" alt="image" src="https://github.com/user-attachments/assets/6bb7f060-fc53-4567-8cff-cb80b5db1f21" />
+<img width="1912" height="916" alt="image" src="https://github.com/user-attachments/assets/b3aee474-adb7-4d42-840b-be6f4c926419" />
 
