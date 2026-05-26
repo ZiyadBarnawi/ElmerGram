@@ -1,8 +1,8 @@
-.img-pfp {
+/* .img-pfp {
   object-fit: cover;
   width: 20rem;
   height: 20rem;
-}
+} */
 
 .div-profile-head {
   width: 20rem;
@@ -21,26 +21,12 @@
 
 .div-profile-details {
   margin-left: 5rem;
-  width: auto;
+  width: fit-content;
   flex: 0 0 auto;
 }
 .div-stories {
   width: 90rem;
   overflow-x: scroll;
-}
-
-.div-action-button {
-  width: 20rem;
-}
-
-.img-pfp--active {
-  cursor: pointer;
-  border: 3.5px solid #5d357a;
-  padding: 0.3rem;
-  transition: 200ms;
-}
-.img-pfp--active:hover {
-  transform: scale(1.01);
 }
 
 .p-button-dialog {
@@ -52,6 +38,10 @@ p-avatar {
   width: 15rem;
   height: 15rem;
   padding: 0.2rem;
+}
+.bio {
+  width: 45rem;
+  font-size: 1.6rem;
 }
 .form-input-label {
   font-size: 1.2rem;
@@ -117,4 +107,7 @@ p-message {
 
 ::ng-deep .span-stats {
   font-size: 1.4rem;
+}
+:host ::ng-deep .edit-button .p-button-icon {
+  transform: scale(1.5);
 }

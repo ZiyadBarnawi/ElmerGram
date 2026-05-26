@@ -17,7 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 
 import { TextareaModule } from 'primeng/textarea';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { environment } from '@core/environments/environment';
 import { UserService } from '@core/services/user.service';
 import { User } from '@shared/models/user.model';
@@ -42,6 +42,7 @@ import { User } from '@shared/models/user.model';
     Dialog,
     InputTextModule,
     TextareaModule,
+    RouterLink,
   ],
   templateUrl: './profile-edit-dialog-component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

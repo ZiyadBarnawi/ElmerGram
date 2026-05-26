@@ -4,7 +4,12 @@
   (onHide)="userService.previousRoute({ replaceUrl: true })"
 >
   <form [formGroup]="userService.userForm" class="h-auto overflow-visible">
-    <div class="my-5 d-flex justify-content-center align-content-center">
+    <div class="my-5 d-flex flex-column justify-content-center align-content-center">
+      <p-avatar
+        [shape]="'circle'"
+        [image]="userService.user()?.pfpUrl || Images[6]"
+        class="img-pfp my-4 align-self-center"
+      />
       <p-fileupload
         name="demo"
         url="https://www.primefaces.org/cdn/api/upload.php"
@@ -13,26 +18,18 @@
         maxFileSize="1000000"
         mode="basic"
         (onUpload)="userService.uploadFile($event, userService.userForm.controls.pfpUrl)"
-        class="fileupload-edit-pfp h-50"
-        [cancelLabel]="''"
-        [uploadLabel]="''"
-        [chooseLabel]="' '"
-        chooseIcon="pi pi-user-edit"
+        class="fileupload-edit-pfp"
+        chooseIcon="pi pi-upload"
+        chooseLabel=" "
         [showCancelButton]="false"
-        [showUploadButton]="false"
+        [showUploadButton]="true"
         [auto]="true"
         [chooseButtonProps]="{
-          icon: 'pi pi-user-clock',
           outlined: true,
           rounded: true,
         }"
       >
       </p-fileupload>
-      <p-avatar
-        [shape]="'circle'"
-        [image]="userService.user()?.pfpUrl || Images[6]"
-        class="img-pfp my-4"
-      />
     </div>
     <p-input-group class="p-2">
       <p-inputgroup-addon><i class="pi pi-user"></i> </p-inputgroup-addon>
@@ -91,13 +88,13 @@
         <p-button
           (onClick)="userService.useEmail = false"
           icon="pi pi-phone"
-          class="h-100"
+          class="h-100 w-100"
           [disabled]="userService.useEmail === false"
         />
       </p-inputgroup-addon>
     </p-input-group>
 
-    <div class="w-100 d-flex justify-content-start mb-3">
+    <div class="w-100 gap-3 d-flex justify-content-start mb-3">
       <p-input-group class="w-75 px-0 py-2">
         <p-inputgroup-addon>
           <i class="pi pi-calendar"></i>
@@ -270,7 +267,7 @@
     }
     <!--! Personal account code  -->
     @else {
-      <p-input-group class="w-100 my-4 d-flex">
+      <p-input-group class="w-100 d-flex">
         <p-inputgroup-addon>
           <i class="pi pi-search" (click)="userService.updateSuggestedCities($event)"></i>
         </p-inputgroup-addon>
@@ -299,6 +296,12 @@
         severity="secondary"
       />
       <p-button label="Save" (onClick)="submitForm()" severity="success" />
+      <p-button
+        label="Delete User"
+        severity="danger"
+        (onClick)="userService.visibleDeleteDialog = true"
+        routerLink="/profile/{{ userService.user()?.username }}/delete"
+      />
     </div>
   </form>
 </p-dialog>

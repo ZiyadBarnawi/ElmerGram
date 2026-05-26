@@ -18,56 +18,51 @@
           <div class="div-profile-picture-container">
             <p-avatar
               [image]="userService.user()!.pfpUrl || Images[6]"
-              class="mr-2"
+              class="mr-2 align-se"
               size="xlarge"
               shape="circle"
             />
           </div>
           <!--! ProfileComponent Details -->
           <div class="div-profile-details">
-            <div class="d-flex w-100">
-              <div class="div-profile-states d-flex flex-column gap-5 w-100">
-                <!--! Username -->
-
-                <h1 class="span-username w-100">
+            <div class="div-profile-states d-flex flex-column gap-2 w-100">
+              <!--! Username -->
+              <div class="d-flex gap-5">
+                <h1 class="span-username">
                   {{ userService.user()!.username }}
-                  <!--! Edit icon  -->
-                  <p-button variant="outlined" size="large"> Edit </p-button>
-                  <!-- <a
-                    (click)="userService.visibleEditDialog = true"
-                    routerLink="/profile/{{ username() }}/edit"
-                  >
-                    <i class="pi pi-user-edit"></i>
-                  </a> -->
-                  <!--! Delete icon  -->
-
-                  <a class="text-decoration-none" routerLink="delete">
-                    <i (click)="userService.visibleDeleteDialog = true" class="pi pi-trash"></i>
-                  </a>
                 </h1>
-                <!--! Account follow numbers  -->
-
-                <span class="span-stats w-100"
-                  >Followers: <b>{{ userService.user()!.followers!.length || 0 }}</b> Following:
-                  <b>{{ userService.user()!.following?.length }} </b> <br />
-                  Posts: <b>{{ userService.user()!.posts?.length || '0' }}</b></span
-                >
-                <!--! Bio  -->
-                <span class="fs-5">{{ userService.user()!.bio }}</span>
+                <!--! Edit icon  -->
+                <p-button
+                  class="edit-button"
+                  variant="text"
+                  severity="secondary"
+                  size="large"
+                  icon="pi pi-cog"
+                  (click)="userService.visibleEditDialog = true"
+                  routerLink="/profile/{{ username() }}/edit"
+                />
               </div>
+              <!--! Account follow numbers  -->
+
+              <span class="span-stats w-100"
+                >Followers: <b>{{ userService.user()!.followers!.length || 0 }}</b>
+                <b> | </b> Following: <b>{{ userService.user()!.following?.length }} </b> <br />
+                Posts: <b>{{ userService.user()!.posts?.length || '0' }}</b></span
+              >
+              <!--! Bio  -->
+              <span class="bio text-wrap">{{ userService.user()!.bio }} </span>
             </div>
+            <p-button
+              class=""
+              size="large"
+              label="Follow"
+              [label]="isFollowed() ? 'UnFollow' : 'Follow'"
+              (onClick)="toggleFollow()"
+              [icon]="isFollowed() ? 'pi pi-times' : 'pi pi-plus'"
+              [severity]="isFollowed() ? 'secondary' : 'success'"
+              fluid="true"
+            />
             <!--! Action Buttons  -->
-            <div class="div-action-button my-3">
-              <p-button
-                class=""
-                size="large"
-                label="Follow"
-                [label]="isFollowed() ? 'UnFollow' : 'Follow'"
-                (onClick)="toggleFollow()"
-                [icon]="isFollowed() ? '' : 'pi pi-plus'"
-                [severity]="isFollowed() ? 'secondary' : 'success'"
-              />
-            </div>
           </div>
         </div>
 
