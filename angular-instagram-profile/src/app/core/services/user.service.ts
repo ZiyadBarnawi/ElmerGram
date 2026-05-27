@@ -25,7 +25,7 @@ export class UserService {
   user = signal<User | null>(null);
   Images = Images;
   // testSignal = signal(0);
-  // computedSignal = computed(() => this.testSignal()); //TIP: computed signals are read-only. They change whenever the other signal changes
+  // computedSignal = computed(() => this.testSignal()); //TIP: computed signals are read-only. They change whenever the inner signal changes
   // computedSignal = this.testSignal.asReadonly(); //TIP: Same as code above, but leaner
   contactToggleOptions = ['Phone', 'Email'];
   today = new Date(Date.now());
@@ -35,14 +35,6 @@ export class UserService {
     { label: 'Male', value: 'M' },
     { label: 'Female', value: 'F' },
   ];
-  accountOptions = [
-    { label: 'Personal', value: 'personal' },
-    { label: 'Business', value: 'business' },
-  ];
-  categories: string[] = ['Cloths', 'Glasses'];
-  discounts: string[] = ['Random Discount'];
-  salaryOption = ['Fixed', 'Hourly', 'Negotiable'];
-  paymentMethodsOptions: string[] = ['Mada', 'ApplePay', 'GooglePay', 'StcPay'];
   cities = [
     'Madinah',
     'Mecca',
@@ -99,131 +91,8 @@ export class UserService {
     bio: new FormControl('', { validators: [Validators.maxLength(100)] }),
     dateOfBirth: new FormControl<string | null>(null),
     gender: new FormControl<'M' | 'F'>('M', { validators: [Validators.required] }),
-    city: new FormControl('', {
-      validators: [
-        (control) => {
-          if (this.userForm?.controls?.accountType?.value === 'business' && !control.value)
-            return { nullIban: true };
-          return null;
-        },
-      ],
-    }),
-    commercialPaper: new FormControl(),
-    commercialRegistryNumber: new FormControl(),
-    iban: new FormControl('', {
-      validators: [
-        (control) => {
-          if (this.userForm?.controls?.accountType?.value === 'business' && !control.value)
-            return { nullIban: true };
-          return null;
-        },
-      ],
-    }),
-    accountType: new FormControl<'personal' | 'business'>('personal', {
-      validators: [Validators.required],
-    }),
-    paymentMethods: new FormControl<string[]>([], {
-      validators: [
-        (control) => {
-          if (this.userForm?.controls?.accountType?.value === 'business' && !control.value)
-            return { nullIban: true };
-          return null;
-        },
-      ],
-    }),
-    newCategory: new FormControl<string>(''), // This is used to handle the new category
-    newDiscount: new FormControl<string>(''), // This is used to handle the new discount
-    products: new FormArray([
-      new FormGroup({
-        name: new FormControl('Demo', {
-          validators: [
-            Validators.minLength(0),
-            Validators.maxLength(75),
-            (control) => {
-              if (/^[a-zA-Z0-9_ ]*$/.test(control.value)) return null;
+    city: new FormControl(''),
 
-              return { unexpectedCharacters: true };
-            },
-            (control) => {
-              if (this.userForm?.controls?.accountType?.value === 'business' && !control.value)
-                return { nullIban: true };
-              return null;
-            },
-          ],
-        }),
-        price: new FormControl<string>('', {
-          validators: [
-            (control) => {
-              if (this.userForm?.controls?.accountType?.value === 'business' && !control.value)
-                return { nullIban: true };
-              return null;
-            },
-            Validators.min(0),
-          ],
-        }),
-        categories: new FormControl('', {
-          validators: [
-            (control) => {
-              if (this.userForm?.controls?.accountType?.value === 'business' && !control.value)
-                return { nullIban: true };
-              return null;
-            },
-          ],
-        }),
-        discounts: new FormControl<string[]>([], { validators: [Validators.maxLength(50)] }),
-      }),
-    ]),
-    workHours: new FormArray([
-      new FormGroup({
-        day: new FormControl<string>('Saturday'),
-        available: new FormControl<boolean>(false),
-        flexible: new FormControl<boolean>(false),
-        openHours: new FormControl<string | undefined>(''),
-        closeHours: new FormControl(''),
-      }),
-      new FormGroup({
-        day: new FormControl<string>('Sunday'),
-        available: new FormControl<boolean>(false),
-        flexible: new FormControl<boolean>(false),
-        openHours: new FormControl<string | undefined>(''),
-        closeHours: new FormControl(''),
-      }),
-      new FormGroup({
-        day: new FormControl<string>('Monday'),
-        available: new FormControl<boolean>(false),
-        flexible: new FormControl<boolean>(false),
-        openHours: new FormControl<string | undefined>(''),
-        closeHours: new FormControl(''),
-      }),
-      new FormGroup({
-        day: new FormControl<string>('Tuesday'),
-        available: new FormControl<boolean>(false),
-        flexible: new FormControl<boolean>(false),
-        openHours: new FormControl<string | undefined>(''),
-        closeHours: new FormControl(''),
-      }),
-      new FormGroup({
-        day: new FormControl<string>('Wednesday'),
-        available: new FormControl<boolean>(false),
-        flexible: new FormControl<boolean>(false),
-        openHours: new FormControl<string | undefined>(''),
-        closeHours: new FormControl(''),
-      }),
-      new FormGroup({
-        day: new FormControl<string>('Thursday'),
-        available: new FormControl<boolean>(false),
-        flexible: new FormControl<boolean>(false),
-        openHours: new FormControl<string | undefined>(''),
-        closeHours: new FormControl(''),
-      }),
-      new FormGroup({
-        day: new FormControl<string>('Friday'),
-        available: new FormControl<boolean>(false),
-        flexible: new FormControl<boolean>(false),
-        openHours: new FormControl<string | undefined>(''),
-        closeHours: new FormControl(''),
-      }),
-    ]),
     otp: new FormControl<string>('', {
       validators: [
         Validators.required,
@@ -385,44 +254,11 @@ export class UserService {
     });
   }
 
-  addNewProduct() {
-    this.userForm.controls.products.push(
-      new FormGroup({
-        name: new FormControl('Demo', {
-          validators: [
-            Validators.required,
-            Validators.minLength(0),
-            Validators.maxLength(75),
-            (control) => {
-              if (/^[a-zA-Z0-9_]*$/.test(control.value)) return null;
-              return { unexpectedCharacters: true };
-            },
-          ],
-        }),
-        price: new FormControl<string>('0', {
-          validators: [Validators.required, Validators.min(0)],
-        }),
-        categories: new FormControl('', { validators: [Validators.required] }),
-        discounts: new FormControl(this.discounts),
-      }),
-    );
-  }
-
-  addNewCategory(): void {
-    this.categories.push(this.userForm.controls.newCategory.value!);
-  }
-  addNewDiscount(): void {
-    this.discounts.push(this.userForm.controls.newDiscount.value!);
-  }
   previousRoute(options?: { replaceUrl: boolean }) {
     let route = [...this.router.url.split('/')];
 
     route.pop();
 
     this.router.navigate(route, { replaceUrl: options?.replaceUrl });
-  }
-  get skipPersonalAccountStep(): boolean {
-    return (!(this.userForm.value.city || this.userForm.value.bio) &&
-      this.userForm.value.accountType == 'personal') as boolean;
   }
 }
