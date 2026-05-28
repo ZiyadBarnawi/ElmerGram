@@ -3,3 +3,6 @@
   font-size: 1.4rem;
   font-weight: 600;
 }
+:host ::ng-deep .p-dialog {
+  z-index: 9999;
+}

@@ -45,7 +45,7 @@
               <!--! Account follow numbers  -->
 
               <span class="span-stats w-100"
-                >Followers: <b>{{ userService.user()!.followers!.length || 0 }}</b>
+                >Followers: <b>{{ userService.user()!.followers?.length || 0 }}</b>
                 <b> | </b> Following: <b>{{ userService.user()!.following?.length }} </b> <br />
                 Posts: <b>{{ userService.user()!.posts?.length || '0' }}</b></span
               >

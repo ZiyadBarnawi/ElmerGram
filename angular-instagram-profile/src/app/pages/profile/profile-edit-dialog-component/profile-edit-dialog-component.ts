@@ -21,6 +21,7 @@ import { Router, RouterLink } from '@angular/router';
 import { environment } from '@core/environments/environment';
 import { UserService } from '@core/services/user.service';
 import { User } from '@shared/models/user.model';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'app-profile-edit-dialog-component',
@@ -43,6 +44,7 @@ import { User } from '@shared/models/user.model';
     InputTextModule,
     TextareaModule,
     RouterLink,
+    DividerModule,
   ],
   templateUrl: './profile-edit-dialog-component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

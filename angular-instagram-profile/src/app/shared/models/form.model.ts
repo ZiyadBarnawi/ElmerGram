@@ -11,6 +11,5 @@ export interface Form {
   dateOfBirth: FormControl<string | null>;
   gender: FormControl<'M' | 'F' | null>;
   city: FormControl<string | null>;
-
   otp: FormControl<string | null>;
 }

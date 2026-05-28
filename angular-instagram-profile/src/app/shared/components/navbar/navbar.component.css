@@ -3,7 +3,7 @@ nav {
   width: 100vw;
   height: 10rem;
   bottom: 1%;
-  z-index: 99999;
+  z-index: 150;
 }
 .navigation-card {
   bottom: 0%;

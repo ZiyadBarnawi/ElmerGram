@@ -134,9 +134,9 @@ export class UserService {
     }
   }
   async addUser(): Promise<void> {
-    let users: User[] = JSON.parse(localStorage.getItem('users') as string) as User[];
-    if (users) {
-      let user: any = { ...this.userForm.value };
+    if (environment.production) {
+      let user: any = this.userForm.value;
+
       user.posts = [
         { media: 'sunnyDay.jpg', likes: 12 },
         { media: 'desert.jpg', likes: 77 },
@@ -144,50 +144,40 @@ export class UserService {
         { media: 'carbet.jpg', likes: 8 },
         { media: 'rainnyCar.jpg', likes: 30 },
       ];
+      if (!this.userForm.value.pfpUrl) {
+        user.pfpUrl = Images[5];
+      }
+
       delete user.otp;
       delete user.confirmPassword;
-      delete user.newDiscount;
-      delete user.newCategory;
+      this.http.post(environment.apiUrl + '/users', user).subscribe({
+        next(value) {
+          console.log(value);
+        },
+      });
+    } else {
+      let users: User[] = JSON.parse(localStorage.getItem('users') as string) as User[];
+      if (users) {
+        let user: any = { ...this.userForm.value };
+        user.posts = [
+          { media: 'sunnyDay.jpg', likes: 12 },
+          { media: 'desert.jpg', likes: 77 },
+          { media: 'sunFlower.jpg', likes: 11 },
+          { media: 'carbet.jpg', likes: 8 },
+          { media: 'rainnyCar.jpg', likes: 30 },
+        ];
+        delete user.otp;
+        delete user.confirmPassword;
 
-      users.push(user);
-      localStorage.setItem(`users`, JSON.stringify(users));
+        users.push(user);
+        localStorage.setItem(`users`, JSON.stringify(users));
+      }
+      //first user
+      else {
+        localStorage.setItem('users', JSON.stringify([this.userForm.value]));
+      }
     }
-    //first user
-    else {
-      localStorage.setItem('users', JSON.stringify([this.userForm.value]));
-    }
-
     //! Production Code
-    // if (environment.production) {
-    //   this.http
-    //     .post(`${environment?.apiUrl}/api/v1/users`, user)
-    //     .pipe(
-    //       catchError((err) => {
-    //         throw err;
-    //       })
-    //     )
-    //     .subscribe((data) => {});
-    // } else {
-    //   let users: any = localStorage.getItem('users');
-    //   if (users) {
-    //     users = JSON.parse(users);
-    //     users.push(user);
-    //     localStorage.setItem(`users`, JSON.stringify(users));
-    //   }
-    //   //First user in localStorage
-    //   else {
-    //     localStorage.setItem(
-    //       'users',
-    //       JSON.stringify([
-    //         {
-    //           username: user.username,
-    //           password: user.password,
-    //           pfpUrl: Images[Math.floor(Math.random() * 5)],
-    //         } as User,
-    //       ])
-    //     );
-    //   }
-    // }
   }
   async editUser(): Promise<User | Observable<Object> | null> {
     if (environment.production) {

@@ -69,7 +69,7 @@ p-message {
   text-wrap: wrap;
   /* margin: auto; */
   font-size: 2.4rem;
-  z-index: 999999;
+  z-index: 9999;
 }
 
 :host ::ng-deep .p-message,
