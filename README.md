@@ -1,5 +1,6 @@
 Attempting to learn Angular by mimicking the Instagram profile page
-Current State: 
+
+# Current State: 
 <img width="1916" height="916" alt="image" src="https://github.com/user-attachments/assets/0fa8136c-2b86-4b64-9c86-076492fdb3ed" />
 
 
