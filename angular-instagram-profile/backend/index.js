@@ -3,19 +3,25 @@ import fs from 'fs';
 import morgan from 'morgan';
 import cors from 'cors';
 
-let data = JSON.parse(fs.readFileSync('./data/users.json', { encoding: 'utf-8' }));
+let userData = JSON.parse(fs.readFileSync('./data/users.json', { encoding: 'utf-8' }));
+let reelsData = JSON.parse(fs.readFileSync('./data/reels.json', { encoding: 'utf-8' }));
+
+const date = new Date();
+reelsData.forEach((reel) => (reel.createdAt = (date.getDate() + Math.random() * 10).toString()));
+
 const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 
 app.use(cors({ origin: '*' }));
+
 app.get('/users', (req, res) => {
-  res.json(data);
+  res.json(userData);
 });
 //? User CRU
 
 app.get('/users/:username', (req, res) => {
-  let user = data.filter((user) =>
+  let user = userData.filter((user) =>
     user.username.toLowerCase().includes(req.params.username.toLowerCase()),
   );
   res.json(user);
@@ -25,8 +31,8 @@ app.post('/users', async (req, res) => {
   let newUser = { ...req.body };
 
   try {
-    data.push(newUser);
-    await fs.writeFile('./data/users.json', JSON.stringify(data), (err) => {
+    userData.push(newUser);
+    await fs.writeFile('./data/users.json', JSON.stringify(userData), (err) => {
       if (err) console.log(err);
     });
   } catch (err) {
@@ -34,8 +40,8 @@ app.post('/users', async (req, res) => {
   }
   return res.status(201).json({ newUser });
 });
-app.put('/users/:username', async (req, res) => {
-  let userIndex = data.findIndex(
+app.patch('/users/:username', async (req, res) => {
+  let userIndex = userData.findIndex(
     (user) => user.username.toLowerCase() === req.params.username.toLowerCase(),
   );
   if (userIndex < 0) {
@@ -43,20 +49,17 @@ app.put('/users/:username', async (req, res) => {
       .status(404)
       .json({ message: `No User was found with this username  " ${req.params.username} " ` });
   }
-  data[userIndex] = req.body;
+  userData[userIndex] = req.body;
 
-  await fs.writeFile('./data/users.json', JSON.stringify(data), (err) => {
+  await fs.writeFile('./data/users.json', JSON.stringify(userData), (err) => {
     if (err) console.log(err);
   });
-  res.json(data[userIndex]);
+  res.json(userData[userIndex]);
 });
 
 //? reels
 app.get('/reels', async (req, res) => {
-  const data = JSON.parse(await fs.readFile('./data/reels.json', { encoding: 'utf-8' }));
-  const date = new Date();
-  data.forEach((reel) => (reel.createdAt = (date.getDate() + Math.random() * 10).toString()));
-  return res.send(data);
+  return res.send(reelsData);
 });
 app.listen('3000', '127.0.0.1', () => {
   console.log('Listening on port 3000 📞...');

@@ -19,6 +19,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from '@core/services/user.service';
 import { User } from '@shared/models/user.model';
 import { ProfileBodyComponent } from '@shared/components/profile-body/profileBody.component';
+import { environment } from '@core/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -74,12 +75,13 @@ export class ProfileComponent implements OnInit {
 
   constructor() {
     effect(async () => {
-      let user =
-        this.username()?.toLowerCase() === 'ziyad' || this.username()?.toLowerCase() === 'jafar'
-          ? await this.userService.getInitialUser()
-          : await this.userService.getUsers(this.username());
-
-      this.userService.user.set(user as User);
+      if (environment.production) {
+        let user = (await this.userService.getUsers(this.username())) as User[];
+        this.userService.user.set(user[0]);
+      } else {
+        let user = (await this.userService.getInitialUser()) as User;
+        this.userService.user.set(user);
+      }
     });
   }
   async ngOnInit(): Promise<void> {

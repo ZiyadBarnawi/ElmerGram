@@ -16,24 +16,4 @@ export interface User {
   hasActiveStory?: boolean;
   createdAt?: Date;
   city?: string;
-  iban?: string;
-  paymentMethods?: string[];
-  commercialPaper?: string;
-  commercialRegistryNumber?: string;
-  accountType?: 'business' | 'personal';
-
-  products?: {
-    name: string;
-    price: string;
-    categories: string;
-    discounts: string[];
-  }[];
-
-  workHours?: {
-    day: string;
-    available: boolean | null;
-    flexible: boolean | null;
-    openHours: string;
-    closeHours: string;
-  }[];
 }

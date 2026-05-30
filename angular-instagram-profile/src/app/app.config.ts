@@ -11,9 +11,16 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { CustomLaraPreset } from './customeLara.preset';
-import { provideHttpClient } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandlerFn,
+  HttpRequest,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { UserService } from './core/services/user.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   // TIP: Providing services here means they'll be in the initial bundle. using @injectable doesn't have this behavior
@@ -29,7 +36,16 @@ export const appConfig: ApplicationConfig = {
     }),
     UserService,
     MessageService,
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([
+        // TIP: this is like a middleware in the request pipeline
+        (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<any> => {
+          console.log(`Interceptor: ${request.method} Request to ${request.url}`);
+          console.log(request);
+          return next(request);
+        },
+      ]),
+    ),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(

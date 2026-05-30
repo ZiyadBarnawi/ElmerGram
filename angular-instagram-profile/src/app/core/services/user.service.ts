@@ -104,13 +104,13 @@ export class UserService {
       ],
     }),
   });
-  async getInitialUser() {
+  async getInitialUser(): Promise<User> {
     if (environment.production) {
       return (
         (await firstValueFrom(this.http.get(`${environment.apiUrl}/users/jafar`))) as User[]
       )[0];
     } else {
-      return await firstValueFrom(this.http.get('data/user.json'));
+      return (await firstValueFrom(this.http.get('data/user.json'))) as User;
     }
   }
 
@@ -179,23 +179,45 @@ export class UserService {
     }
     //! Production Code
   }
-  async editUser(): Promise<User | Observable<Object> | null> {
+  async editUser(): Promise<void> {
+    let userFormData = { ...this.userForm.value };
     if (environment.production) {
-      return this.http
-        .patch(`${environment.apiUrl}/users/${this.userForm.value.username}`, this.userForm.value)
+      delete userFormData.confirmPassword;
+      delete userFormData.otp;
+
+      this.http
+        .patch(`${environment.apiUrl}/users/${this.user()!.username}`, userFormData)
         .pipe(
           catchError((err) => {
             throw err;
           }),
-        );
+        )
+        .subscribe((val) => {
+          this.user.set({
+            username: userFormData.username!,
+            password: userFormData.password!,
+            email: userFormData.email!,
+            phoneNumber: userFormData.phoneNumber!,
+            gender: userFormData.gender!,
+            bio: userFormData.bio!,
+            city: userFormData.city!,
+            pfpUrl: userFormData.pfpUrl!,
+            posts: (userFormData as any).posts!,
+            followers: (userFormData as any).followers!,
+            following: (userFormData as any).following!,
+          });
+          this.router.navigate(['/profile', `${this.user()?.username}`], {
+            replaceUrl: true,
+          });
+        });
     } else {
       let users = localStorage.getItem('users')
         ? (JSON.parse(localStorage.getItem('users') as string) as User[])
         : null;
 
-      if (!users) return null;
+      if (!users) return;
       let oldUserIndex = users.findIndex((user) => user.username === this.user()!.username);
-      if (oldUserIndex < 0) return null;
+      if (oldUserIndex < 0) return;
       users[oldUserIndex] = this.userForm.value as User;
       users[oldUserIndex].posts = [
         { media: 'sunnyDay.jpg', likes: 12 },
@@ -209,8 +231,17 @@ export class UserService {
 
       localStorage.setItem('users', JSON.stringify(users));
       this.user.set(users[oldUserIndex]);
-
-      return users[oldUserIndex];
+      this.user.set({
+        username: userFormData.username!,
+        password: userFormData.password!,
+        email: userFormData.email!,
+        phoneNumber: userFormData.phoneNumber!,
+        gender: userFormData.gender!,
+        bio: userFormData.bio!,
+        city: userFormData.city!,
+        pfpUrl: userFormData.pfpUrl!,
+      });
+      return;
     }
   }
   async deleteUser(username: string): Promise<void> {

@@ -5,18 +5,36 @@
     "email": "jafar@mail.com",
     "password": "jafar",
     "pfpUrl": "cookie.jpg",
+    "bio": "Coffee lover ☕ | Traveler 🌍 | Building things one day at a time",
+    "dateOfBirth": "1995-06-15T00:00:00.000Z",
+    "gender": "M",
+    "city": "Medina",
     "followers": [
       {
-        "username": "Hussam",
-        "pfpUrl": "snowflake.webp",
-        "bio": "Photographer 📷 | Riyadh → Everywhere | Moments over things",
-        "city": "Riyadh"
+        "username": "jafar",
+        "pfpUrl": "cookie.jpg",
+        "bio": "Coffee addict ☕ | Traveler 🌍 | Building things one day at a time",
+        "city": "Medina"
       },
       {
-        "username": "Huda",
-        "pfpUrl": "carbet.jpg",
-        "bio": "Interior designer 🏡 | Bringing spaces to life | DM for collabs",
-        "city": "Jeddah"
+        "username": "Feras",
+        "pfpUrl": "sunFlower.jpg",
+        "bio": "Just vibing 🎧 | CS student | Gamer by night",
+        "city": "Mecca"
+      },
+      {
+        "username": "Abdullah",
+        "pfpUrl": "defaultAvatar.jpg",
+        "bio": "Foodie 🍕 | Amateur chef | Medina local 🕌",
+        "city": "Medina"
+      }
+    ],
+    "following": [
+      {
+        "username": "jafar",
+        "pfpUrl": "cookie.jpg",
+        "bio": "Coffee addict ☕ | Traveler 🌍 | Building things one day at a time",
+        "city": "Medina"
       },
       {
         "username": "Ziyad",
@@ -25,10 +43,10 @@
         "city": "Dubai"
       },
       {
-        "username": "Abdullah",
+        "username": "Kevin",
         "pfpUrl": "defaultAvatar.jpg",
-        "bio": "Foodie 🍕 | Amateur chef | Medina local 🕌",
-        "city": "Medina"
+        "bio": "Football ⚽ | Fitness 💪 | Al-Hilal fan till I die 💙",
+        "city": "Riyadh"
       },
       {
         "username": "adam",
@@ -37,30 +55,6 @@
         "city": "Khobar"
       }
     ],
-    "following": [
-      {
-        "username": "Ziyad",
-        "pfpUrl": "cookie.jpg",
-        "bio": "Tech & AI enthusiast 🤖 | Speaker | Opinions are my own",
-        "city": "Dubai"
-      },
-      {
-        "username": "Huda",
-        "pfpUrl": "carbet.jpg",
-        "bio": "Interior designer 🏡 | Bringing spaces to life | DM for collabs",
-        "city": "Jeddah"
-      },
-      {
-        "username": "Feras",
-        "pfpUrl": "sunFlower.jpg",
-        "bio": "Just vibing 🎧 | CS student | Gamer by night",
-        "city": "Mecca"
-      }
-    ],
-    "bio": "Coffee lover ☕ | Traveler 🌍 | Building things one day at a time",
-    "dateOfBirth": "1995-06-15T00:00:00.000Z",
-    "gender": "M",
-    "city": "Medina",
     "posts": [
       { "media": "sunnyDay.jpg", "likes": 1203 },
       { "media": "desert.jpg", "likes": 874 },
