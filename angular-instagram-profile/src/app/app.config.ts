@@ -32,7 +32,6 @@ export const appConfig: ApplicationConfig = {
         preset: CustomLaraPreset,
       },
       ripple: true,
-      // ripple: true,
     }),
     UserService,
     MessageService,

@@ -46,3 +46,6 @@ p-tab {
 .profile-card:hover {
   transform: translateY(-0.51rem);
 }
+:host ::ng-deep .p-tablist {
+  background-color: transparent;
+}
