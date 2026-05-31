@@ -1,91 +1,139 @@
 {
   "username": "Ziyad",
-  "phoneNumber": "",
-  "email": "Ziyad@mail.com",
-  "password": "Ziyad12",
-  "pfpUrl": "snowflake.webp",
-  "followers": 1,
-  "following": 50,
-  "bio": "",
-  "dateOfBirth": "2025-12-10T21:00:00.000Z",
+  "phoneNumber": "5511223344",
+  "email": "ziyad@mail.com",
+  "password": "ziyad007",
+  "pfpUrl": "cookie.jpg",
+  "bio": "Tech & AI enthusiast 🤖 | Speaker | Opinions are my own",
+  "dateOfBirth": "1990-04-12T00:00:00.000Z",
   "gender": "M",
-  "city": "Mecca",
-  "commercialPaper": "54e033e6-772f-4565-a29c-c64f4319032a.pdf",
-  "commercialRegistryNumber": "121212",
-  "iban": "121212",
+  "city": "Dubai",
   "accountType": "business",
-  "paymentMethods": ["stcPay", "Mada", "googlePay"],
-  "posts": [
-    { "media": "sunnyDay.jpg", "likes": 12 },
-    { "media": "desert.jpg", "likes": 77 },
-    { "media": "sunFlower.jpg", "likes": 11 },
-    { "media": "carbet.jpg", "likes": 8 },
-    { "media": "rainnyCar.jpg", "likes": 30 }
-  ],
-  "products": [
+  "followers": [
     {
-      "name": "Demo1",
-      "price": "111",
-      "categories": "Cloths",
-      "discounts": ["Random Discount"]
+      "username": "jafar",
+      "pfpUrl": "cookie.jpg",
+      "bio": "Coffee lover ☕ | Traveler 🌍 | Building things one day at a time",
+      "city": "Medina"
     },
     {
-      "name": "Demo22",
-      "price": "121212",
-      "categories": "Glasses",
-      "discounts": ["new discount"]
+      "username": "Hussam",
+      "pfpUrl": "snowflake.webp",
+      "bio": "Photographer 📷 | Riyadh → Everywhere | Moments over things",
+      "city": "Riyadh"
+    },
+    {
+      "username": "Huda",
+      "pfpUrl": "carbet.jpg",
+      "bio": "Interior designer 🏡 | Bringing spaces to life | DM for collabs",
+      "city": "Jeddah"
+    },
+    {
+      "username": "Feras",
+      "pfpUrl": "sunFlower.jpg",
+      "bio": "Just vibing 🎧 | CS student | Gamer by night",
+      "city": "Mecca"
+    },
+    {
+      "username": "Kevin",
+      "pfpUrl": "defaultAvatar.jpg",
+      "bio": "Football ⚽ | Fitness 💪 | Al-Hilal fan till I die 💙",
+      "city": "Riyadh"
+    },
+    {
+      "username": "Abdullah",
+      "pfpUrl": "defaultAvatar.jpg",
+      "bio": "Foodie 🍕 | Amateur chef | Medina local 🕌",
+      "city": "Medina"
+    },
+    {
+      "username": "adam",
+      "pfpUrl": "drops.jpg",
+      "bio": "🎨 Digital artist | Turning ideas into pixels | Open for commissions",
+      "city": "Khobar"
     }
   ],
-
-  "workHours": [
+  "following": [
     {
-      "day": "Saturday",
-      "available": true,
-      "flexible": true,
-      "openHours": "11:14",
-      "closeHours": "15:15"
+      "username": "Huda",
+      "pfpUrl": "carbet.jpg",
+      "bio": "Interior designer 🏡 | Bringing spaces to life | DM for collabs",
+      "city": "Jeddah"
+    }
+  ],
+  "posts": [
+    {
+      "id": "post_ziyad_1",
+      "username": "Ziyad",
+      "media": "sunnyDay.jpg",
+      "description": "AI is not replacing you — someone using AI is. Start learning now. 🤖 #Tech #AI",
+      "likes": 45000,
+      "createdAt": "2025-10-10T09:00:00.000Z",
+      "comments": [
+        { "username": "jafar", "content": "This hit different 💯", "replies": 5, "likes": 980 },
+        {
+          "username": "Hussam",
+          "content": "Sharing this everywhere",
+          "replies": 3,
+          "likes": 740
+        },
+        {
+          "username": "Feras",
+          "content": "Okay okay I'll start that course 😭",
+          "replies": 2,
+          "likes": 610
+        },
+        {
+          "username": "Abdullah",
+          "content": "Needed to hear this today fr",
+          "replies": 1,
+          "likes": 430
+        }
+      ]
     },
     {
-      "day": "Sunday",
-      "available": false,
-      "flexible": false,
-      "openHours": null,
-      "closeHours": null
+      "id": "post_ziyad_2",
+      "username": "Ziyad",
+      "media": "desert.jpg",
+      "description": "Dubai → Riyadh road trip 🚗 Some thoughts on building in the Middle East 🧵",
+      "likes": 32000,
+      "createdAt": "2025-10-17T14:00:00.000Z",
+      "comments": [
+        {
+          "username": "Kevin",
+          "content": "The thread was incredible, more please!",
+          "replies": 2,
+          "likes": 520
+        },
+        {
+          "username": "Huda",
+          "content": "The entrepreneurship ecosystem here is growing so fast",
+          "replies": 3,
+          "likes": 480
+        }
+      ]
     },
     {
-      "day": "Monday",
-      "available": false,
-      "flexible": false,
-      "openHours": null,
-      "closeHours": null
-    },
-    {
-      "day": "Tuesday",
-      "available": false,
-      "flexible": false,
-      "openHours": null,
-      "closeHours": null
-    },
-    {
-      "day": "Wednesday",
-      "available": true,
-      "flexible": true,
-      "openHours": "15:15",
-      "closeHours": "18:15"
-    },
-    {
-      "day": "Thursday",
-      "available": false,
-      "flexible": false,
-      "openHours": null,
-      "closeHours": null
-    },
-    {
-      "day": "Friday",
-      "available": false,
-      "flexible": false,
-      "openHours": null,
-      "closeHours": null
+      "id": "post_ziyad_3",
+      "username": "Ziyad",
+      "media": "rainnyCar.jpg",
+      "description": "Even on grey days, the grind doesn't stop ☁️💻",
+      "likes": 28000,
+      "createdAt": "2025-10-24T11:30:00.000Z",
+      "comments": [
+        {
+          "username": "adam",
+          "content": "This is the content I follow you for 🙌",
+          "replies": 1,
+          "likes": 390
+        },
+        {
+          "username": "jafar",
+          "content": "Motivational and aesthetic? Legend move",
+          "replies": 2,
+          "likes": 310
+        }
+      ]
     }
   ]
 }

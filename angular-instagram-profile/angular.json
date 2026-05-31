@@ -51,6 +51,17 @@
                 }
               ]
             },
+            "herokuDevelopment": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "./src/app/core/environments/environment.ts",
+                  "with": "./src/app/core/environments/environment.herokuDevelopment.ts"
+                }
+              ]
+            },
             "springDevelopment": {
               "optimization": false,
               "extractLicenses": false,
@@ -100,6 +111,9 @@
             },
             "development": {
               "buildTarget": "angular-instagram-profile:build:development"
+            },
+            "herokuDevelopment": {
+              "buildTarget": "angular-instagram-profile:build:herokuDevelopment"
             },
             "springDevelopment": {
               "buildTarget": "angular-instagram-profile:build:springDevelopment"

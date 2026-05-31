@@ -40,3 +40,7 @@ app-profile {
   box-shadow: 0rem 0rem 10rem 15rem #78dab905;
   z-index: 99999;
 }
+
+::ng-deep ::-webkit-scrollbar {
+  background: transparent;
+}

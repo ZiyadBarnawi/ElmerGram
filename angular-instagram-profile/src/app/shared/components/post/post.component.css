@@ -6,7 +6,6 @@ img {
   filter: blur(0rem) brightness(100%);
 }
 
-
 .likes {
   pointer-events: none;
   opacity: 0;
@@ -15,4 +14,56 @@ img {
   font-size: 3rem;
   z-index: 50;
   transform: translate(-25%, -25%);
+}
+.x-card {
+  /* max-height: 30rem; */
+  max-width: 35rem;
+  width: 100%;
+  background: linear-gradient(to right, #789fde, #0b429c);
+  color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  font-size: 1.4rem;
+}
+
+.x-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.x-handle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.x-actions button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.x-actions button.btn-reply:hover {
+  color: #bbf7d0;
+}
+.x-actions button.btn-like:hover {
+  color: #fbcfe8;
+}
+.x-actions button.btn-share:hover {
+  color: #fff;
 }

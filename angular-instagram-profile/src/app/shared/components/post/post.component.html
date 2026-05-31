@@ -1,4 +1,8 @@
-<div (mouseover)="onMouseover()" (mouseout)="onMouseout()" class="position-relative z-10 d-inline-block">
+<div
+  (mouseover)="onMouseover()"
+  (mouseout)="onMouseout()"
+  class="position-relative z-10 d-inline-block"
+>
   <div
     #likes
     class="likes position-absolute z-50 text-nowrap"
@@ -11,29 +15,29 @@
     closable="true"
     appendTo="body"
     draggable="false"
-    resizable="false"
+    resizable="true"
     [modal]="true"
     [(visible)]="expandedPost"
     [dismissableMask]="true"
-  >                              
+  >
     <div
-      class="d-flex gap-4 justify-content-between align-items-stretch w-100 "
-      [style]="{ 'align-items': 'stretch','height':'55rem' }"
+      class="d-flex gap-4 justify-content-between align-items-stretch w-100"
+      [style]="{
+        'align-items': 'stretch',
+        height: '55rem',
+      }"
     >
-      <div class="d-flex flex-column ">
+      <div class="d-flex flex-column">
         <p-image [src]="post()?.media" appendTo="body" height="350" preview="true" />
         <div class="d-flex gap-3">
           <span class="text-secondary">Posted: {{ post()?.createdAt | date }}</span>
-          <span  [innerHTML]="post()?.likes! | likes"></span>
+          <span [innerHTML]="post()?.likes! | likes"></span>
         </div>
       </div>
-      <section  class="d-flex flex-column justify-content-between h-100">
-        <div
-          class="d-flex flex-column gap-5"
-          [style]="{ width: '15rem', 'overflow-y': 'scroll','min-height':0 }"
-        >
+      <section class="d-flex flex-column justify-content-between h-100">
+        <div class="d-flex flex-column gap-5" [style]="{ 'overflow-y': 'scroll', 'min-height': 0 }">
           @for (_ of [].constructor(10); track $index) {
-            <div class="d-flex justify-content-center gap-4">
+            <!-- <div class="d-flex justify-content-center gap-4">
               <p-avatar
                 [style]="{ transform: 'scale(1.4)', overflow: 'visible' }"
                 [image]="images[3]"
@@ -50,6 +54,79 @@
                 }"
                 >Nice!!</span
               >
+            </div> -->
+            <div class="x-card">
+              <!-- Header -->
+              <div class="d-flex align-items-center p-3 gap-3">
+                <div class="x-avatar">PG</div>
+                <div>
+                  <h5 class="mb-0 fw-semibold comment-usernmae">Priyanshu Gupta</h5>
+                </div>
+              </div>
+
+              <!-- Body -->
+              <div class="px-3 pb-3">
+                <p class="mb-0">
+                  Just created this amazing Twitter/X card design using Tailwind CSS with gradients!
+                  🚀 #WebDevelopment #TailwindCSS
+                </p>
+              </div>
+
+              <!-- Actions -->
+              <div class="x-actions d-flex justify-content-end gap-3 align-items-center p-3">
+                <!-- Views -->
+
+                <!-- Reply -->
+                <button class="btn-reply">
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    height="16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"
+                    />
+                  </svg>
+                  <span>3</span>
+                </button>
+
+                <!-- Like -->
+                <button class="btn-like">
+                  <svg
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    height="20"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20.84 4.61a5.5 5.5 0 00-7.78-.61l-.7.7-.7-.7a5.5 5.5 0 00-7.78.61c-2.19 2.36-2.12 6.14.18 8.55L12 21.35l8.22-8.19c2.3-2.41 2.37-6.19.18-8.55z"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <span>12</span>
+                </button>
+
+                <!-- Share -->
+                <button class="btn-share">
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    height="16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           }
         </div>

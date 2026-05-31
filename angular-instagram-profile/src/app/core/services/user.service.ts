@@ -115,7 +115,8 @@ export class UserService {
   }
 
   async getUsers(username?: string): Promise<User[] | User> {
-    // Spring environment
+    console.log(environment.apiUrl);
+
     if (environment?.production) {
       return (await firstValueFrom(
         this.http.get(`${environment?.apiUrl}/users${username ? `/${username}` : ''}`, {
@@ -126,6 +127,8 @@ export class UserService {
     }
     //Local environment
     else {
+      console.log(await firstValueFrom(this.http.get(`${environment.apiUrl}/users`)));
+      //TODO: finish local node server code
       const users = JSON.parse(localStorage.getItem('users') as string) as User[];
       if (username) {
         return users?.find((_user) => _user.username === username) as User;

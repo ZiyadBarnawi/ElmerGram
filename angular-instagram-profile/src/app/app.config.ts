@@ -40,7 +40,6 @@ export const appConfig: ApplicationConfig = {
         // TIP: this is like a middleware in the request pipeline
         (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<any> => {
           console.log(`Interceptor: ${request.method} Request to ${request.url}`);
-          console.log(request);
           return next(request);
         },
       ]),
