@@ -8,7 +8,7 @@
     "start:spring": "ng serve --configuration springDevelopment",
     "start:node": "ng serve --configuration nodeDevelopment",
     "start:heroku": "ng serve --configuration herokuDevelopment",
-    "build": "ng build ",
+    "build": "ng build --configuration herokuDevelopment",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
