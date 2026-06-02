@@ -12,7 +12,6 @@ import { gsap } from 'gsap';
 import { likes } from '@shared/pipes/likes';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
-import { Avatar } from 'primeng/avatar';
 import { Images } from '@shared/models/images.enum';
 import { BounceUp } from '@shared/directives/bounce-up';
 import { UserService } from '@core/services/user.service';
@@ -20,7 +19,7 @@ import { DatePipe } from '@angular/common';
 import { ImageModule } from 'primeng/image';
 @Component({
   selector: 'app-post',
-  imports: [likes, Dialog, Button, Avatar, BounceUp, DatePipe, ImageModule],
+  imports: [likes, Dialog, Button, BounceUp, DatePipe, ImageModule],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
   hostDirectives: [
