@@ -11,12 +11,11 @@ const redirectToUnAuthorize: CanMatchFn = (route, segment) => {
 // const deactivate: CanDeactivateFn<ProfileComponent> = ;
 
 export const routes: Routes = [
-  // {
-  //   path: '/',
-  //   pathMatch: 'full',
-  //   loadComponent: () => import('@pages/home/home.component').then((m) => m.Home),
-  //   title: 'ElmerGram ',
-  // },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'landing',
+  },
   {
     path: 'landing',
     pathMatch: 'full',

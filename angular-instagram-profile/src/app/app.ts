@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { Drawer, DrawerModule } from 'primeng/drawer';
 import { Toast, ToastModule } from 'primeng/toast';
 import { Navbar } from './shared/components/navbar/navbar.component';
-import { AnimatableObject, createAnimatable, utils } from 'animejs';
+import { createAnimatable, utils } from 'animejs';
 
 @Component({
   selector: 'app-root',

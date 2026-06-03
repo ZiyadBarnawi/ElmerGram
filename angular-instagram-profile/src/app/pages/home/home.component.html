@@ -1,1 +1,7 @@
-<p>home works!</p>
+<div class="d-flex justify-content-center align-items-center">
+  <h1 [style]="{ 'font-size': '5rem' }" class="">{{ counter$ | async }}</h1>
+</div>
+<br />
+<div class="d-flex justify-content-center align-items-center gap-3">
+  <p-button [size]="'large'">+</p-button><p-button size="large">-</p-button>
+</div>

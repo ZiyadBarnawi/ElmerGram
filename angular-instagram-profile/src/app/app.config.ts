@@ -20,7 +20,9 @@ import {
 } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { UserService } from './core/services/user.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { provideStore } from '@ngrx/store';
+import { counterReducer } from './store/counter.reducer';
 
 export const appConfig: ApplicationConfig = {
   // TIP: Providing services here means they'll be in the initial bundle. using @injectable doesn't have this behavior
@@ -53,5 +55,7 @@ export const appConfig: ApplicationConfig = {
         paramsInheritanceStrategy: 'always',
       }),
     ),
+    //TIP: NgRx global store
+    provideStore({ counter: counterReducer }),
   ],
 };
