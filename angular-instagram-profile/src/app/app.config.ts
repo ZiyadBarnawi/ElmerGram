@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  isDevMode,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -23,6 +24,7 @@ import { Observable } from 'rxjs';
 import { provideStore } from '@ngrx/store';
 import { counterReducer } from './store/counter';
 import { userReducer } from './store/user';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   // TIP: Providing services here means they'll be in the initial bundle. using @injectable doesn't have this behavior
@@ -57,5 +59,10 @@ export const appConfig: ApplicationConfig = {
     ),
     //TIP: NgRx global store
     provideStore({ counter: counterReducer, user: userReducer }),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+    }),
   ],
 };
