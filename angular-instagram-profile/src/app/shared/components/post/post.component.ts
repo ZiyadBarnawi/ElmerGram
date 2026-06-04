@@ -17,9 +17,20 @@ import { BounceUp } from '@shared/directives/bounce-up';
 import { UserService } from '@core/services/user.service';
 import { DatePipe } from '@angular/common';
 import { ImageModule } from 'primeng/image';
+import { DragScrollComponent, DragScrollItemDirective } from 'ngx-drag-scroll';
+
 @Component({
   selector: 'app-post',
-  imports: [likes, Dialog, Button, BounceUp, DatePipe, ImageModule],
+  imports: [
+    likes,
+    Dialog,
+    Button,
+    BounceUp,
+    DatePipe,
+    ImageModule,
+    DragScrollComponent,
+    DragScrollItemDirective,
+  ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
   hostDirectives: [

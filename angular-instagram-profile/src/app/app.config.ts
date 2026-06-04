@@ -4,7 +4,6 @@ import {
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
-import Lara from '@primeng/themes/lara';
 import '@angular/compiler';
 
 import { routes } from './app.routes';
@@ -22,7 +21,8 @@ import { MessageService } from 'primeng/api';
 import { UserService } from './core/services/user.service';
 import { Observable } from 'rxjs';
 import { provideStore } from '@ngrx/store';
-import { counterReducer } from './store/counter.reducer';
+import { counterReducer } from './store/counter';
+import { userReducer } from './store/user';
 
 export const appConfig: ApplicationConfig = {
   // TIP: Providing services here means they'll be in the initial bundle. using @injectable doesn't have this behavior
@@ -56,6 +56,6 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     //TIP: NgRx global store
-    provideStore({ counter: counterReducer }),
+    provideStore({ counter: counterReducer, user: userReducer }),
   ],
 };
