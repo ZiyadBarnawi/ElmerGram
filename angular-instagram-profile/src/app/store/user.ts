@@ -1,7 +1,8 @@
 import { AppState } from '@core/models/appState.model';
-import { createAction, createReducer, createSelector, on } from '@ngrx/store';
+import { createAction, createReducer, createSelector, on, props } from '@ngrx/store';
+import { User } from '@shared/models/user.model';
 
-const initialValue = {
+const initialValue: User = {
   username: 'Ziyad',
   phoneNumber: '5511223344',
   email: 'ziyad@mail.com',
@@ -11,7 +12,6 @@ const initialValue = {
   dateOfBirth: '1990-04-12T00:00:00.000Z',
   gender: 'M',
   city: 'Dubai',
-  accountType: 'business',
   followers: [
     {
       username: 'jafar',
@@ -142,13 +142,22 @@ const initialValue = {
   ],
 };
 
-export const logUser = createAction('[Logging] Log User');
+export const logUser = createAction('[User] Log User');
+export const editUser = createAction('[User] Edit User', props<User>());
 
 export const userReducer = createReducer(
   initialValue,
   on(logUser, (state) => {
     console.log(state);
     return state;
+  }),
+  on(editUser, (state, action) => {
+    console.log(action);
+
+    let newState = { ...action };
+
+    newState.username += ' New Text ';
+    return newState;
   }),
 );
 

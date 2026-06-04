@@ -2,7 +2,7 @@ import { Post } from './post.model';
 
 export interface User {
   username: string;
-  password: string;
+  password?: string;
   email?: string;
   phoneNumber?: string;
   gender?: 'M' | 'F';

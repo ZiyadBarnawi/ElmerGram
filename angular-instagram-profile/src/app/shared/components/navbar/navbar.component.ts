@@ -79,12 +79,6 @@ export class Navbar implements OnInit {
       icon: 'pi pi-search',
       command: (): void => {},
     },
-    // {
-    //   label: 'Explore',
-    //   icon: 'pi pi-compass',
-    //   command: (): void => {},
-    //   routerLink: 'explore',
-    // },
     {
       label: 'Reels',
       icon: 'pi pi-video',
@@ -110,7 +104,7 @@ export class Navbar implements OnInit {
         const data: User = (await this.userService.getInitialUser()) as User;
         this.userService.user.set(data);
       },
-      routerLink: `profile/${environment.production ? 'Jafar' : 'Ziyad'}`,
+      routerLink: `profile/me`,
     },
   ];
 

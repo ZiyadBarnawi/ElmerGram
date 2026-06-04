@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet, RouterLinkWithHref, ResolveFn } from '@angular/router';
-import { interval } from 'rxjs';
+import { firstValueFrom, interval } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Button } from 'primeng/button';
 import { Avatar } from 'primeng/avatar';
@@ -75,12 +75,12 @@ export class ProfileComponent implements OnInit {
 
   constructor() {
     effect(async () => {
-      if (environment.production) {
-        let user = (await this.userService.getUsers(this.username())) as User[];
-        this.userService.user.set(user[0]);
-      } else {
-        let user = (await this.userService.getInitialUser()) as User;
+      if (this.username()?.toLowerCase() === 'me') {
+        let user: User = await this.userService.getInitialUser();
         this.userService.user.set(user);
+      } else {
+        let user = await this.userService.getUsers(this.username());
+        this.userService.user.set(user as User);
       }
     });
   }

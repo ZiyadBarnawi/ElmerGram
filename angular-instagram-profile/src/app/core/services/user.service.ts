@@ -11,6 +11,7 @@ import { Images } from '@shared/models/images.enum';
 import { User } from '@shared/models/user.model';
 import { Form } from '@shared/models/form.model';
 import { environment } from '@core/environments/environment';
+import { Post } from '@shared/models/post.model';
 
 @Injectable({
   providedIn: 'root',
@@ -113,10 +114,10 @@ export class UserService {
       return (await firstValueFrom(this.http.get('data/user.json'))) as User;
     }
   }
-
+  async getReels(): Promise<Post[]> {
+    return firstValueFrom(this.http.get<Post[]>(`${environment.apiUrl}/reels`));
+  }
   async getUsers(username?: string): Promise<User[] | User> {
-    console.log(environment.apiUrl);
-
     if (environment?.production) {
       return (await firstValueFrom(
         this.http.get(`${environment?.apiUrl}/users${username ? `/${username}` : ''}`, {
@@ -127,11 +128,12 @@ export class UserService {
     }
     //Local environment
     else {
-      console.log(await firstValueFrom(this.http.get(`${environment.apiUrl}/users`)));
       //TODO: finish local node server code
-      const users = JSON.parse(localStorage.getItem('users') as string) as User[];
+      const users = (await firstValueFrom(this.http.get(`${environment.apiUrl}/users`))) as User[];
       if (username) {
-        return users?.find((_user) => _user.username === username) as User;
+        return users?.find(
+          (_user) => _user.username.toLowerCase() === username.toLowerCase(),
+        ) as User;
       }
       return users;
     }
@@ -159,6 +161,7 @@ export class UserService {
         },
       });
     } else {
+      // TODO: remove local host usage
       let users: User[] = JSON.parse(localStorage.getItem('users') as string) as User[];
       if (users) {
         let user: any = { ...this.userForm.value };
@@ -214,40 +217,39 @@ export class UserService {
           });
         });
     } else {
-      let users = localStorage.getItem('users')
-        ? (JSON.parse(localStorage.getItem('users') as string) as User[])
-        : null;
+      delete userFormData.confirmPassword;
+      delete userFormData.otp;
 
-      if (!users) return;
-      let oldUserIndex = users.findIndex((user) => user.username === this.user()!.username);
-      if (oldUserIndex < 0) return;
-      users[oldUserIndex] = this.userForm.value as User;
-      users[oldUserIndex].posts = [
-        { media: 'sunnyDay.jpg', likes: 12 },
-        { media: 'desert.jpg', likes: 77 },
-        { media: 'sunFlower.jpg', likes: 11 },
-        { media: 'carbet.jpg', likes: 8 },
-        { media: 'rainnyCar.jpg', likes: 30 },
-      ];
-
-      let user: any = { ...this.userForm.value };
-
-      localStorage.setItem('users', JSON.stringify(users));
-      this.user.set(users[oldUserIndex]);
-      this.user.set({
-        username: userFormData.username!,
-        password: userFormData.password!,
-        email: userFormData.email!,
-        phoneNumber: userFormData.phoneNumber!,
-        gender: userFormData.gender!,
-        bio: userFormData.bio!,
-        city: userFormData.city!,
-        pfpUrl: userFormData.pfpUrl!,
-      });
+      this.http
+        .patch(`${environment.apiUrl}/users/${this.user()!.username}`, userFormData)
+        .pipe(
+          catchError((err) => {
+            throw err;
+          }),
+        )
+        .subscribe((val) => {
+          this.user.set({
+            username: userFormData.username!,
+            password: userFormData.password!,
+            email: userFormData.email!,
+            phoneNumber: userFormData.phoneNumber!,
+            gender: userFormData.gender!,
+            bio: userFormData.bio!,
+            city: userFormData.city!,
+            pfpUrl: userFormData.pfpUrl!,
+            posts: (userFormData as any).posts!,
+            followers: (userFormData as any).followers!,
+            following: (userFormData as any).following!,
+          });
+          this.router.navigate(['/profile', `${this.user()?.username}`], {
+            replaceUrl: true,
+          });
+        });
       return;
     }
   }
   async deleteUser(username: string): Promise<void> {
+    //! Back end doesn't have delete at the moment
     if (environment.production) {
       firstValueFrom(this.http.delete(`${environment.apiUrl}/users/${username}`));
     } else {

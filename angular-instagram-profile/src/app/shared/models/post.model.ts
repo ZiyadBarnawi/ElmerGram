@@ -1,3 +1,5 @@
+import { Comment } from './comment.model';
+
 export interface Post {
   id?: string;
   username?: string;

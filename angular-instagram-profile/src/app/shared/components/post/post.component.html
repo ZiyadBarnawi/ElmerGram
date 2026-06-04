@@ -11,7 +11,7 @@
   ></div>
   <img (click)="toggleExpandedPost()" #img src="/{{ post()?.media }}" alt="🌻img" />
   <p-dialog
-    [header]="post()?.username || 'Unknown User'"
+    [header]="'@' + post()?.username || 'Unknown User'"
     closable="true"
     appendTo="body"
     draggable="false"
