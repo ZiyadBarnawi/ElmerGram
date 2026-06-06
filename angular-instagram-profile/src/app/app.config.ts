@@ -23,8 +23,9 @@ import { UserService } from './core/services/user.service';
 import { Observable } from 'rxjs';
 import { provideStore } from '@ngrx/store';
 import { counterReducer } from './store/counter';
-import { userReducer } from './store/user';
+import { userReducer, userSideEffect } from './store/user';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideEffects } from '@ngrx/effects';
 
 export const appConfig: ApplicationConfig = {
   // TIP: Providing services here means they'll be in the initial bundle. using @injectable doesn't have this behavior
@@ -64,5 +65,6 @@ export const appConfig: ApplicationConfig = {
       logOnly: !isDevMode(),
       autoPause: true,
     }),
+    provideEffects(userSideEffect),
   ],
 };

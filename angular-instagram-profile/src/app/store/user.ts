@@ -1,8 +1,12 @@
+import { inject } from '@angular/core';
 import { AppState } from '@core/models/appState.model';
-import { createAction, createReducer, createSelector, on, props } from '@ngrx/store';
+import { UserService } from '@core/services/user.service';
+import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
+import { createAction, createReducer, on, props, Store } from '@ngrx/store';
 import { User } from '@shared/models/user.model';
+import { tap, withLatestFrom } from 'rxjs';
 
-const initialValue: User = {
+let initialValue: User = {
   username: 'Ziyad',
   phoneNumber: '5511223344',
   email: 'ziyad@mail.com',
@@ -141,24 +145,33 @@ const initialValue: User = {
     },
   ],
 };
-
-export const logUser = createAction('[User] Log User');
 export const editUser = createAction('[User] Edit User', props<User>());
 
 export const userReducer = createReducer(
   initialValue,
-  on(logUser, (state) => {
-    console.log(state);
-    return state;
-  }),
+
   on(editUser, (state, action) => {
-    console.log(action);
-
-    let newState = { ...action };
-
-    newState.username += ' New Text ';
-    return newState;
+    return { ...state, ...action } as User;
   }),
 );
 
 export const userSelector = (state: AppState) => state.user;
+
+export class userSideEffect {
+  userService = inject(UserService);
+  actions$ = inject(Actions);
+  store = inject(Store);
+  logUserSideEffect = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ROOT_EFFECTS_INIT),
+        withLatestFrom(this.store.select(userSelector)), // to the store data
+        tap(async ([action, slice]) => {
+          console.log(action, slice);
+          console.log('Side Effect is fired 💥💥💥');
+          this.store.dispatch(editUser({ username: 'new username for testing' } as User));
+        }),
+      ),
+    { dispatch: false },
+  );
+}

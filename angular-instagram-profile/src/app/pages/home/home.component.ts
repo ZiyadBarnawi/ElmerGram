@@ -3,7 +3,7 @@ import { ButtonModule } from 'primeng/button';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { decrement, increment, selectCounter } from '../../store/counter';
-import { editUser, logUser, userSelector } from '../../store/user';
+import { editUser, userSelector } from '../../store/user';
 import { User } from '@shared/models/user.model';
 import { firstValueFrom } from 'rxjs';
 
@@ -16,15 +16,9 @@ import { firstValueFrom } from 'rxjs';
 export class Home {
   store = inject(Store<{ counter: number }>);
   user$ = this.store.select(userSelector);
-  username = '';
   counter?: number;
   counter$ = this.store.select(selectCounter);
-  ngOnInit() {
-    this.user$.subscribe((val) => {
-      this.username = val.username;
-      console.log(val);
-    });
-  }
+
   increment(): void {
     this.store.dispatch(increment({ value: 5 }));
   }
@@ -36,7 +30,10 @@ export class Home {
   }
   async editUser() {
     let user = await firstValueFrom(this.store.select(userSelector));
-    this.store.dispatch(editUser({ ...(user as unknown as User) }));
+
+    this.store.dispatch(
+      editUser({ ...(user as unknown as User), bio: 'New Bio', city: 'New City' }),
+    );
   }
   //TIP: iIf I didn't use the 'async' pipe, it have to write the entire next code. Thank async pipe!
   // ngOnInit() {

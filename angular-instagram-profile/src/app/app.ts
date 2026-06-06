@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { Drawer, DrawerModule } from 'primeng/drawer';
 import { Toast, ToastModule } from 'primeng/toast';
 import { Navbar } from './shared/components/navbar/navbar.component';
 import { createAnimatable, utils } from 'animejs';
+import { Header } from '@shared/components/header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, DrawerModule, Drawer, ToastModule, Toast],
+  imports: [RouterOutlet, Navbar, ToastModule, Toast, Header],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
