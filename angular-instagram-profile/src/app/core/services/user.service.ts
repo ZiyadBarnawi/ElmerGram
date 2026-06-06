@@ -129,12 +129,10 @@ export class UserService {
     //Local environment
     else {
       //TODO: finish local node server code
-      const users = (await firstValueFrom(this.http.get(`${environment.apiUrl}/users`))) as User[];
-      if (username) {
-        return users?.find(
-          (_user) => _user.username.toLowerCase() === username.toLowerCase(),
-        ) as User;
-      }
+      const users = (await firstValueFrom(
+        this.http.get(`${environment.apiUrl}/users${username ? `/${username}` : ''}`),
+      )) as User[];
+
       return users;
     }
   }

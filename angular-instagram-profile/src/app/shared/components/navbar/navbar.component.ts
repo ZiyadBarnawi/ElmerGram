@@ -39,7 +39,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     AvatarModule,
     RouterLinkActive,
     CardModule,
-    InputText,
+
     ReactiveFormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -74,11 +74,7 @@ export class Navbar implements OnInit {
       command: (): void => {},
       routerLink: '/landing',
     },
-    {
-      label: 'Search',
-      icon: 'pi pi-search',
-      command: (): void => {},
-    },
+
     {
       label: 'Reels',
       icon: 'pi pi-video',

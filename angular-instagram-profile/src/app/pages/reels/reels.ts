@@ -19,7 +19,6 @@ import { UserService } from '@core/services/user.service';
   selector: 'app-reels',
   imports: [Post, PostDirective],
   templateUrl: './reels.html',
-  styleUrl: './reels.css',
 })
 export class Reels implements OnInit {
   private date = new Date();

@@ -1,4 +1,8 @@
-:host {
-  width: 100vw;
-  height: 100vh;
+:host article {
+  background-color: #18181bad;
+}
+:host ::ng-deep div.drag-scroll-content {
+  gap: 2rem;
+  display: flex !important;
+  flex-direction: column;
 }

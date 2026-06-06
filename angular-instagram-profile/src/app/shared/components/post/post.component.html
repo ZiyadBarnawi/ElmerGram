@@ -1,11 +1,7 @@
-<div
-  (mouseover)="onMouseover()"
-  (mouseout)="onMouseout()"
-  class="position-relative z-10 d-inline-block"
->
+<div (mouseover)="onMouseover()" (mouseout)="onMouseout()" class="relative z-10 inline-block">
   <div
     #likes
-    class="likes position-absolute z-50 text-nowrap"
+    class="likes absolute z-50 whitespace-nowrap"
     animate.enter="enter-animation"
     [innerHTML]="post()?.likes! | likes: { testProp: 11, testProp2: 12 }"
   ></div>
@@ -21,39 +17,68 @@
     [dismissableMask]="true"
   >
     <div
-      class="d-flex gap-4 justify-content-between align-items-stretch w-100"
+      class="flex gap-4 justify-between items-stretch w-full"
       [style]="{
-        'align-items': 'stretch',
-        height: '55rem',
+        height: '40rem',
       }"
     >
-      <div class="d-flex flex-column">
-        <p-image [src]="post()?.media" appendTo="body" height="350" preview="true" />
-        <div class="d-flex gap-3">
-          <span class="text-secondary">Posted: {{ post()?.createdAt | date }}</span>
+      <div class="flex flex-col max-w-sm">
+        <p-image [src]="post()?.media" appendTo="body" preview="true" />
+        <div class="flex gap-3">
+          <span class="text-gray-400">Posted: {{ post()?.createdAt | date }}</span>
           <span [innerHTML]="post()?.likes! | likes"></span>
         </div>
+        <div class="flex gap-4">
+          <p-button
+            size="large"
+            appBounceUp
+            [style]="{
+              background: 'none',
+              border: 'none',
+            }"
+            icon="pi pi-share-alt"
+          />
+          <p-button
+            (click)="like()"
+            size="large"
+            appBounceUp
+            [style]="{
+              background: 'none',
+              border: 'none',
+            }"
+            icon="pi pi-heart"
+          />
+          <p-button
+            size="large"
+            appBounceUp
+            [style]="{
+              background: 'none',
+              border: 'none',
+            }"
+            icon="pi pi-comment"
+          />
+        </div>
       </div>
-      <section class="d-flex flex-column justify-content-between h-100">
-        <div class="d-flex flex-column gap-5" [style]="{ 'overflow-y': 'scroll', 'min-height': 0 }">
+      <section class="flex flex-col justify-between h-full">
+        <div class="flex flex-col gap-5 overflow-y-auto" [style]="{ 'min-height': 0 }">
           <drag-scroll [drag-scroll-x-disabled]="true">
             @for (_ of [].constructor(10); track $index) {
-              <div drag-scroll-item class="x-card">
-                <div class="d-flex align-items-center p-3 gap-3">
+              <div drag-scroll-item class="x-card p-1">
+                <div class="flex items-center p-3 gap-3">
                   <div class="x-avatar">PG</div>
                   <div>
-                    <h5 class="mb-0 fw-semibold comment-usernmae">Priyanshu Gupta</h5>
+                    <h5 class="mb-0 font-semibold comment-usernmae text-2xl">Priyanshu Gupta</h5>
                   </div>
                 </div>
 
                 <div class="px-3 pb-3">
-                  <p class="mb-0 text-wrap">
+                  <p class="mb-0 break-words text-wrap text-lg">
                     Just toke this amazing card component from uiverse.io !! 🚀 #WebDevelopment
                     #Vercel #Angular
                   </p>
                 </div>
 
-                <div class="x-actions d-flex justify-content-end gap-3 align-items-center p-3">
+                <div class="x-actions flex justify-end gap-3 items-center p-3">
                   <button class="btn-reply">
                     <svg
                       viewBox="0 0 16 16"
@@ -105,37 +130,6 @@
               </div>
             }
           </drag-scroll>
-        </div>
-
-        <div class="d-flex gap-4">
-          <p-button
-            size="large"
-            appBounceUp
-            [style]="{
-              background: 'none',
-              border: 'none',
-            }"
-            icon="pi pi-share-alt"
-          />
-          <p-button
-            (click)="like()"
-            size="large"
-            appBounceUp
-            [style]="{
-              background: 'none',
-              border: 'none',
-            }"
-            icon="pi pi-heart"
-          />
-          <p-button
-            size="large"
-            appBounceUp
-            [style]="{
-              background: 'none',
-              border: 'none',
-            }"
-            icon="pi pi-comment"
-          />
         </div>
       </section>
     </div>

@@ -1,15 +1,140 @@
-<!-- <div class="d-flex justify-content-center align-items-center">
-  <h1 [style]="{ 'font-size': '5rem' }" class="">{{ counter$ | async }}</h1>
-</div>
-<div class="d-flex flex-column justify-content-center align-items-center">
-  <h1 [style]="{ 'font-size': '5rem' }" class="">{{ (user$ | async)?.username }}</h1>
-  <h1 [style]="{ 'font-size': '5rem' }" class="">{{ (user$ | async)?.city }}</h1>
-  <h1 [style]="{ 'font-size': '5rem' }" class="">{{ (user$ | async)?.bio }}</h1>
-</div>
-<br />
-<div class="d-flex justify-content-center align-items-center gap-3">
-  <p-button label="+" (onClick)="increment()" [size]="'large'" title="+" />
-  <p-button label="-" (onClick)="decrement()" size="large" />
-  <p-button label="Log User" (onClick)="getUser()" size="large" />
-  <p-button label="Edit User" (onClick)="editUser()" size="large" />
-</div> -->
+<section class="flex gap-40 px-96">
+  <section class="flex flex-col h-screen w-5/6">
+    <h2 class="text-5xl font-medium">
+      Welcome back,
+      <div class="inline-block first-letter:text-teal-300 font-semibold">Ziyad</div>
+    </h2>
+    <div class="text-2xl tracking-wider text-gray-500!">Discover the latest posts...</div>
+    <div class="feed flex flex-col overflow-y-scroll">
+      <drag-scroll class="flex flex-col">
+        @for (post of [].constructor(10); track $index) {
+          <article drag-scroll-item class="w-3/5 py-6">
+            <div class="p-md flex items-center justify-between">
+              <div class="flex items-center gap-5">
+                <p-avatar
+                  [style]="{ width: '5rem', height: '5rem' }"
+                  class="border border-white"
+                  [image]="'pfp.png'"
+                  size="xlarge"
+                  shape="circle"
+                />
+                <div>
+                  <p class="text-2xl">@COSMIC.EXPLORER</p>
+                  <p class="text-[10px] tracking-widest text-gray-300!">Followed</p>
+                </div>
+              </div>
+              <p-button variant="text" icon="pi pi-ellipsis-h"> </p-button>
+            </div>
+            <p-image
+              [style]="{ width: '100%' }"
+              preview="true"
+              alt=""
+              class="object-cover transition-transform duration-700 group-hover:scale-105"
+              src="pfp3.png"
+            />
+
+            <div class="p-md space-y-sm">
+              <div class="flex items-center gap-4">
+                <div class="flex justify-center items-baseline">
+                  <p-button variant="text" [size]="'large'" class=""
+                    ><i class="pi pi-heart" [style]="{ 'font-size': '2rem' }"></i
+                  ></p-button>
+                  <span class="text-3xl">1.2M</span>
+                </div>
+                <div class="flex justify-center items-baseline">
+                  <p-button variant="text" [size]="'large'" class=""
+                    ><i class="pi pi-comment" [style]="{ 'font-size': '2rem' }"></i
+                  ></p-button>
+                  <span class="text-3xl">1.2K</span>
+                </div>
+
+                <div class="flex justify-center items-baseline">
+                  <p-button variant="text" [size]="'large'">
+                    <i
+                      class="pi pi-send hover:cursor-pointer"
+                      [style]="{ 'font-size': '2rem' }"
+                    ></i>
+                  </p-button>
+                </div>
+              </div>
+              <div>
+                <span class="text-wrap text-xl">
+                  <span class="text-xl font-semibold first-letter:text-teal-700!"
+                    >@COSMIC.EXPLORER</span
+                  >
+                  Beyond words. First glimpse of exoplanet "Aequorin-6" and its tiny lunar family.
+                  The universe truly is full the way of the wonders!
+                </span>
+                <div class="flex flex-wrap gap-xs mt-sm">
+                  <span class="text-lg px-2 py-0.5">#SpacePhotography</span>
+                  <span class="text-lg px-2 py-0.5">#Lunartear</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        }
+      </drag-scroll>
+    </div>
+  </section>
+  <section class="flex flex-col gap-10">
+    <!--? Trends -->
+    <div class="flex flex-col wi-1/6 bg-[#3535356a] rounded-3xl p-5">
+      <h3 class="text-4xl text-nowrap mb-4">Trending Topics</h3>
+      <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
+        <div class="ml-2.5">
+          <div class="flex flex-col">
+            <p class="text-2xl">#Tea_Gang🍵</p>
+            <p class="text-lg">12K posts</p>
+          </div>
+        </div>
+      </div>
+      <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
+        <div class="ml-2.5">
+          <div class="flex flex-col">
+            <p class="text-2xl">#Coffee_Gang☕</p>
+            <p class="text-lg">12K posts</p>
+          </div>
+        </div>
+      </div>
+      <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
+        <div class="ml-2.5">
+          <div class="flex flex-col">
+            <p class="text-2xl">#🕚_is_💵</p>
+            <p class="text-lg">12K posts</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ? Suggested following -->
+    <div class="flex flex-col wi-1/6 bg-[#3535356a] rounded-3xl p-5">
+      <h3 class="text-4xl text-nowrap mb-4">Suggested Users</h3>
+      <app-user-card
+        [showBio]="true"
+        [showFollowButton]="true"
+        [user]="{
+          username: 'DYDY',
+          pfpUrl: 'pfp3.png',
+          bio: 'I\'m a very long bio text that should be truncated lascbjaklvjbalkdbvlabjvlkasvd',
+        }"
+      />
+      <app-user-card
+        [showBio]="true"
+        [showFollowButton]="true"
+        [user]="{
+          username: 'Ziyad',
+          pfpUrl: 'pfp2.png',
+          bio: 'I\'m a very long bio text that should be truncated lascbjaklvjbalkdbvlabjvlkasvd',
+        }"
+      />
+      <app-user-card
+        [showBio]="true"
+        [showFollowButton]="true"
+        [user]="{
+          username: 'Hussam',
+          pfpUrl: 'pfp.png',
+          bio: 'I\'m a very long bio text that should be truncated lascbjaklvjbalkdbvlabjvlkasvd',
+        }"
+      />
+    </div>
+  </section>
+</section>

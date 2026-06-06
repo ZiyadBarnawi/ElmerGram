@@ -6,12 +6,23 @@ import { decrement, increment, selectCounter } from '../../store/counter';
 import { editUser, userSelector } from '../../store/user';
 import { User } from '@shared/models/user.model';
 import { firstValueFrom } from 'rxjs';
+import { AvatarModule } from 'primeng/avatar';
+import { ImageModule } from 'primeng/image';
+import { DragScrollComponent, DragScrollItemDirective } from 'ngx-drag-scroll';
+import { UserCard } from '@shared/components/user-card/user-card';
 
 @Component({
   selector: 'app-home',
-  imports: [ButtonModule, AsyncPipe],
-  templateUrl: './home.component.html',
+  imports: [
+    ButtonModule,
+    AvatarModule,
+    ImageModule,
+    DragScrollComponent,
+    DragScrollItemDirective,
+    UserCard,
+  ],
   styleUrl: './home.component.css',
+  templateUrl: './home.component.html',
 })
 export class Home {
   store = inject(Store<{ counter: number }>);

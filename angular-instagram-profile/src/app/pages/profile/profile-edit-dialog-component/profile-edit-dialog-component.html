@@ -3,12 +3,12 @@
   [(visible)]="userService.visibleEditDialog"
   (onHide)="userService.previousRoute({ replaceUrl: true })"
 >
-  <form [formGroup]="userService.userForm" class="h-auto overflow-visible">
-    <div class="my-5 d-flex flex-column justify-content-center align-content-center">
+  <form [formGroup]="userService.userForm" class="h-auto overflow-visible space-y-4">
+    <div class="flex flex-col justify-center items-center">
       <p-avatar
         [shape]="'circle'"
         [image]="userService.user()?.pfpUrl || Images[6]"
-        class="img-pfp my-4 align-self-center"
+        class="img-pfp mb-3 self-center"
       />
       <p-fileupload
         name="demo"
@@ -48,7 +48,7 @@
       <p-inputgroup-addon>
         <p-button
           (onClick)="userService.useEmail = true"
-          class="h-100"
+          class="h-full"
           [disabled]="userService.useEmail === true"
           ><svg
             class=""
@@ -88,14 +88,14 @@
         <p-button
           (onClick)="userService.useEmail = false"
           icon="pi pi-phone"
-          class="h-100 w-100"
+          class="h-full w-full"
           [disabled]="userService.useEmail === false"
         />
       </p-inputgroup-addon>
     </p-input-group>
 
-    <div class="w-100 gap-3 d-flex justify-content-start mb-3">
-      <p-input-group class="w-75 px-0 py-2">
+    <div class="w-full gap-3 flex justify-center items-center mb-3">
+      <p-input-group class="flex-1 px-0 py-2">
         <p-inputgroup-addon>
           <i class="pi pi-calendar"></i>
         </p-inputgroup-addon>
@@ -118,7 +118,7 @@
       />
     </div>
 
-    <p-input-group class="w-100 d-flex">
+    <p-input-group class="w-full flex my-2">
       <p-inputgroup-addon>
         <i class="pi pi-search" (click)="userService.updateSuggestedCities($event)"></i>
       </p-inputgroup-addon>
@@ -130,17 +130,17 @@
         (completeMethod)="userService.updateSuggestedCities($event)"
       />
     </p-input-group>
-    <div class="d-flex flex-column">
-      <label for="bio">bio</label>
+    <div class="flex flex-col my-2">
+      <label for="bio" class="mb-2">bio</label>
       <textarea
-        rows="5"
+        rows="4"
         cols="30"
         pTextarea
         [formControl]="userService.userForm.controls.bio"
       ></textarea>
     </div>
 
-    <div class="d-flex g-2 justify-content-center gap-5 my-5">
+    <div class="flex justify-center items-center gap-5 my-4">
       <p-button
         label="Cancel"
         (onClick)="userService.visibleEditDialog = false"

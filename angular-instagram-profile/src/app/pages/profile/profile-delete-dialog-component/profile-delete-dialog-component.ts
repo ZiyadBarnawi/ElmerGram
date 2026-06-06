@@ -4,12 +4,10 @@ import { UserService } from '@core/services/user.service';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
-
 @Component({
   selector: 'app-profile-delete-dialog-component',
   imports: [ButtonModule, DialogModule],
   templateUrl: './profile-delete-dialog-component.html',
-  styleUrl: './profile-delete-dialog-component.css',
 })
 export class ProfileDeleteDialogComponent {
   userService = inject(UserService);
