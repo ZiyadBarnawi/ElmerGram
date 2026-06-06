@@ -1,57 +1,14 @@
-<nav class="d-flex justify-content-center">
+<nav class="flex justify-center z-999">
   <div #dummy></div>
-  <div
-    class="navigation-card d-flex align-items-center justify-content-center gap-4 position-absolute"
-  >
+  <div class="navigation-card flex items-center justify-center gap-4 absolute">
     @for (item of menuItems; track $index) {
-      @if (item.label === 'Search') {
-        <p-popover
-          dismissable="true"
-          baseZIndex="99999"
-          #pop
-          class="d-flex flex-column align-items-center justify-content-center"
-        >
-          <input
-            [formControl]="searchForm"
-            [fluid]="true"
-            variant="outlined"
-            pSize="large"
-            pInputText
-            type="text"
-            name=""
-            id=""
-          />
-          <div class="cards-container" [style]="{ 'max-height': '20rem', 'overflow-y': 'scroll' }">
-            @for (user of users; track $index) {
-              <p-card (click)="switchToSelectedUser(user.username)">
-                <div class="card d-flex flex-row gap-3 justify-content-start align-items-center">
-                  <p-avatar shape="circle" size="xlarge" image="{{ user.pfpUrl }}"></p-avatar>
-                  <div class="d-flex flex-column">
-                    <p class="username">{{ user.username }}</p>
-                    <p class="bio">{{ user.bio }}</p>
-                  </div>
-                </div>
-              </p-card>
-            }
-          </div>
-        </p-popover>
-        <a
-          (click)="pop.toggle($event)"
-          routerLinkActive="tab--active"
-          [routerLink]="item.routerLink"
-          class="tab d-flex justify-content-center align-items-center"
-        >
-          <i style="font-size: 2.5rem" [class]="item.icon"></i>
-        </a>
-      } @else {
-        <a
-          routerLinkActive="tab--active"
-          [routerLink]="item.routerLink"
-          class="tab d-flex justify-content-center align-items-center"
-        >
-          <i style="font-size: 2.5rem" [class]="item.icon"></i>
-        </a>
-      }
+      <a
+        routerLinkActive="tab--active"
+        [routerLink]="item.routerLink"
+        class="tab flex justify-center items-center"
+      >
+        <i style="font-size: 2.5rem" [class]="item.icon"></i>
+      </a>
     }
   </div>
 </nav>

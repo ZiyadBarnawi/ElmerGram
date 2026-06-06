@@ -1,16 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
-/* 1. Define the layer order. Styles in 'primeng' will win over 'bootstrap' */
 
-@layer bootstrap, primeng;
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
-@import 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' layer(bootstrap);
-@import 'primeicons/primeicons.css' layer(primeng);
-
+@import 'primeicons/primeicons.css';
+@import 'tailwindcss';
+@theme {
+  --color-primary-100: #d0f1ed;
+  --color-primary-200: #a1e3db;
+  --color-primary-300: #72d4ca;
+  --color-primary-400: #43c6b8;
+  --color-primary-500: #14b8a6;
+  --color-primary-600: #109385;
+  --color-primary-700: #0c6e64;
+  --color-primary-800: #084a42;
+  --color-primary-900: #042521;
+}
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  /* padding: 0;
+  margin: 0; */
   color: white;
 }
 

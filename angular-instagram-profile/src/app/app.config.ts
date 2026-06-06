@@ -1,10 +1,10 @@
 import {
   ApplicationConfig,
+  isDevMode,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
-import Lara from '@primeng/themes/lara';
 import '@angular/compiler';
 
 import { routes } from './app.routes';
@@ -20,7 +20,12 @@ import {
 } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { UserService } from './core/services/user.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { provideStore } from '@ngrx/store';
+import { counterReducer } from './store/counter';
+import { userReducer, userSideEffect } from './store/user';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideEffects } from '@ngrx/effects';
 
 export const appConfig: ApplicationConfig = {
   // TIP: Providing services here means they'll be in the initial bundle. using @injectable doesn't have this behavior
@@ -53,5 +58,13 @@ export const appConfig: ApplicationConfig = {
         paramsInheritanceStrategy: 'always',
       }),
     ),
+    //TIP: NgRx global store
+    provideStore({ counter: counterReducer, user: userReducer }),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+    }),
+    provideEffects(userSideEffect),
   ],
 };

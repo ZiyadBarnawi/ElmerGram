@@ -24,27 +24,9 @@ nav {
   transition: all 0.3s;
 }
 .tab--active {
-  background-color: #3e3d3d91;
+  color: teal;
+  background-color: #43c6b91f;
 }
-/* From Uiverse.io by JohnnyCSilva */
-.card {
-  font-size: 1.6rem;
-  padding: 1rem;
-  width: fit-content;
-  min-width: 30rem;
-  height: 7rem;
-  background: #353535;
-  border-radius: 2rem;
-  backdrop-filter: blur(1rem);
-  transition: 150ms;
-}
-.bio {
-  font-size: 1.2rem;
-  color: rgba(190, 189, 189, 0.808);
-}
-
-::ng-deep .card:hover {
-  transform: scale(1.01);
-  cursor: pointer;
-  box-shadow: 1rem 0.5rem 2rem 0.5rem #78dab931;
+.tab--active i {
+  color: #43c6b8;
 }

@@ -12,5 +12,7 @@
   "FSharp.suggestGitignore": false,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnPaste": true
+  "editor.formatOnPaste": true,
+  "files.autoSave": "onFocusChange",
+  "files.autoSaveDelay": 200
 }

@@ -17,9 +17,9 @@
       }
     </p-tabpanel>
     <p-tabpanel value="2">
-      <div class="d-flex flex-wrap gap-4">
+      <div class="flex flex-wrap gap-4">
         @for (user of user()?.following; track $index) {
-          <div [class]="`profile-card w-100 text-center profile-${$index}`">
+          <div [class]="`profile-card w-full text-center profile-${$index}`">
             <!-- Avatar icon -->
             <div class="profile-icon mb-3">
               <p-avatar
@@ -30,7 +30,7 @@
               />
             </div>
             <!-- Name & handle -->
-            <h5 class="profile-name fw-bolder">{{ user.username }}</h5>
+            <h5 class="profile-name font-bold">{{ user.username }}</h5>
             <p class="profile-bio">{{ user.bio }}</p>
           </div>
         }

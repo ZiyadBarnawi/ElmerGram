@@ -1,21 +1,28 @@
 {
-  "username": "Ziyad",
-  "phoneNumber": "5511223344",
-  "email": "ziyad@mail.com",
-  "password": "ziyad007",
-  "pfpUrl": "cookie.jpg",
-  "bio": "Tech & AI enthusiast 🤖 | Speaker | Opinions are my own",
-  "dateOfBirth": "1990-04-12T00:00:00.000Z",
+  "username": "Feras",
+  "phoneNumber": "5571239876",
+  "email": "feras@mail.com",
+  "password": "feras789",
+  "pfpUrl": "sunFlower.jpg",
+  "bio": "Just vibing 🎧 | CS student | Gamer by night",
+  "dateOfBirth": "2001-07-30T00:00:00.000Z",
   "gender": "M",
-  "city": "Dubai",
-  "accountType": "business",
+  "city": "Mecca",
   "followers": [
     {
-      "username": "jafar",
-      "pfpUrl": "cookie.jpg",
-      "bio": "Coffee lover ☕ | Traveler 🌍 | Building things one day at a time",
-      "city": "Medina"
+      "username": "adam",
+      "pfpUrl": "drops.jpg",
+      "bio": "🎨 Digital artist | Turning ideas into pixels | Open for commissions",
+      "city": "Khobar"
     },
+    {
+      "username": "Kevin",
+      "pfpUrl": "defaultAvatar.jpg",
+      "bio": "Football ⚽ | Fitness 💪 | Al-Hilal fan till I die 💙",
+      "city": "Riyadh"
+    }
+  ],
+  "following": [
     {
       "username": "Hussam",
       "pfpUrl": "snowflake.webp",
@@ -29,109 +36,82 @@
       "city": "Jeddah"
     },
     {
-      "username": "Feras",
-      "pfpUrl": "sunFlower.jpg",
-      "bio": "Just vibing 🎧 | CS student | Gamer by night",
-      "city": "Mecca"
-    },
-    {
-      "username": "Kevin",
-      "pfpUrl": "defaultAvatar.jpg",
-      "bio": "Football ⚽ | Fitness 💪 | Al-Hilal fan till I die 💙",
-      "city": "Riyadh"
-    },
-    {
       "username": "Abdullah",
       "pfpUrl": "defaultAvatar.jpg",
       "bio": "Foodie 🍕 | Amateur chef | Medina local 🕌",
       "city": "Medina"
     },
     {
-      "username": "adam",
-      "pfpUrl": "drops.jpg",
-      "bio": "🎨 Digital artist | Turning ideas into pixels | Open for commissions",
-      "city": "Khobar"
-    }
-  ],
-  "following": [
-    {
-      "username": "Huda",
-      "pfpUrl": "carbet.jpg",
-      "bio": "Interior designer 🏡 | Bringing spaces to life | DM for collabs",
-      "city": "Jeddah"
+      "username": "Ziyad",
+      "pfpUrl": "cookie.jpg",
+      "bio": "Tech & AI enthusiast 🤖 | Speaker | Opinions are my own",
+      "city": "Dubai"
     }
   ],
   "posts": [
     {
-      "id": "post_ziyad_1",
-      "username": "Ziyad",
+      "id": "post_feras_1",
+      "username": "Feras",
       "media": "sunnyDay.jpg",
-      "description": "AI is not replacing you — someone using AI is. Start learning now. 🤖 #Tech #AI",
-      "likes": 45000,
-      "createdAt": "2025-10-10T09:00:00.000Z",
-      "comments": [
-        { "username": "jafar", "content": "This hit different 💯", "replies": 5, "likes": 980 },
-        {
-          "username": "Hussam",
-          "content": "Sharing this everywhere",
-          "replies": 3,
-          "likes": 740
-        },
-        {
-          "username": "Feras",
-          "content": "Okay okay I'll start that course 😭",
-          "replies": 2,
-          "likes": 610
-        },
-        {
-          "username": "Abdullah",
-          "content": "Needed to hear this today fr",
-          "replies": 1,
-          "likes": 430
-        }
-      ]
-    },
-    {
-      "id": "post_ziyad_2",
-      "username": "Ziyad",
-      "media": "desert.jpg",
-      "description": "Dubai → Riyadh road trip 🚗 Some thoughts on building in the Middle East 🧵",
-      "likes": 32000,
-      "createdAt": "2025-10-17T14:00:00.000Z",
-      "comments": [
-        {
-          "username": "Kevin",
-          "content": "The thread was incredible, more please!",
-          "replies": 2,
-          "likes": 520
-        },
-        {
-          "username": "Huda",
-          "content": "The entrepreneurship ecosystem here is growing so fast",
-          "replies": 3,
-          "likes": 480
-        }
-      ]
-    },
-    {
-      "id": "post_ziyad_3",
-      "username": "Ziyad",
-      "media": "rainnyCar.jpg",
-      "description": "Even on grey days, the grind doesn't stop ☁️💻",
-      "likes": 28000,
-      "createdAt": "2025-10-24T11:30:00.000Z",
+      "description": "Studied outside today for a change ☀️ Highly recommend 10/10",
+      "likes": 42,
+      "createdAt": "2025-11-08T10:15:00.000Z",
       "comments": [
         {
           "username": "adam",
-          "content": "This is the content I follow you for 🙌",
-          "replies": 1,
-          "likes": 390
+          "content": "Bro actually touched grass 😭",
+          "replies": 2,
+          "likes": 15
         },
         {
+          "username": "Kevin",
+          "content": "Who are you and what did you do to Feras",
+          "replies": 1,
+          "likes": 12
+        }
+      ]
+    },
+    {
+      "id": "post_feras_2",
+      "username": "Feras",
+      "media": "desert.jpg",
+      "description": "Weekend escape 🏜️ No wifi, no stress. Just vibes.",
+      "likes": 178,
+      "createdAt": "2025-11-14T16:00:00.000Z",
+      "comments": [
+        {
           "username": "jafar",
-          "content": "Motivational and aesthetic? Legend move",
+          "content": "You're living my dream life rn",
+          "replies": 1,
+          "likes": 28
+        },
+        {
+          "username": "Hussam",
+          "content": "The shot is actually not bad 👀",
+          "replies": 0,
+          "likes": 19
+        }
+      ]
+    },
+    {
+      "id": "post_feras_3",
+      "username": "Feras",
+      "media": "sunFlower.jpg",
+      "description": "My sister made me take this photo 🌻 She said post it so here you go",
+      "likes": 210,
+      "createdAt": "2025-11-18T12:30:00.000Z",
+      "comments": [
+        {
+          "username": "Huda",
+          "content": "Tell your sister she has great taste 😂",
           "replies": 2,
-          "likes": 310
+          "likes": 40
+        },
+        {
+          "username": "Abdullah",
+          "content": "Bro actually got a good one accidentally",
+          "replies": 0,
+          "likes": 22
         }
       ]
     }
