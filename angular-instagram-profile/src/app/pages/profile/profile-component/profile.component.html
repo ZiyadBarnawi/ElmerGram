@@ -1,14 +1,4 @@
 <div class="flex justify-between w-full">
-  <a routerLink="signup" class="no-underline">
-    <p-button
-      class="p-button-dialog absolute"
-      (onClick)="userService.visibleSignupDialog = true"
-      label="Sign up
-"
-    >
-    </p-button>
-  </a>
-
   <!--! NAV -->
   <section class="w-full flex justify-center">
     @if (userService.user()) {

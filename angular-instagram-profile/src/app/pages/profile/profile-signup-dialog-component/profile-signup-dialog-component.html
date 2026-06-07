@@ -14,6 +14,18 @@
       <p-step-panel [value]="1">
         <ng-template #content let-activateCallback="activateCallback">
           <form [formGroup]="userService.userForm" class="h-auto overflow-visible" action="">
+            <div class="my-5 flex flex-col items-center justify-center">
+              <div class="file-input-div relative flex justify-center items-center">
+                <input
+                  (change)="test($event)"
+                  [formControl]="userService.userForm.controls.pfpUrl"
+                  class="file-input"
+                  name="file"
+                  type="file"
+                />
+                <i class="pi pi-upload" [style]="{ 'font-size': '3rem' }"></i>
+              </div>
+            </div>
             <p-input-group class="p-2 my-2">
               <p-inputgroup-addon><i class="pi pi-user"></i> </p-inputgroup-addon>
               <input
@@ -30,7 +42,7 @@
               <p-inputgroup-addon>
                 <p-button
                   (onClick)="userService.useEmail = true"
-                  class="h-auto"
+                  class="h-full"
                   [disabled]="userService.useEmail === true"
                   ><svg
                     class=""
@@ -60,9 +72,9 @@
                   [mask]="'(+999)99-999-9999'"
                   size="large"
                   type="text"
+                  fluid="true"
                   formControlName="phoneNumber"
-                  pInputText
-                  class="inputmask-credentials"
+                  class="inputmask-credentials w-full"
                   placeholder="Phone Number"
                 />
               }
@@ -70,13 +82,13 @@
                 <p-button
                   (onClick)="userService.useEmail = false"
                   icon="pi pi-phone"
-                  class="h-auto"
+                  class="h-full!"
                   [disabled]="userService.useEmail !== true"
                 />
               </p-inputgroup-addon>
             </p-input-group>
 
-            <div class="div-date-of-birth flex justify-center items-center gap-2 my-2">
+            <div class="div-date-of-birth flex justify-center items-center gap-4 my-2 p-2">
               <p-input-group class="input-group-date-of-birth flex-1">
                 <p-inputgroup-addon>
                   <i class="pi pi-calendar"></i>
@@ -94,7 +106,7 @@
               </p-input-group>
               <p-selectbutton
                 [options]="userService.genderOptions"
-                class="selectbutton-gender m-2"
+                class="selectbutton-gender"
                 formControlName="gender"
               />
             </div>
@@ -139,30 +151,7 @@
                 ></textarea>
               </div>
             </div>
-            <div class="my-5">
-              <p-fileupload
-                name="demo"
-                url="https://www.primefaces.org/cdn/api/upload.php"
-                [multiple]="true"
-                accept="image/*"
-                maxFileSize="1000000"
-                mode="advanced"
-                [auto]="true"
-                (onUpload)="userService.uploadFile($event, userService.userForm.controls.pfpUrl)"
-              >
-                <ng-template #content>
-                  @if (userService.userForm.controls.pfpUrl.value) {
-                    <ul>
-                      @for (file of userService.userForm.controls.pfpUrl.value; track $index) {
-                        <li>
-                          <img class="img-pfp my-4" src="{{ file }}" alt="ppf" />
-                        </li>
-                      }
-                    </ul>
-                  }
-                </ng-template>
-              </p-fileupload>
-            </div>
+
             <div class="flex justify-center items-center gap-5 my-4">
               <p-button
                 severity="secondary"

@@ -4,9 +4,9 @@ import { UserService } from '@core/services/user.service';
 import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { createAction, createReducer, on, props, Store } from '@ngrx/store';
 import { User } from '@shared/models/user.model';
-import { tap, withLatestFrom } from 'rxjs';
+import { firstValueFrom, tap, withLatestFrom } from 'rxjs';
 
-let initialValue: User = {
+let initialValue: User | null = {
   username: 'Ziyad',
   phoneNumber: '5511223344',
   email: 'ziyad@mail.com',
@@ -149,7 +149,6 @@ export const editUser = createAction('[User] Edit User', props<User>());
 
 export const userReducer = createReducer(
   initialValue,
-
   on(editUser, (state, action) => {
     return { ...state, ...action } as User;
   }),
@@ -165,11 +164,13 @@ export class userSideEffect {
     () =>
       this.actions$.pipe(
         ofType(ROOT_EFFECTS_INIT),
-        withLatestFrom(this.store.select(userSelector)), // to the store data
+        withLatestFrom(this.store.select(userSelector)), // to get the store data
         tap(async ([action, slice]) => {
-          console.log(action, slice);
-          console.log('Side Effect is fired 💥💥💥');
-          this.store.dispatch(editUser({ username: 'new username for testing' } as User));
+          let user = await this.userService.getInitialUser();
+
+          console.log(`[ ${action?.type} ] Side Effect is fired 💥💥💥`);
+
+          this.store.dispatch(editUser(user));
         }),
       ),
     { dispatch: false },

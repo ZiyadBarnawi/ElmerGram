@@ -33,24 +33,7 @@ export const profileRoutes: Routes = [
             (m) => m.ProfileEditDialogComponent,
           ),
       },
-      {
-        path: 'signup',
-        canDeactivate: [
-          (component: ProfileSignupDialogComponent) => {
-            if (
-              (component.userService as UserService).userForm.touched &&
-              (component.userService as UserService).userForm.dirty
-            )
-              return window.alert("Don't worry. Your data will remain ✨");
-            return true;
-          },
-        ],
-        pathMatch: 'prefix',
-        loadComponent: () =>
-          import('@pages/profile/profile-signup-dialog-component/profile-signup-dialog-component').then(
-            (m) => m.ProfileSignupDialogComponent,
-          ),
-      },
+
       {
         path: 'delete',
         pathMatch: 'prefix',
@@ -84,24 +67,7 @@ export const profileRoutes: Routes = [
             (m) => m.ProfileEditDialogComponent,
           ),
       },
-      {
-        path: 'signup',
-        canDeactivate: [
-          (component: ProfileSignupDialogComponent) => {
-            if (
-              (component.userService as UserService).userForm.touched &&
-              (component.userService as UserService).userForm.dirty
-            )
-              return window.alert("Don't worry. Your data will remain ✨");
-            return true;
-          },
-        ],
-        pathMatch: 'prefix',
-        loadComponent: () =>
-          import('@pages/profile/profile-signup-dialog-component/profile-signup-dialog-component').then(
-            (m) => m.ProfileSignupDialogComponent,
-          ),
-      },
+
       {
         path: 'delete',
         pathMatch: 'prefix',

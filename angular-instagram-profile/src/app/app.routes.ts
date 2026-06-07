@@ -1,7 +1,16 @@
-import { CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
+import {
+  CanMatchFn,
+  RedirectCommand,
+  Router,
+  Routes,
+  UrlMatcher,
+  UrlSegment,
+} from '@angular/router';
 import { inject } from '@angular/core';
 
 import { profileRoutes } from './pages/profile/routes';
+import { UserService } from '@core/services/user.service';
+import { ProfileSignupDialogComponent } from '@pages/profile/profile-signup-dialog-component/profile-signup-dialog-component';
 
 const redirectToUnAuthorize: CanMatchFn = (route, segment) => {
   console.log(route, segment);
@@ -9,7 +18,13 @@ const redirectToUnAuthorize: CanMatchFn = (route, segment) => {
   return new RedirectCommand(router.parseUrl('/unauthorized'));
 };
 // const deactivate: CanDeactivateFn<ProfileComponent> = ;
-
+export const signupMatcher: UrlMatcher = (segments: UrlSegment[]) => {
+  const last = segments[segments.length - 1];
+  if (last?.path === 'signup') {
+    return { consumed: segments };
+  }
+  return null;
+};
 export const routes: Routes = [
   {
     path: '',
@@ -21,9 +36,34 @@ export const routes: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('@pages/home/home.component').then((m) => m.Home),
     title: 'ElmerGram ',
+    loadChildren: (): Routes => [
+      {
+        path: 'signup',
+        pathMatch: 'prefix',
+        canDeactivate: [
+          (component: ProfileSignupDialogComponent) => {
+            if (
+              (component.userService as UserService).userForm.touched &&
+              (component.userService as UserService).userForm.dirty
+            )
+              return window.alert("Don't worry. Your data will remain ✨");
+            return true;
+          },
+        ],
+        loadComponent: () =>
+          import('@pages/profile/profile-signup-dialog-component/profile-signup-dialog-component').then(
+            (m) => m.ProfileSignupDialogComponent,
+          ),
+      },
+    ],
   },
+
   ...(profileRoutes as Routes),
   { path: 'reels', loadComponent: () => import('@pages/reels/reels').then((m) => m.Reels) },
+  {
+    matcher: signupMatcher,
+    component: ProfileSignupDialogComponent,
+  },
 
   {
     path: '**',

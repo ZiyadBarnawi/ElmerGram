@@ -1,15 +1,18 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
-import { decrement, increment, selectCounter } from '../../store/counter';
-import { editUser, userSelector } from '../../store/user';
+import { userSelector } from '../../store/user';
 import { User } from '@shared/models/user.model';
-import { firstValueFrom } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { ImageModule } from 'primeng/image';
 import { DragScrollComponent, DragScrollItemDirective } from 'ngx-drag-scroll';
 import { UserCard } from '@shared/components/user-card/user-card';
+import { Post } from '@shared/models/post.model';
+import { UserService } from '@core/services/user.service';
+import { NumbersPipe } from '@shared/pipes/numbers-pipe';
+import { shuffle } from 'lodash';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,36 +23,25 @@ import { UserCard } from '@shared/components/user-card/user-card';
     DragScrollComponent,
     DragScrollItemDirective,
     UserCard,
+    AsyncPipe,
+    NumbersPipe,
   ],
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
 })
-export class Home {
+export class Home implements OnInit {
   store = inject(Store<{ counter: number }>);
   user$ = this.store.select(userSelector);
-  counter?: number;
-  counter$ = this.store.select(selectCounter);
+  posts: Post[] = [];
+  userService = inject(UserService);
+  suggestedUsers: User[] = [];
 
-  increment(): void {
-    this.store.dispatch(increment({ value: 5 }));
+  async ngOnInit() {
+    this.posts = await this.userService.getReels();
+    let users: User[] = (await this.userService.getUsers()) as User[];
+    this.suggestedUsers = shuffle(users).slice(0, 3);
+    this.suggestedUsers = this.suggestedUsers.map((user: User) => {
+      return { ...user, followed: false };
+    }) as unknown as User[];
   }
-  decrement() {
-    this.store.dispatch(decrement({ value: 4 }));
-  }
-  async getUser() {
-    console.log(await firstValueFrom(this.store.select(userSelector)));
-  }
-  async editUser() {
-    let user = await firstValueFrom(this.store.select(userSelector));
-
-    this.store.dispatch(
-      editUser({ ...(user as unknown as User), bio: 'New Bio', city: 'New City' }),
-    );
-  }
-  //TIP: iIf I didn't use the 'async' pipe, it have to write the entire next code. Thank async pipe!
-  // ngOnInit() {
-  //   this.counter$.subscribe((val) => {
-  //     this.counter = val;
-  //   });
-  // }
 }

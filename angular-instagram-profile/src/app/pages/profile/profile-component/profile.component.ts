@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit {
         let user: User = await this.userService.getInitialUser();
         this.userService.user.set(user);
       } else {
-        let user = await this.userService.getUsers(this.username());
+        let user = ((await this.userService.getUsers(this.username())) as User[])[0];
         this.userService.user.set(user as User);
       }
     });
