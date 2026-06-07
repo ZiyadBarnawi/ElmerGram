@@ -152,6 +152,7 @@
       </p-overlaybadge>
     </p-button>
     <p-button
+      (onClick)="openSignUpDialog()"
       (onClick)="userService.visibleSignupDialog = true"
       variant="outlined"
       size="large"

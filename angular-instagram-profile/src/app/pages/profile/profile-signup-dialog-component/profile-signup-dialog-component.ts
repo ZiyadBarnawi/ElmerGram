@@ -21,7 +21,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { MessageService } from 'primeng/api';
 
-
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 import { User } from '@shared/models/user.model';
@@ -103,5 +102,11 @@ export class ProfileSignupDialogComponent {
     }); //replaceUrl === the user can't navigate back to this url
     this.userService.visibleSignupDialog = false;
     this.userService.userForm.reset();
+  }
+  test(event: Event) {
+    console.log(event);
+    let pfpUrl = this.userService.userForm.value.pfpUrl?.split('\\');
+
+    console.log(pfpUrl![pfpUrl?.length! - 1]);
   }
 }
