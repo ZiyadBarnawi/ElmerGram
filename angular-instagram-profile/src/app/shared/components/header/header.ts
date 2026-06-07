@@ -13,6 +13,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { Button } from 'primeng/button';
 import { UserCard } from '../user-card/user-card';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
     InputIconModule,
     Button,
     UserCard,
+    RouterLink,
   ],
   templateUrl: './header.html',
 })

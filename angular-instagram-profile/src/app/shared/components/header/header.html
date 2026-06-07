@@ -151,8 +151,12 @@
         <i class="pi pi-bell" style="font-size: 2rem"></i>
       </p-overlaybadge>
     </p-button>
-    <p-button variant="text">
-      <i class="pi pi-cog" style="font-size: 2rem"></i>
-    </p-button>
+    <p-button
+      (onClick)="userService.visibleSignupDialog = true"
+      variant="outlined"
+      size="large"
+      class="p-button-dialog"
+      label="Sign up"
+    />
   </div>
 </div>

@@ -2,24 +2,26 @@
   <section class="flex flex-col h-screen w-5/6">
     <h2 class="text-5xl font-medium">
       Welcome back,
-      <div class="inline-block first-letter:text-teal-300 font-semibold">Ziyad</div>
+      <div class="inline-block first-letter:text-teal-300 font-semibold">
+        {{ (user$ | async)?.username }}
+      </div>
     </h2>
     <div class="text-2xl tracking-wider text-gray-500!">Discover the latest posts...</div>
     <div class="feed flex flex-col overflow-y-scroll">
       <drag-scroll class="flex flex-col">
-        @for (post of [].constructor(10); track $index) {
+        @for (post of posts; track $index) {
           <article drag-scroll-item class="w-3/5 py-6">
             <div class="p-md flex items-center justify-between">
               <div class="flex items-center gap-5">
                 <p-avatar
                   [style]="{ width: '5rem', height: '5rem' }"
                   class="border border-white"
-                  [image]="'pfp.png'"
+                  [image]="post.pfpUrl"
                   size="xlarge"
                   shape="circle"
                 />
                 <div>
-                  <p class="text-2xl">@COSMIC.EXPLORER</p>
+                  <p class="text-2xl">@{{ post.username }}</p>
                   <p class="text-[10px] tracking-widest text-gray-300!">Followed</p>
                 </div>
               </div>
@@ -30,7 +32,7 @@
               preview="true"
               alt=""
               class="object-cover transition-transform duration-700 group-hover:scale-105"
-              src="pfp3.png"
+              [src]="post.media"
             />
 
             <div class="p-md space-y-sm">
@@ -39,13 +41,13 @@
                   <p-button variant="text" [size]="'large'" class=""
                     ><i class="pi pi-heart" [style]="{ 'font-size': '2rem' }"></i
                   ></p-button>
-                  <span class="text-3xl">1.2M</span>
+                  <span class="text-3xl">{{ post.likes! | numbers }}</span>
                 </div>
                 <div class="flex justify-center items-baseline">
                   <p-button variant="text" [size]="'large'" class=""
                     ><i class="pi pi-comment" [style]="{ 'font-size': '2rem' }"></i
                   ></p-button>
-                  <span class="text-3xl">1.2K</span>
+                  <span class="text-3xl">{{ post.comments?.length! | numbers }} </span>
                 </div>
 
                 <div class="flex justify-center items-baseline">
@@ -60,10 +62,9 @@
               <div>
                 <span class="text-wrap text-xl">
                   <span class="text-xl font-semibold first-letter:text-teal-700!"
-                    >@COSMIC.EXPLORER</span
+                    >@{{ post.username }}</span
                   >
-                  Beyond words. First glimpse of exoplanet "Aequorin-6" and its tiny lunar family.
-                  The universe truly is full the way of the wonders!
+                  {{ post.description }}
                 </span>
                 <div class="flex flex-wrap gap-xs mt-sm">
                   <span class="text-lg px-2 py-0.5">#SpacePhotography</span>
@@ -83,15 +84,7 @@
       <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
         <div class="ml-2.5">
           <div class="flex flex-col">
-            <p class="text-2xl">#Tea_Gang🍵</p>
-            <p class="text-lg">12K posts</p>
-          </div>
-        </div>
-      </div>
-      <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
-        <div class="ml-2.5">
-          <div class="flex flex-col">
-            <p class="text-2xl">#Coffee_Gang☕</p>
+            <p class="text-2xl">#Green_Tea🍵</p>
             <p class="text-lg">12K posts</p>
           </div>
         </div>
@@ -104,37 +97,21 @@
           </div>
         </div>
       </div>
+      <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
+        <div class="ml-2.5">
+          <div class="flex flex-col">
+            <p class="text-2xl">#To_Space_we_go🚀</p>
+            <p class="text-lg">7K posts</p>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- ? Suggested following -->
     <div class="flex flex-col wi-1/6 bg-[#3535356a] rounded-3xl p-5">
       <h3 class="text-4xl text-nowrap mb-4">Suggested Users</h3>
-      <app-user-card
-        [showBio]="true"
-        [showFollowButton]="true"
-        [user]="{
-          username: 'DYDY',
-          pfpUrl: 'pfp3.png',
-          bio: 'I\'m a very long bio text that should be truncated lascbjaklvjbalkdbvlabjvlkasvd',
-        }"
-      />
-      <app-user-card
-        [showBio]="true"
-        [showFollowButton]="true"
-        [user]="{
-          username: 'Ziyad',
-          pfpUrl: 'pfp2.png',
-          bio: 'I\'m a very long bio text that should be truncated lascbjaklvjbalkdbvlabjvlkasvd',
-        }"
-      />
-      <app-user-card
-        [showBio]="true"
-        [showFollowButton]="true"
-        [user]="{
-          username: 'Hussam',
-          pfpUrl: 'pfp.png',
-          bio: 'I\'m a very long bio text that should be truncated lascbjaklvjbalkdbvlabjvlkasvd',
-        }"
-      />
+      @for (user of suggestedUsers; track $index) {
+        <app-user-card [showBio]="true" [showFollowButton]="true" [user]="user" />
+      }
     </div>
   </section>
 </section>

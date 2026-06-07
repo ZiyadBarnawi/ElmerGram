@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Post as PostModel } from '../../models/post.model';
 import { gsap } from 'gsap';
-import { likes } from '@shared/pipes/likes';
+import { likes } from '@shared/pipes/likes.pipe';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { Images } from '@shared/models/images.enum';
