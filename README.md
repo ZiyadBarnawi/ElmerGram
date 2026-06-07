@@ -2,11 +2,9 @@ Attempting to learn Angular by mimicking the Instagram profile page
 
 # Current State: 
 
-<img width="1535" height="700" alt="image" src="https://github.com/user-attachments/assets/adb31ec3-a820-4714-8d99-5c7cd711a481" />
+<img width="1536" height="699" alt="image" src="https://github.com/user-attachments/assets/a7e5687c-0d70-4a9d-91f1-136420238b12" />
 
-<img width="1535" height="696" alt="image" src="https://github.com/user-attachments/assets/f34e3996-05e2-4ce0-8322-784cb31a98b0" />
-
-
+<img width="1536" height="698" alt="image" src="https://github.com/user-attachments/assets/2d08e288-66b0-4a12-9970-fea38fcc3754" />
 
 
 Weekly internship report:
