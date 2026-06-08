@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet, RouterLinkWithHref, ResolveFn } from '@angular/router';
-import { firstValueFrom, interval } from 'rxjs';
+import { firstValueFrom, interval, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Button } from 'primeng/button';
 import { Avatar } from 'primeng/avatar';
@@ -19,7 +19,9 @@ import { MessageService } from 'primeng/api';
 import { UserService } from '@core/services/user.service';
 import { User } from '@shared/models/user.model';
 import { ProfileBodyComponent } from '@shared/components/profile-body/profileBody.component';
-import { environment } from '@core/environments/environment';
+import { Store } from '@ngrx/store';
+import { currentUserSelector, editTempUser, tempUserSelector } from '../../../store/user';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -30,6 +32,7 @@ import { environment } from '@core/environments/environment';
     RouterOutlet,
     RouterLinkWithHref,
     ProfileBodyComponent,
+    AsyncPipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   standalone: true,
@@ -43,7 +46,8 @@ export class ProfileComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   userForm = this.userService.userForm;
-  // user = this.userService.user;
+  user$: Observable<User> | null = null;
+  store = inject(Store);
   Images = this.userService.Images;
 
   username = input<string>(); // TIP: this get its value form the url
@@ -65,30 +69,32 @@ export class ProfileComponent implements OnInit {
     manualCleanup: true,
   });
 
+  constructor() {
+    effect(async () => {
+      if (this.username()?.toLowerCase() === 'me') {
+        this.user$ = this.store.select(currentUserSelector);
+      } else {
+        let user = ((await this.userService.getUsers(this.username())) as User[])[0];
+        console.log(user);
+
+        this.store.dispatch(editTempUser(user));
+        this.user$ = this.store.select(tempUserSelector);
+      }
+    });
+  }
+  async ngOnInit(): Promise<void> {
+    this.user$ = this.store.select(currentUserSelector);
+    this.destroyRef.onDestroy(() => {
+      console.log('Destroyed');
+    });
+    console.log(this.text());
+  }
   toggleFollow(): void {
     this.isFollowed.set(!this.isFollowed());
     this.messagesService.add({
       summary: this.isFollowed() ? 'Followed!' : 'Un-Followed',
       severity: this.isFollowed() ? 'success' : 'error',
     });
-  }
-
-  constructor() {
-    effect(async () => {
-      if (this.username()?.toLowerCase() === 'me') {
-        let user: User = await this.userService.getInitialUser();
-        this.userService.user.set(user);
-      } else {
-        let user = ((await this.userService.getUsers(this.username())) as User[])[0];
-        this.userService.user.set(user as User);
-      }
-    });
-  }
-  async ngOnInit(): Promise<void> {
-    this.destroyRef.onDestroy(() => {
-      console.log('Destroyed');
-    });
-    console.log(this.text());
   }
 }
 

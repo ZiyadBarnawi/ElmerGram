@@ -53,11 +53,11 @@ import { DividerModule } from 'primeng/divider';
 export class ProfileEditDialogComponent implements OnInit {
   userService = inject(UserService);
   messageService = inject(MessageService);
-  private router = inject(Router);
+  user: User | null = null;
   Images = this.userService.Images;
   async submitForm() {
     this.userService.editUser();
-    console.log(this.userService.user()?.username);
+    console.log(this.user?.username);
 
     //replaceUrl ==> the user can't navigate back to this url
 
@@ -65,6 +65,6 @@ export class ProfileEditDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.userForm.patchValue(this.userService.user()!);
+    this.userService.userForm.patchValue(this.user!);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { UserService } from '@core/services/user.service';
+import { Store } from '@ngrx/store';
 
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -11,9 +12,10 @@ import { DialogModule } from 'primeng/dialog';
 })
 export class ProfileDeleteDialogComponent {
   userService = inject(UserService);
+  store = inject(Store);
 
   deleteUser() {
-    this.userService.deleteUser(this.userService.user()!.username);
-    this.userService.user.set(null);
+    // this.userService.deleteUser(this.userService.user()!.username);
+    // this.store.dispatch(editCurrentUser({}));
   }
 }

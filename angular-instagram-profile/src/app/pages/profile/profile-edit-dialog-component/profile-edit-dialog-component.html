@@ -7,7 +7,7 @@
     <div class="flex flex-col justify-center items-center">
       <p-avatar
         [shape]="'circle'"
-        [image]="userService.user()?.pfpUrl || Images[6]"
+        [image]="user?.pfpUrl || Images[6]"
         class="img-pfp mb-3 self-center"
       />
       <p-fileupload
@@ -40,7 +40,7 @@
         type="text"
         name="username"
         placeholder="Username"
-        [placeholder]="userService.user()?.username"
+        [placeholder]="user?.username"
       />
     </p-input-group>
 
@@ -64,14 +64,14 @@
           </svg>
         </p-button>
       </p-inputgroup-addon>
-      @if (userService.user()?.email) {
+      @if (user?.email) {
         <input
           size="large"
           type="text"
           [formControl]="userService.userForm.controls.email"
           pInputText
           class="inputmask-credentials"
-          [placeholder]="userService.user()?.email"
+          [placeholder]="user?.email"
         />
       } @else {
         <p-inputmask
@@ -81,7 +81,7 @@
           [formControl]="userService.userForm.controls.phoneNumber"
           pInputText
           class="inputmask-credentials"
-          [placeholder]="userService.user()?.phoneNumber"
+          [placeholder]="user?.phoneNumber"
         />
       }
       <p-inputgroup-addon>
@@ -108,7 +108,7 @@
           size="large"
           dateFormat="dd/mm/yy"
           [maxDate]="userService.today"
-          placeholder="{{ userService.user()?.dateOfBirth | date }}"
+          placeholder="{{ user?.dateOfBirth | date }}"
         />
       </p-input-group>
       <p-selectbutton
@@ -149,13 +149,13 @@
       <p-button label="Save" (onClick)="submitForm()" severity="success" />
     </div>
     <p-divider />
-    <div class="d-flex flex-column justify-content-center align-items-center gap-4">
+    <div class="flex flex-col justify-center items-center gap-4">
       <h2 class="text-danger">Danger Zone</h2>
       <p-button
         label="Delete User"
         severity="danger"
         (onClick)="userService.visibleDeleteDialog = true"
-        routerLink="/profile/{{ userService.user()?.username }}/delete"
+        routerLink="/profile/{{ user?.username }}/delete"
       />
     </div>
   </form>

@@ -15,6 +15,9 @@ import { UserCard } from '../user-card/user-card';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { Router, RouterLink } from '@angular/router';
 import { compact } from 'lodash';
+import { Divider } from 'primeng/divider';
+import { Store } from '@ngrx/store';
+import { editTempUser } from '../../../store/user';
 
 @Component({
   selector: 'app-header',
@@ -27,12 +30,15 @@ import { compact } from 'lodash';
     InputIconModule,
     Button,
     UserCard,
+    Divider,
   ],
   templateUrl: './header.html',
+  styleUrl: './header.css',
 })
 export class Header {
   userService = inject(UserService);
   router = inject(Router);
+  store = inject(Store);
   users: User[] = [];
   protected searchForm = new FormControl('');
   ngOnInit() {
@@ -47,7 +53,7 @@ export class Header {
   }
   async switchToSelectedUser(username: string) {
     const data = await this.userService.getUsers(username);
-    this.userService.user.set((data as User[])[0]);
+    this.store.dispatch(editTempUser(data as User[][0]));
   }
   openSignUpDialog() {
     console.log(compact(this.router.url.replaceAll('/', ' ').split(' ')));

@@ -1,0 +1,18 @@
+@media (width < 639px) {
+  .bio {
+    width: 8rem;
+  }
+  ::ng-deep .p-card-body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  p-avatar {
+    display: none;
+  }
+  .card {
+    width: 75%;
+  }
+  .card-button {
+    width: 25%;
+  }
+}

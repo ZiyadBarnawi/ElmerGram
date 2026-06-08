@@ -12,6 +12,8 @@ import { User } from '@shared/models/user.model';
 import { Form } from '@shared/models/form.model';
 import { environment } from '@core/environments/environment';
 import { Post } from '@shared/models/post.model';
+import { Store } from '@ngrx/store';
+import { currentUserSelector, editCurrentUser } from '../../store/user';
 
 @Injectable({
   providedIn: 'root',
@@ -20,10 +22,13 @@ export class UserService {
   http = inject(HttpClient);
   messagesService = inject(MessageService);
   router = inject(Router);
+  store = inject(Store);
   visibleEditDialog = true;
   visibleSignupDialog = true;
   visibleDeleteDialog = true;
-  user = signal<User | null>(null);
+  currentUser: User | null = null;
+  tempUser: User | null = null;
+  // user = signal<User | null>(null);
   Images = Images;
   // testSignal = signal(0);
   // computedSignal = computed(() => this.testSignal()); //TIP: computed signals are read-only. They change whenever the inner signal changes
@@ -136,7 +141,8 @@ export class UserService {
       return users;
     }
   }
-  async addUser(): Promise<void> {
+  async addUser(): Promise<User> {
+    let user;
     if (environment.production) {
       let user: any = this.userForm.value;
 
@@ -156,8 +162,10 @@ export class UserService {
       this.http.post(environment.apiUrl + '/users', user).subscribe({
         next(value) {
           console.log(value);
+          user = value;
         },
       });
+      return user;
     } else {
       // TODO: remove local host usage
       let users: User[] = JSON.parse(localStorage.getItem('users') as string) as User[];
@@ -180,71 +188,32 @@ export class UserService {
       else {
         localStorage.setItem('users', JSON.stringify([this.userForm.value]));
       }
+      return this.userForm.value as User;
     }
     //! Production Code
   }
   async editUser(): Promise<void> {
     let userFormData = { ...this.userForm.value };
-    if (environment.production) {
-      delete userFormData.confirmPassword;
-      delete userFormData.otp;
 
-      this.http
-        .patch(`${environment.apiUrl}/users/${this.user()!.username}`, userFormData)
-        .pipe(
-          catchError((err) => {
-            throw err;
-          }),
-        )
-        .subscribe((val) => {
-          this.user.set({
-            username: userFormData.username!,
-            password: userFormData.password!,
-            email: userFormData.email!,
-            phoneNumber: userFormData.phoneNumber!,
-            gender: userFormData.gender!,
-            bio: userFormData.bio!,
-            city: userFormData.city!,
-            pfpUrl: userFormData.pfpUrl!,
-            posts: (userFormData as any).posts!,
-            followers: (userFormData as any).followers!,
-            following: (userFormData as any).following!,
-          });
-          this.router.navigate(['/profile', `${this.user()?.username}`], {
-            replaceUrl: true,
-          });
+    delete userFormData.confirmPassword;
+    delete userFormData.otp;
+    let user = await firstValueFrom(this.store.select(currentUserSelector));
+    this.http
+      .patch(`${environment.apiUrl}/users/${user.username}`, userFormData)
+      .pipe(
+        catchError((err) => {
+          throw err;
+        }),
+      )
+      .subscribe((val) => {
+        this.store.dispatch(editCurrentUser(val as User));
+        this.router.navigate(['/profile', `${this.store.select(currentUserSelector)}`], {
+          replaceUrl: true,
         });
-    } else {
-      delete userFormData.confirmPassword;
-      delete userFormData.otp;
-
-      this.http
-        .patch(`${environment.apiUrl}/users/${this.user()!.username}`, userFormData)
-        .pipe(
-          catchError((err) => {
-            throw err;
-          }),
-        )
-        .subscribe((val) => {
-          this.user.set({
-            username: userFormData.username!,
-            password: userFormData.password!,
-            email: userFormData.email!,
-            phoneNumber: userFormData.phoneNumber!,
-            gender: userFormData.gender!,
-            bio: userFormData.bio!,
-            city: userFormData.city!,
-            pfpUrl: userFormData.pfpUrl!,
-            posts: (userFormData as any).posts!,
-            followers: (userFormData as any).followers!,
-            following: (userFormData as any).following!,
-          });
-          this.router.navigate(['/profile', `${this.user()?.username}`], {
-            replaceUrl: true,
-          });
+        this.router.navigate(['/profile', `${(val as User).username}`], {
+          replaceUrl: true,
         });
-      return;
-    }
+      });
   }
   async deleteUser(username: string): Promise<void> {
     //! Back end doesn't have delete at the moment
@@ -271,10 +240,11 @@ export class UserService {
     control.setValue(filesCopy);
   }
 
-  updateUserForm(): void {
+  async updateUserForm(): Promise<void> {
+    let user = await firstValueFrom(this.store.select(currentUserSelector));
     Object.entries(this.userForm.controls).forEach((control) => {
       this.userForm.reset();
-      this.userForm.patchValue({ ...this.user() });
+      this.userForm.patchValue({ ...user });
     });
   }
 

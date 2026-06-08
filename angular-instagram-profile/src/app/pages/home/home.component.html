@@ -1,5 +1,5 @@
-<section class="flex gap-40 px-96">
-  <section class="flex flex-col h-screen w-5/6">
+<section class="feed-container flex px-5 justify-center w-full">
+  <section class="flex flex-col h-screen sm:w-2/3 lg:w-1/3">
     <h2 class="text-5xl font-medium">
       Welcome back,
       <div class="inline-block first-letter:text-teal-300 font-semibold">
@@ -7,10 +7,10 @@
       </div>
     </h2>
     <div class="text-2xl tracking-wider text-gray-500!">Discover the latest posts...</div>
-    <div class="feed flex flex-col overflow-y-scroll">
+    <div class="feed flex flex-col overflow-y-scroll w-full">
       <drag-scroll class="flex flex-col">
         @for (post of posts; track $index) {
-          <article drag-scroll-item class="w-3/5 py-6">
+          <article drag-scroll-item class="w-full 2xl:w-fit py-6">
             <div class="p-md flex items-center justify-between">
               <div class="flex items-center gap-5">
                 <p-avatar
@@ -77,14 +77,22 @@
       </drag-scroll>
     </div>
   </section>
-  <section class="flex flex-col gap-10">
+  <section class="flex flex-col lg:flex-wrap lg:content-center gap-10 sm:w-1/3 lg:w-1/3">
     <!--? Trends -->
-    <div class="flex flex-col wi-1/6 bg-[#3535356a] rounded-3xl p-5">
-      <h3 class="text-4xl text-nowrap mb-4">Trending Topics</h3>
+    <div class="section-box flex flex-col sm:w-80 lg:w-96 bg-[#3535356a] rounded-3xl p-4">
+      <h3 class="section-heading text-2xl lg:text-4xl text-nowrap mb-4">Trending Topics</h3>
       <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
         <div class="ml-2.5">
           <div class="flex flex-col">
-            <p class="text-2xl">#Green_Tea🍵</p>
+            <p class="text-xl lg:text-xl">#Green_Tea🍵</p>
+            <p class="text-lg">12K posts</p>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-4xl flex items-center justify-start px-5 py-4 my-1">
+        <div class="ml-2.5">
+          <div class="flex flex-col">
+            <p class="text-xl lg:text-xl">#🕚_is_💵</p>
             <p class="text-lg">12K posts</p>
           </div>
         </div>
@@ -92,23 +100,15 @@
       <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
         <div class="ml-2.5">
           <div class="flex flex-col">
-            <p class="text-2xl">#🕚_is_💵</p>
-            <p class="text-lg">12K posts</p>
-          </div>
-        </div>
-      </div>
-      <div class="w-full rounded-4xl flex items-center justify-start px-5 py-4 my-1">
-        <div class="ml-2.5">
-          <div class="flex flex-col">
-            <p class="text-2xl">#To_Space_we_go🚀</p>
+            <p class="text-xl lg:text-xl">#To_Space_we_go🚀</p>
             <p class="text-lg">7K posts</p>
           </div>
         </div>
       </div>
     </div>
     <!-- ? Suggested following -->
-    <div class="flex flex-col wi-1/6 bg-[#3535356a] rounded-3xl p-5">
-      <h3 class="text-4xl text-nowrap mb-4">Suggested Users</h3>
+    <div class="section-box flex flex-col sm:w-80 lg:w-96 bg-[#3535356a] rounded-3xl p-4">
+      <h3 class="section-heading text-xl lg:text-4xl text-nowrap mb-4">Suggested Users</h3>
       @for (user of suggestedUsers; track $index) {
         <app-user-card [showBio]="true" [showFollowButton]="true" [user]="user" />
       }

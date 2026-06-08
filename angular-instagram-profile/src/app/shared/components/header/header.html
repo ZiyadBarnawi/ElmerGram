@@ -1,6 +1,6 @@
 <div class="flex justify-between mb-2">
   <svg
-    [style]="{ transform: 'scale(1.5)' }"
+    class="logo w-1/3"
     width="250"
     height="50"
     viewBox="0 0 600 150"
@@ -107,56 +107,86 @@
 
     <!-- Subtle decorative underline for artist feel -->
   </svg>
-
-  <input
-    (input)="pop.show($event)"
-    [style]="{
-      'border-radius': '1.5rem',
-      padding: '0.8rem 1.5rem',
-      'background-color': '',
-      opacity: '0.8',
-      'font-size': '1.2rem',
-    }"
-    variant="outlined"
-    [formControl]="searchForm"
-    class="h-fit w-1/3"
-    type="text"
-    pInputText
-    placeholder="Search for users..."
-  />
-
-  <p-popover
-    [style]="{ 'background-color': '#18181b64' }"
-    dismissable="true"
-    baseZIndex="99999"
-    #pop
-    class="flex flex-col items-center justify-center"
-  >
-    <div
-      class="cards-container"
-      [style]="{ 'background-color': '#18181b64', 'max-height': '20rem', 'overflow-y': 'scroll' }"
+  <div class="w-1/3">
+    <input
+      (input)="searchPop.show($event)"
+      [style]="{
+        'border-radius': '1.5rem',
+        padding: '0.8rem 1.5rem',
+        'background-color': '',
+        opacity: '0.8',
+        'font-size': '1.2rem',
+      }"
+      variant="outlined"
+      [formControl]="searchForm"
+      ietw5iyaeyu8yuae
+      class="search-input h-fit"
+      type="text"
+      pInputText
+      placeholder="Search..."
+      [fluid]="true"
+    />
+    jkhvhjv,v,weeeeeeeeeeeeddddddddddddddddddddddddddddddddddddd w
+    <p-popover
+      [style]="{ 'background-color': '#18181b64' }"
+      dismissable="true"
+      baseZIndex="99999"
+      #searchPop
+      class="flex flex-col items-center justify-center"
     >
-      @for (user of users; track $index) {
-        <app-user-card [user]="user" [fluid]="true" />
-      }
-    </div>
-  </p-popover>
-  <div class="flex gap-5 mx-5">
+      <div
+        class="cards-container"
+        [style]="{ 'background-color': '#18181b64', 'max-height': '20rem', 'overflow-y': 'scroll' }"
+      >
+        @for (user of users; track $index) {
+          <app-user-card [user]="user" [fluid]="true" />
+        }
+      </div>
+    </p-popover>
+  </div>
+  <div class="flex gap-5 mx-5 w-1/3">
     <p-button variant="text">
       <p-overlaybadge
         size="xlarge"
         [style]="{ 'font-size': '1rem', padding: '0.5rem', overflow: 'visible' }"
         value="+9"
       >
-        <i class="pi pi-bell" style="font-size: 2rem"></i>
+        <i
+          class="pi pi-bell"
+          style="font-size: 2rem"
+          (click)="notificationPopover.show($event)"
+        ></i>
       </p-overlaybadge>
+      <p-popover #notificationPopover>
+        <div class="flex flex-col gap-4">
+          <div>
+            <span class="font-medium block mb-2">Notifications</span>
+            <ul class="list-none p-0 m-0 flex flex-col overflow-scroll h-56">
+              @for (_ of [].constructor(5); track $index) {
+                <li
+                  class="flex justify-baseline items-center gap-2 px-2 py-3 hover:bg-emphasis rounded-border"
+                >
+                  <i class="pi pi-times inline-block self-baseline cursor-pointer"></i>
+                  <div class="flex flex-col">
+                    <span class="font-medium text-xl">New like on your newest post</span>
+                    <!-- <div class="text-surface-500 dark:text-surface-400 text-lg">Click here</div> -->
+                    @if (!$last) {
+                      <p-divider />
+                    }
+                  </div>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </p-popover>
     </p-button>
     <p-button
       (onClick)="openSignUpDialog()"
       (onClick)="userService.visibleSignupDialog = true"
       variant="outlined"
       size="large"
-      class="p-button-dialog"
+      class="p-button-dialog text-nowrap"
       label="Sign up"
     />
   </div>
