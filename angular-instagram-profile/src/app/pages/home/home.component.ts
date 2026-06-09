@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
-import { userSelector } from '../../store/user';
+import { currentUserSelector } from '../../store/user';
 import { User } from '@shared/models/user.model';
 import { AvatarModule } from 'primeng/avatar';
 import { ImageModule } from 'primeng/image';
@@ -31,7 +31,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class Home implements OnInit {
   store = inject(Store<{ counter: number }>);
-  user$ = this.store.select(userSelector);
+  user$ = this.store.select(currentUserSelector);
   posts: Post[] = [];
   userService = inject(UserService);
   suggestedUsers: User[] = [];

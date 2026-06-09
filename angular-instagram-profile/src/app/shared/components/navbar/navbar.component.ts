@@ -1,14 +1,11 @@
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  DestroyRef,
-  ElementRef,
   inject,
   input,
   OnInit,
   output,
   signal,
-  viewChild,
 } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -16,7 +13,6 @@ import { MenuModule } from 'primeng/menu';
 import { PopoverModule } from 'primeng/popover';
 import { MenuItem } from 'primeng/api';
 import { DrawerModule } from 'primeng/drawer';
-import { AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { RippleModule } from 'primeng/ripple';
 import { CardModule } from 'primeng/card';
 
@@ -25,8 +21,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { UserService } from '@core/services/user.service';
 import { User } from '@shared/models/user.model';
 import { environment } from '@core/environments/environment';
-import { InputText } from 'primeng/inputtext';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -49,6 +45,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class Navbar implements OnInit {
   user = output<User>();
   userService = inject(UserService);
+  store = inject(Store);
   username = input();
   private router = inject(Router);
   protected environment = environment;
@@ -96,10 +93,7 @@ export class Navbar implements OnInit {
     {
       label: 'Profile',
       icon: 'pi pi-user',
-      command: async (): Promise<void> => {
-        const data: User = (await this.userService.getInitialUser()) as User;
-        this.userService.user.set(data);
-      },
+      command: async (): Promise<void> => {},
       routerLink: `profile/me`,
     },
   ];
@@ -110,9 +104,5 @@ export class Navbar implements OnInit {
     } else {
       this.users = (await this.userService.getUsers()) as User[];
     }
-  }
-  async switchToSelectedUser(username: string) {
-    const data = await this.userService.getUsers(username);
-    this.userService.user.set((data as User[])[0]);
   }
 }

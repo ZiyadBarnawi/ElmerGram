@@ -145,16 +145,24 @@ let initialValue: User | null = {
     },
   ],
 };
-export const editUser = createAction('[User] Edit User', props<User>());
+export const editCurrentUser = createAction('[User] Edit Current User', props<User>());
+export const editTempUser = createAction('[User] Edit Temp User', props<User>());
 
-export const userReducer = createReducer(
+export const currentUserReducer = createReducer(
   initialValue,
-  on(editUser, (state, action) => {
+  on(editCurrentUser, (state, action) => {
+    return { ...state, ...action } as User;
+  }),
+);
+export const tempUserReducer = createReducer(
+  {} as User,
+  on(editTempUser, (state, action) => {
     return { ...state, ...action } as User;
   }),
 );
 
-export const userSelector = (state: AppState) => state.user;
+export const currentUserSelector = (state: AppState) => state.currentUser;
+export const tempUserSelector = (state: AppState) => state.tempUser;
 
 export class userSideEffect {
   userService = inject(UserService);
@@ -164,13 +172,13 @@ export class userSideEffect {
     () =>
       this.actions$.pipe(
         ofType(ROOT_EFFECTS_INIT),
-        withLatestFrom(this.store.select(userSelector)), // to get the store data
+        withLatestFrom(this.store.select(currentUserSelector)), // to get the store data
         tap(async ([action, slice]) => {
           let user = await this.userService.getInitialUser();
 
           console.log(`[ ${action?.type} ] Side Effect is fired 💥💥💥`);
 
-          this.store.dispatch(editUser(user));
+          this.store.dispatch(editCurrentUser(user));
         }),
       ),
     { dispatch: false },

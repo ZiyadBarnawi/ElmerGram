@@ -1,13 +1,13 @@
 <div class="flex justify-between w-full">
   <!--! NAV -->
   <section class="w-full flex justify-center">
-    @if (userService.user()) {
+    @if (user$ | async) {
       <div class="flex flex-col w-3/4 gap-5">
         <div class="div-profile-head flex items-center">
           <!--! Profile Pic -->
           <div class="div-profile-picture-container">
             <p-avatar
-              [image]="userService.user()!.pfpUrl || Images[6]"
+              [image]="(user$! | async)!.pfpUrl || Images[6]"
               class="mr-2 align-se"
               size="xlarge"
               shape="circle"
@@ -19,7 +19,7 @@
               <!--! Username -->
               <div class="flex gap-5">
                 <h1 class="span-username text-4xl">
-                  {{ userService.user()!.username }}
+                  {{ (user$! | async)!.username }}
                 </h1>
                 <!--! Edit icon  -->
                 <p-button
@@ -35,12 +35,12 @@
               <!--! Account follow numbers  -->
 
               <span class="span-stats w-full"
-                >Followers: <b>{{ userService.user()!.followers?.length || 0 }}</b>
-                <b> | </b> Following: <b>{{ userService.user()!.following?.length }} </b> <br />
-                Posts: <b>{{ userService.user()!.posts?.length || '0' }}</b></span
+                >Followers: <b>{{ (user$! | async)!.followers?.length || 0 }}</b>
+                <b> | </b> Following: <b>{{ (user$! | async)!.following?.length }} </b> <br />
+                Posts: <b>{{ (user$! | async)!.posts?.length || '0' }}</b></span
               >
               <!--! Bio  -->
-              <span class="bio text-wrap">{{ userService.user()!.bio }} </span>
+              <span class="bio text-wrap">{{ (user$! | async)!.bio }} </span>
             </div>
             <p-button
               class=""
@@ -58,12 +58,12 @@
 
         <!--! Stories -->
         <div class="div-stories flex gap-5 overflow-x-auto overflow-y-visible">
-          @for (storyCoverImage of userService.user()!.stories; track $index) {
+          @for (storyCoverImage of (user$! | async)!.stories; track $index) {
             <img class="img-story rounded-full" src="/{{ storyCoverImage }}" alt="" />
           }
           <!--! Posts  -->
         </div>
-        <app-profile-body />
+        <app-profile-body [username]="username()" />
       </div>
     }
   </section>

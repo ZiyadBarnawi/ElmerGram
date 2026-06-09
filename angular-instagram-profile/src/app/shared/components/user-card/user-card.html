@@ -1,28 +1,31 @@
 <p-card [style]="{ 'background-color': 'transparent', cursor: 'pointer' }">
-  <div class="flex">
+  <div class="flex w-full">
     <div
       (click)="switchToSelectedUser(user()?.username!)"
       class="card flex flex-row gap-3 justify-start items-center hover:transform hover:scale-105 duration-200"
     >
-      <p-avatar shape="circle" size="xlarge" image="{{ user()?.pfpUrl || 'pfp.png' }}"></p-avatar>
+      <p-avatar shape="circle" size="xlarge" image="{{ user()?.pfpUrl || 'pfp.png' }}" />
       <div class="flex flex-col">
-        <p class="username text-2xl font-semibold truncate!" [class.w-48]="!fluid()">
+        <p class="username w-fit text-xl lg:text-2xl font-semibold truncate!">
           {{ user()?.username }}
         </p>
         @if (showBio()) {
-          <p class="bio text-lg truncate!" [class.w-48]="!fluid()">{{ user()?.bio }}</p>
+          <p class="bio sm:w-40 text-sm lg:text-lg truncate!">
+            {{ user()?.bio }}
+          </p>
         }
       </div>
     </div>
-    @if (showFollowButton()) {
-      <p-button
-        [label]="followableUser!.followed ? 'Unfollow' : 'Follow'"
-        [icon]="followableUser!.followed ? '' : 'pi pi-plus'"
-        [style]="{ 'font-size': '1.2rem' }"
-        rounded="true"
-        (onClick)="toggleFollow()"
-        [severity]="followableUser!.followed ? 'danger' : 'primary'"
-      />
-    }
+    <div class="card-button w-1/4">
+      @if (showFollowButton()) {
+        <p-button
+          [icon]="followableUser!.followed ? 'pi pi-times' : 'pi pi-plus'"
+          [style]="{ 'font-size': '1.2rem' }"
+          rounded="true"
+          (onClick)="toggleFollow()"
+          [severity]="followableUser!.followed ? 'danger' : 'primary'"
+        />
+      }
+    </div>
   </div>
 </p-card>
