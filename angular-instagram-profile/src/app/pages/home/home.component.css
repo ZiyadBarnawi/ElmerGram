@@ -20,3 +20,8 @@
     font-size: 1.3rem;
   }
 }
+@media (width < 550px) {
+  .welcome-header {
+    font-size: 2rem;
+  }
+}

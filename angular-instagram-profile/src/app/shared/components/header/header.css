@@ -11,9 +11,6 @@
   :host .logo {
     transform: scale(1.2);
   }
-  :host .search-input {
-    width: 5rem;
-  }
 }
 :host svg {
   transform: scale(1.5);
