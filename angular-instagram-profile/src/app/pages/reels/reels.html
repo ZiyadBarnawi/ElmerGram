@@ -1,8 +1,63 @@
-<h2 #temp class="font-bold">Reels</h2>
-<div #demo_container class="w-full h-full flex gap-2 flex-wrap">
-  @for (post of posts; track $index) {
-    <div [class]="`post-${$index}`" appPost>
-      <app-post [post]="post" />
-    </div>
-  }
+<div class="min-h-screen py-10 px-4 md:px-8 max-w-6xl mx-auto flex flex-col items-center">
+  <!-- Page Header -->
+  <div class="w-full text-center mb-10">
+    <h2
+      class="text-4xl md:text-5xl font-black bg-linear-to-r from-teal-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent tracking-tight"
+    >
+      Reels
+    </h2>
+  </div>
+
+  <!-- Reels Responsive Flex Container -->
+  <div
+    class="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-8 md:gap-10 w-full"
+  >
+    @for (post of posts; track $index) {
+      <div
+        [class]="
+          'post-' +
+          $index +
+          ' flex flex-col w-full sm:w-70 md:w-[320px] rounded-3xl overflow-hidden bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 shadow-2xl hover:shadow-teal-950/20 hover:border-teal-500/30 transition-all duration-300 transform cursor-pointer'
+        "
+        appPost
+      >
+        <!-- Reel Header (User details) -->
+        <div class="p-4 flex items-center gap-3 border-b border-zinc-800/40 bg-zinc-950/20">
+          <div
+            class="w-9 h-9 rounded-full overflow-hidden border border-teal-500/30 flex items-center justify-center bg-zinc-800 text-teal-400 font-extrabold text-xs shadow-inner"
+          >
+            {{ post.username ? post.username.substring(0, 2).toUpperCase() : 'IG' }}
+          </div>
+          <div class="flex flex-col">
+            <span class="font-semibold text-zinc-100 text-sm"
+              >@{{ post.username || 'unknown' }}</span
+            >
+            <span class="text-zinc-500 text-[10px]">Original Audio</span>
+          </div>
+        </div>
+
+        <!-- Reel Content Container -->
+        <div class="relative w-full overflow-hidden bg-zinc-950 flex justify-center items-center">
+          <app-post [post]="post" class="w-full h-full block" />
+        </div>
+
+        <!-- Reel Footer (Caption & Info) -->
+        <div class="p-4 bg-zinc-950/20 border-t border-zinc-800/30">
+          <p class="text-zinc-300 text-sm leading-relaxed line-clamp-2">
+            <span class="font-bold text-teal-400 mr-2">@{{ post.username }}</span>
+            {{ post.description || 'Watch this amazing reel! 🌻' }}
+          </p>
+          <div class="h-px bg-zinc-800/50 my-2"></div>
+          <div class="flex items-center justify-between text-xs text-zinc-500">
+            <span class="flex items-center gap-1">
+              <i class="pi pi-heart-fill text-rose-500 mr-1"></i> {{ post.likes }} likes
+            </span>
+            <span>
+              <i class="pi pi-clock text-[10px] mr-1"></i> {{ post.createdAt | date: 'mediumDate' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
 </div>

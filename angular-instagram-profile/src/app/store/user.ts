@@ -16,6 +16,7 @@ let initialValue: User | null = {
   dateOfBirth: '1990-04-12T00:00:00.000Z',
   gender: 'M',
   city: 'Dubai',
+  stories: ['drops.jpg', 'desert.jpg', 'sunnyDay.jpg', 'cookie.jpg', 'carbet.jpg'],
   followers: [
     {
       username: 'jafar',

@@ -1,6 +1,37 @@
 p-avatar {
-  border: teal solid 0.2rem;
+  /* border: teal solid 0.2rem; */
   width: 10rem;
   height: 10rem;
   padding: 0.2rem;
+}
+@media (width <361px) {
+  p-avatar {
+    width: 8rem;
+    height: 8rem;
+  }
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::ng-deep .story-dialog {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .story-dialog .p-dialog-content {
+  background: transparent !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+::ng-deep .story-dialog-mask {
+  background-color: rgba(9, 10, 15, 0.85) !important;
+  backdrop-filter: blur(8px) !important;
 }
