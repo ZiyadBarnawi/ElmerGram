@@ -18,13 +18,6 @@
   background-color: transparent;
 }
 
-p-tabs {
-  width: 60vw;
-}
-p-tab {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-}
 .profile-card {
   background: #363636a0;
   border-radius: 1rem;
@@ -41,11 +34,29 @@ p-tab {
 
 .profile-bio {
   color: #9ca3af;
-  font-size: 1.3rem;
 }
 .profile-card:hover {
   transform: translateY(-0.51rem);
 }
 :host ::ng-deep .p-tablist {
   background-color: transparent;
+}
+:host ::ng-deep p-avatar {
+  width: 12rem;
+  height: 12rem;
+}
+@media (width <640px) {
+  .profile-card {
+    padding: 1rem 0.5rem 0.5rem;
+    max-width: 12rem;
+  }
+  :host ::ng-deep p-avatar {
+    width: 8rem;
+    height: 8rem;
+  }
+}
+@media (431px < width < 641px) {
+  :host .post {
+    width: 40%;
+  }
 }

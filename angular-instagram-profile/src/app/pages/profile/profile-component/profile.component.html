@@ -3,22 +3,22 @@
   <section class="w-full flex justify-center">
     @if (user$ | async) {
       <div class="flex flex-col w-3/4 gap-5">
-        <div class="div-profile-head flex items-center">
+        <div class="profile-head flex items-center w-full lg:w-1/3">
           <!--! Profile Pic -->
-          <div class="div-profile-picture-container">
+          <div class="w-1/3">
             <p-avatar
               [image]="(user$! | async)!.pfpUrl || Images[6]"
-              class="mr-2 align-se"
-              size="xlarge"
+              class="mr-2"
+              size="normal"
               shape="circle"
             />
           </div>
           <!--! ProfileComponent Details -->
-          <div class="div-profile-details">
+          <div class="ml-4 w-2/3">
             <div class="div-profile-states flex flex-col gap-2 w-full">
               <!--! Username -->
               <div class="flex gap-5">
-                <h1 class="span-username text-4xl">
+                <h1 class="first-letter:text-teal-300 text-3xl">
                   {{ (user$! | async)!.username }}
                 </h1>
                 <!--! Edit icon  -->
@@ -27,33 +27,34 @@
                   variant="text"
                   severity="secondary"
                   size="large"
-                  icon="pi pi-cog"
                   (click)="userService.visibleEditDialog = true"
                   routerLink="/profile/{{ username() }}/edit"
-                />
+                  ><i [style]="{ 'font-size': '1.4rem' }" class="pi pi-cog"></i
+                ></p-button>
               </div>
               <!--! Account follow numbers  -->
 
-              <span class="span-stats w-full"
+              <span class="span-stats text-lg w-full"
                 >Followers: <b>{{ (user$! | async)!.followers?.length || 0 }}</b>
                 <b> | </b> Following: <b>{{ (user$! | async)!.following?.length }} </b> <br />
                 Posts: <b>{{ (user$! | async)!.posts?.length || '0' }}</b></span
               >
               <!--! Bio  -->
-              <span class="bio text-wrap">{{ (user$! | async)!.bio }} </span>
+              <span class="text-xl text-wrap">{{ (user$! | async)!.bio }} </span>
             </div>
-            <p-button
-              class=""
-              size="large"
-              label="Follow"
-              [label]="isFollowed() ? 'UnFollow' : 'Follow'"
-              (onClick)="toggleFollow()"
-              [icon]="isFollowed() ? 'pi pi-times' : 'pi pi-plus'"
-              [severity]="isFollowed() ? 'secondary' : 'success'"
-              fluid="true"
-            />
-            <!--! Action Buttons  -->
           </div>
+        </div>
+        <div class="flex">
+          <p-button
+            class="w-full md:w-1/3 lg:w-1/3"
+            size="large"
+            label="Follow"
+            [label]="isFollowed() ? 'UnFollow' : 'Follow'"
+            (onClick)="toggleFollow()"
+            [icon]="isFollowed() ? 'pi pi-times' : 'pi pi-plus'"
+            [severity]="isFollowed() ? 'secondary' : 'success'"
+            fluid="true"
+          />
         </div>
 
         <!--! Stories -->

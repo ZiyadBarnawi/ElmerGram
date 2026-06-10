@@ -12,7 +12,7 @@ import { Post } from '@shared/models/post.model';
 import { UserService } from '@core/services/user.service';
 import { NumbersPipe } from '@shared/pipes/numbers-pipe';
 import { shuffle } from 'lodash';
-import { RouterOutlet } from '@angular/router';
+import { Post as PostComp } from '@shared/components/post/post.component';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +25,7 @@ import { RouterOutlet } from '@angular/router';
     UserCard,
     AsyncPipe,
     NumbersPipe,
+    PostComp,
   ],
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',

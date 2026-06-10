@@ -6,15 +6,23 @@
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
-      @for (post of shuffledPosts; track $index) {
-        <app-post [post]="post" />
-      }
+      <div class="posts-container flex flex-wrap gap-4 justify-center w-full">
+        @for (post of shuffledPosts; track $index) {
+          <div class="post sm:w-1/3 md:w-1/4 lg:w-1/5">
+            <app-post [post]="post" />
+          </div>
+        }
+      </div>
     </p-tabpanel>
     <p-tabpanel value="1">
       <!-- TODO: Actual saved posts -->
-      @for (post of shuffledSavedPosts; track $index) {
-        <app-post [post]="post" />
-      }
+      <div class="posts-container flex flex-wrap gap-4 justify-center w-full">
+        @for (post of shuffledSavedPosts; track $index) {
+          <div class="post sm:w-1/3 md:w-1/4 lg:w-1/5">
+            <app-post [post]="post" />
+          </div>
+        }
+      </div>
     </p-tabpanel>
     <p-tabpanel value="2">
       <div class="flex flex-wrap gap-4">
@@ -22,16 +30,11 @@
           <div [class]="`profile-card w-full text-center profile-${$index}`">
             <!-- Avatar icon -->
             <div class="profile-icon mb-3">
-              <p-avatar
-                [style]="{ width: '10rem', height: '10rem' }"
-                [image]="user.pfpUrl"
-                shape="circle"
-                size="xlarge"
-              />
+              <p-avatar [image]="user.pfpUrl" shape="circle" size="xlarge" />
             </div>
             <!-- Name & handle -->
-            <h5 class="profile-name font-bold text-2xl">{{ user.username }}</h5>
-            <p class="profile-bio">{{ user.bio }}</p>
+            <h5 class="profile-name font-bold text-xl lg:text-2xl">{{ user.username }}</h5>
+            <p class="profile-bio text-xl">{{ user.bio }}</p>
           </div>
         }
       </div>
