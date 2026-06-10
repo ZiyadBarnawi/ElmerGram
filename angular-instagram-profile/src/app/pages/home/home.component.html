@@ -27,14 +27,8 @@
               </div>
               <p-button variant="text" icon="pi pi-ellipsis-h"> </p-button>
             </div>
-            <p-image
-              [style]="{ width: '100%' }"
-              preview="true"
-              alt=""
-              class="object-cover transition-transform duration-700 group-hover:scale-105"
-              [src]="post.media"
-            />
 
+            <app-post [style]="{ width: '100%' }" [post]="post" drag-scroll-item />
             <div class="p-md space-y-sm">
               <div class="flex items-center gap-4">
                 <div class="flex justify-center items-baseline">

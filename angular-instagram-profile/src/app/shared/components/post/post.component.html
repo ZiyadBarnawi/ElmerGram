@@ -1,11 +1,15 @@
-<div (mouseover)="onMouseover()" (mouseout)="onMouseout()" class="relative z-10 inline-block">
+<div
+  (mouseover)="onMouseover()"
+  (mouseout)="onMouseout()"
+  class="relative z-10 inline-block w-full"
+>
   <div
     #likes
     class="likes absolute z-50 whitespace-nowrap"
     animate.enter="enter-animation"
     [innerHTML]="post()?.likes! | likes: { testProp: 11, testProp2: 12 }"
   ></div>
-  <img (click)="toggleExpandedPost()" #img src="/{{ post()?.media }}" alt="🌻img" />
+  <img class="w-full!" (click)="toggleExpandedPost()" #img src="/{{ post()?.media }}" alt="🌻img" />
   <p-dialog
     [header]="'@' + post()?.username || 'Unknown User'"
     closable="true"

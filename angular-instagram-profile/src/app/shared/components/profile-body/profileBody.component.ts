@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 
 import { TabsModule } from 'primeng/tabs';
 
-import { UserService } from '@core/services/user.service';
 import { Avatar } from 'primeng/avatar';
 import { shuffle } from 'lodash';
 import { Post as PostModel } from '@shared/models/post.model';
@@ -10,7 +9,7 @@ import { Post } from '../post/post.component';
 import { User } from '@shared/models/user.model';
 import { Store } from '@ngrx/store';
 import { currentUserSelector, tempUserSelector } from '../../../store/user';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 @Component({
   standalone: true,
@@ -35,11 +34,8 @@ export class ProfileBodyComponent implements OnInit {
     }
     this.user$.subscribe((user) => {
       if (user?.posts) {
-        this.shuffledSavedPosts = shuffle([...user?.posts!]).slice(
-          0,
-          Math.floor(Math.random() * 7) + 1,
-        );
-        this.shuffledPosts = shuffle([...user.posts!]).slice(0, Math.floor(Math.random() * 7) + 1);
+        this.shuffledSavedPosts = shuffle([...user?.posts!]);
+        this.shuffledPosts = shuffle([...user.posts!]);
       }
     });
   }
