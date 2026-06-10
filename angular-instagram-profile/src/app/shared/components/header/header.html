@@ -156,27 +156,80 @@
           (click)="notificationPopover.show($event)"
         ></i>
       </p-overlaybadge>
-      <p-popover #notificationPopover>
-        <div class="flex flex-col gap-4">
-          <div>
-            <span class="font-medium block mb-2">Notifications</span>
-            <ul class="list-none p-0 m-0 flex flex-col overflow-scroll h-56">
-              @for (_ of [].constructor(5); track $index) {
-                <li
-                  class="flex justify-baseline items-center gap-2 px-2 py-3 hover:bg-emphasis rounded-border"
-                >
-                  <i class="pi pi-times inline-block self-baseline cursor-pointer"></i>
-                  <div class="flex flex-col">
-                    <span class="font-medium text-xl">New like on your newest post</span>
-                    <!-- <div class="text-surface-500 dark:text-surface-400 text-lg">Click here</div> -->
-                    @if (!$last) {
-                      <p-divider />
-                    }
-                  </div>
-                </li>
-              }
-            </ul>
+      <p-popover
+        #notificationPopover
+        [style]="{
+          'background-color': '#0c0d12e6',
+          border: '1px solid #27272a',
+          'border-radius': '1rem',
+        }"
+      >
+        <div class="w-80 sm:w-96 p-2 text-zinc-100 flex flex-col">
+          <div class="flex items-center justify-between border-b border-zinc-800 pb-3 mb-2 px-1">
+            <span class="text-lg font-bold text-teal-400 tracking-wide">Notifications</span>
+            <button
+              (click)="clearAllNotifications()"
+              class="text-xs font-semibold text-teal-500 hover:text-teal-400 transition cursor-pointer bg-none border-none p-0"
+            >
+              Mark all read
+            </button>
           </div>
+
+          <drag-scroll [drag-scroll-x-disabled]="true" class="h-64 w-full flex flex-col">
+            @for (notification of notifications; track notification.id) {
+              <div
+                drag-scroll-item
+                class="flex! justify-between items-start gap-5 p-2.5 hover:bg-zinc-800/40 rounded-xl transition duration-150 group border-b border-zinc-900/50 last:border-b-0 w-full"
+              >
+                <!-- User Avatar -->
+                <div class="relative shrink-0 mt-0.5">
+                  <img
+                    [src]="'/' + notification.user.pfp"
+                    class="w-20 h-20 rounded-full object-cover border border-zinc-800"
+                    alt="Avatar"
+                  />
+                  <!-- Notification Type Icon Badge -->
+                  <span
+                    class="absolute p-3 -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center border border-zinc-950 text-[10px]"
+                    [class.bg-rose-500]="notification.type === 'like'"
+                    [class.bg-teal-500]="notification.type === 'follow'"
+                    [class.bg-blue-500]="notification.type === 'comment'"
+                  >
+                    @if (notification.type === 'like') {
+                      <i class="pi pi-heart-fill text-[8px] text-white"></i>
+                    }
+                    @if (notification.type === 'follow') {
+                      <i class="pi pi-user-plus text-[8px] text-zinc-950"></i>
+                    }
+                    @if (notification.type === 'comment') {
+                      <i class="pi pi-comment text-[8px] text-white"></i>
+                    }
+                  </span>
+                </div>
+
+                <!-- Content -->
+                <div class="flex flex-col gap-0.5 min-w-0 text-left">
+                  <p class="text-sm text-zinc-200 leading-snug m-0 wrap-break-word">
+                    <span class="font-bold text-wrap hover:text-teal-400 cursor-pointer"
+                      >@{{ notification.user.name }}</span
+                    >
+                    {{ notification.message }}
+                  </p>
+                  <span class="text-xs text-zinc-500 font-medium">{{ notification.time }}</span>
+                </div>
+
+                <!-- Unread indicator or Close Button -->
+                <div class="flex items-center self-center gap-2 shrink-0">
+                  <button
+                    (click)="dismissNotification(notification.id)"
+                    class="text-zinc-500 hover:text-zinc-300 transition duration-150 cursor-pointer bg-none border-none p-1"
+                  >
+                    <i class="pi pi-times text-xs"></i>
+                  </button>
+                </div>
+              </div>
+            }
+          </drag-scroll>
         </div>
       </p-popover>
     </p-button>

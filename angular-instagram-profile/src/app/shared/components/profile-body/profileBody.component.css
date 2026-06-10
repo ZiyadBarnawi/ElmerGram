@@ -60,3 +60,9 @@
     width: 40%;
   }
 }
+
+@media (width <641px) {
+  .post {
+    width: 25%;
+  }
+}

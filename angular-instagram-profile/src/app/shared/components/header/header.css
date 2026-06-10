@@ -15,3 +15,9 @@
 :host svg {
   transform: scale(1.5);
 }
+
+:host ::ng-deep div.drag-scroll-content {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+}

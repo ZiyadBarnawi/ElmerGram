@@ -6,6 +6,11 @@ img {
   filter: blur(0rem) brightness(100%);
 }
 
+@media (width < 641px) {
+  img {
+    height: 25rem;
+  }
+}
 .likes {
   pointer-events: none;
   opacity: 0;
@@ -19,7 +24,7 @@ img {
   /* max-height: 30rem; */
   max-width: 35rem;
   width: 100%;
-  background: linear-gradient(to right, #789fde, #0b429c);
+  background: linear-gradient(135deg, #0d9488, #0f766e);
   color: #fff;
   border-radius: 0.5rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);

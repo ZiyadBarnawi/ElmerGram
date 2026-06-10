@@ -15,6 +15,7 @@ import { firstValueFrom, interval, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Button } from 'primeng/button';
 import { Avatar } from 'primeng/avatar';
+import { Dialog } from 'primeng/dialog';
 import { MessageService } from 'primeng/api';
 import { UserService } from '@core/services/user.service';
 import { User } from '@shared/models/user.model';
@@ -28,6 +29,7 @@ import { AsyncPipe } from '@angular/common';
   imports: [
     Button,
     Avatar,
+    Dialog,
     ReactiveFormsModule,
     RouterOutlet,
     RouterLinkWithHref,
@@ -38,7 +40,6 @@ import { AsyncPipe } from '@angular/common';
   standalone: true,
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
-  // changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit {
   userService = inject(UserService);
@@ -53,48 +54,100 @@ export class ProfileComponent implements OnInit {
   username = input<string>(); // TIP: this get its value form the url
   text = input(); // TIP: This text is read as a static route data
 
-  stories = signal<[{ src: string }]>([{ src: this.Images[3] }]);
   isFollowed = signal<boolean>(false);
 
-  interval$ = interval(1000);
-  signalObserver = toSignal(this.interval$, {
-    initialValue: 0,
-    equal: (
-      a, // curr val
-      b, // new val
-    ) => {
-      return a === b;
-    },
-    injector: inject(Injector),
-    manualCleanup: true,
-  });
+  userStories: string[] = [];
+  activeStoryIndex: number | null = null;
+  storyProgress = 0;
+  private progressInterval: any = null;
 
   constructor() {
     effect(async () => {
+      const selector =
+        this.username()?.toLowerCase() === 'me' ? currentUserSelector : tempUserSelector;
+
       if (this.username()?.toLowerCase() === 'me') {
         this.user$ = this.store.select(currentUserSelector);
       } else {
-        let user = ((await this.userService.getUsers(this.username())) as User[])[0];
-        console.log(user);
-
+        const user = ((await this.userService.getUsers(this.username())) as User[])[0];
         this.store.dispatch(editTempUser(user));
         this.user$ = this.store.select(tempUserSelector);
       }
+
+      this.store.select(selector).subscribe((user) => {
+        if (user) {
+          this.userStories = user.stories || [];
+        }
+      });
     });
   }
+
   async ngOnInit(): Promise<void> {
     this.user$ = this.store.select(currentUserSelector);
     this.destroyRef.onDestroy(() => {
+      this.closeStory();
       console.log('Destroyed');
     });
     console.log(this.text());
   }
+
   toggleFollow(): void {
     this.isFollowed.set(!this.isFollowed());
     this.messagesService.add({
       summary: this.isFollowed() ? 'Followed!' : 'Un-Followed',
       severity: this.isFollowed() ? 'success' : 'error',
     });
+  }
+
+  openStory(index: number): void {
+    this.activeStoryIndex = index;
+    this.storyProgress = 0;
+    this.startStoryTimer();
+  }
+
+  closeStory(): void {
+    this.activeStoryIndex = null;
+    this.storyProgress = 0;
+    if (this.progressInterval) {
+      clearInterval(this.progressInterval);
+      this.progressInterval = null;
+    }
+  }
+
+  private startStoryTimer(): void {
+    if (this.progressInterval) {
+      clearInterval(this.progressInterval);
+    }
+    this.storyProgress = 0;
+    const duration = 5000; // 5 seconds
+    const intervalTime = 50; // update every 50ms
+    const step = (intervalTime / duration) * 100;
+
+    this.progressInterval = setInterval(() => {
+      this.storyProgress += step;
+      if (this.storyProgress >= 100) {
+        this.storyProgress = 100;
+        this.nextStory();
+      }
+    }, intervalTime);
+  }
+
+  nextStory(): void {
+    if (this.activeStoryIndex !== null && this.activeStoryIndex < this.userStories.length - 1) {
+      this.activeStoryIndex++;
+      this.startStoryTimer();
+    } else {
+      this.closeStory();
+    }
+  }
+
+  prevStory(): void {
+    if (this.activeStoryIndex !== null && this.activeStoryIndex > 0) {
+      this.activeStoryIndex--;
+      this.startStoryTimer();
+    } else {
+      this.storyProgress = 0; // restart current
+    }
   }
 }
 
