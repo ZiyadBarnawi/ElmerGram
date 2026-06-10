@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
@@ -64,12 +64,27 @@ import { editCurrentUser } from '../../../store/user';
   templateUrl: './profile-signup-dialog-component.html',
   styleUrl: './profile-signup-dialog-component.css',
 })
-export class ProfileSignupDialogComponent {
+export class ProfileSignupDialogComponent implements OnInit {
   public userService = inject(UserService);
   public store = inject(Store);
   messagesService = inject(MessageService);
   private router = inject(Router);
-  ngOnInit() {}
+  ngOnInit() {
+    this.userService.useEmail = true;
+    this.userService.userForm.reset({
+      username: '',
+      phoneNumber: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      pfpUrl: null,
+      bio: '',
+      dateOfBirth: null,
+      gender: 'M',
+      city: '',
+      otp: '',
+    });
+  }
   async submitForm(): Promise<void> {
     const invalidForms = Object.entries(this.userService.userForm.controls)
       .filter(([_, control]) => control.invalid)

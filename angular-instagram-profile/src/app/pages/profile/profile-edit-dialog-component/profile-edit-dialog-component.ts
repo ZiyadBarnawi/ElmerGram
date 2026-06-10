@@ -1,6 +1,9 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit, DestroyRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { currentUserSelector } from '../../../store/user';
 
 import { FileUploadModule } from 'primeng/fileupload';
 import { AvatarModule } from 'primeng/avatar';
@@ -53,6 +56,8 @@ import { DividerModule } from 'primeng/divider';
 export class ProfileEditDialogComponent implements OnInit {
   userService = inject(UserService);
   messageService = inject(MessageService);
+  store = inject(Store);
+  destroyRef = inject(DestroyRef);
   user: User | null = null;
   Images = this.userService.Images;
   async submitForm() {
@@ -65,6 +70,14 @@ export class ProfileEditDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.userForm.patchValue(this.user!);
+    this.store
+      .select(currentUserSelector)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((user) => {
+        if (user) {
+          this.user = user;
+          this.userService.userForm.patchValue(user);
+        }
+      });
   }
 }
