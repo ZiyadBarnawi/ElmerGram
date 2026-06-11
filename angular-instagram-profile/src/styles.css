@@ -38,6 +38,7 @@ body {
 
 /* From Uiverse.io by amir_6539 */
 .container {
+  opacity: 0.6;
   z-index: -1;
   top: 0;
   left: 0;

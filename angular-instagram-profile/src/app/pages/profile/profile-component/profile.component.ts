@@ -76,8 +76,6 @@ export class ProfileComponent implements OnInit {
 
       this.store.select(selector).subscribe((user) => {
         if (user) {
-          console.log(user.stories);
-
           this.userStories = user.stories || [];
         }
       });

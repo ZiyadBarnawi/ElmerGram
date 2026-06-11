@@ -4,7 +4,7 @@ import { UserService } from '@core/services/user.service';
 import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { createAction, createReducer, on, props, Store } from '@ngrx/store';
 import { User } from '@shared/models/user.model';
-import { firstValueFrom, tap, withLatestFrom } from 'rxjs';
+import { tap, withLatestFrom } from 'rxjs';
 
 let initialValue: User | null = {
   username: 'Ziyad',
@@ -16,7 +16,7 @@ let initialValue: User | null = {
   dateOfBirth: '1990-04-12T00:00:00.000Z',
   gender: 'M',
   city: 'Dubai',
-  stories: ['drops.jpg', 'desert.jpg', 'sunnyDay.jpg', 'cookie.jpg', 'carbet.jpg'],
+  stories: ['bubbles.jpg', 'desert.jpg', 'sunnyDay.jpg', 'cookie.jpg', 'carbet.jpg'],
   followers: [
     {
       username: 'jafar',
@@ -56,7 +56,7 @@ let initialValue: User | null = {
     },
     {
       username: 'adam',
-      pfpUrl: 'drops.jpg',
+      pfpUrl: 'bubbles.jpg',
       bio: '🎨 Digital artist | Turning ideas into pixels | Open for commissions',
       city: 'Khobar',
     },

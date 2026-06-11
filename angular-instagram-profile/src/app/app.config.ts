@@ -22,7 +22,6 @@ import { MessageService } from 'primeng/api';
 import { UserService } from './core/services/user.service';
 import { Observable } from 'rxjs';
 import { provideStore } from '@ngrx/store';
-import { counterReducer } from './store/counter';
 import { currentUserReducer, tempUserReducer, userSideEffect } from './store/user';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
@@ -60,7 +59,6 @@ export const appConfig: ApplicationConfig = {
     ),
     //TIP: NgRx global store
     provideStore({
-      counter: counterReducer,
       currentUser: currentUserReducer,
       tempUser: tempUserReducer,
     }),
