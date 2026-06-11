@@ -8,17 +8,11 @@
   "dateOfBirth": "2001-07-30T00:00:00.000Z",
   "gender": "M",
   "city": "Mecca",
-  "stories": [
-    "drops.jpg",
-    "desert.jpg",
-    "sunnyDay.jpg",
-    "cookie.jpg",
-    "carbet.jpg"
-  ],
+  "stories": ["bubbles.jpg", "desert.jpg", "sunnyDay.jpg", "cookie.jpg", "carbet.jpg"],
   "followers": [
     {
       "username": "adam",
-      "pfpUrl": "drops.jpg",
+      "pfpUrl": "bubbles.jpg",
       "bio": "🎨 Digital artist | Turning ideas into pixels | Open for commissions",
       "city": "Khobar"
     },
@@ -110,7 +104,7 @@
       "comments": [
         {
           "username": "Huda",
-          "content": "Tell your sister she has great taste 😂",
+          "content": "great taste 😂",
           "replies": 2,
           "likes": 40
         },

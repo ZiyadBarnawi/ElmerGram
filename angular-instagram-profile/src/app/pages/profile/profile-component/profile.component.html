@@ -2,11 +2,12 @@
   <section class="w-full flex justify-center">
     @if (user$ | async) {
       <div class="flex flex-col w-3/4 gap-5">
-        <div class="profile-head flex items-center w-full lg:w-1/3">
+        <div class="profile-head flex items-center w-full lg:w-1/3 duration-500">
           <!--! Profile Pic -->
           <!-- <div class="w-1/3"> -->
           <div class="bg-linear-to-tr from-teal-400 via-emerald-400 to-blue-500 rounded-full">
             <p-avatar
+              class="duration-500"
               [image]="(user$! | async)!.pfpUrl || Images[6]"
               size="normal"
               shape="circle"
@@ -46,7 +47,7 @@
         </div>
         <div class="flex">
           <p-button
-            class="w-full md:w-1/3 lg:w-1/3"
+            class="w-full md:w-1/3 lg:w-1/3 duration-500"
             size="large"
             label="Follow"
             [label]="isFollowed() ? 'UnFollow' : 'Follow'"
@@ -80,7 +81,7 @@
                   </div>
                 </div>
                 <!-- Highlight Title -->
-                <span class="text-xs font-semibold text-zinc-400 select-none">
+                <span class="text-lg font-semibold text-zinc-400 select-none">
                   Highlight {{ $index + 1 }}
                 </span>
               </div>
@@ -104,7 +105,7 @@
             maskStyleClass="story-dialog-mask backdrop-blur-md"
           >
             <div
-              class="relative w-85 sm:w-95 h-150 rounded-3xl overflow-hidden shadow-2xl bg-zinc-950 border border-zinc-850 flex flex-col justify-between"
+              class="relative w-85 sm:w-95 h-150 rounded-3xl overflow-hidden shadow-2xl bg-zinc-950 border border-zinc-850 flex flex-col justify-between duration-500"
             >
               <!-- Progress Bars and Header -->
               <div

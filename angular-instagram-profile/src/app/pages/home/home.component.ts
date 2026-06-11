@@ -39,6 +39,7 @@ export class Home implements OnInit {
 
   async ngOnInit() {
     this.posts = await this.userService.getReels();
+
     let users: User[] = (await this.userService.getUsers()) as User[];
     this.suggestedUsers = shuffle(users).slice(0, 3);
     this.suggestedUsers = this.suggestedUsers.map((user: User) => {
