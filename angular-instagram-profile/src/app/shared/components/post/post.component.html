@@ -9,7 +9,13 @@
     animate.enter="enter-animation"
     [innerHTML]="post()?.likes! | likes: { testProp: 11, testProp2: 12 }"
   ></div>
-  <img class="w-full!" (click)="toggleExpandedPost()" #img src="/{{ post()?.media }}" alt="🌻img" />
+  <img
+    class="w-full! duration-500"
+    (click)="toggleExpandedPost()"
+    #img
+    src="/{{ post()?.media }}"
+    alt="🌻img"
+  />
   <p-dialog
     [header]="'@' + post()?.username || 'Unknown User'"
     closable="true"
@@ -66,19 +72,20 @@
       <section class="flex flex-col justify-between h-full">
         <div class="flex flex-col gap-5 overflow-y-auto" [style]="{ 'min-height': 0 }">
           <drag-scroll [drag-scroll-x-disabled]="true">
-            @for (_ of [].constructor(10); track $index) {
+            @for (comment of post()?.comments; track $index) {
               <div drag-scroll-item class="x-card p-1">
                 <div class="flex items-center p-3 gap-3">
-                  <div class="x-avatar">PG</div>
+                  <div class="x-avatar">{{ comment.username[0] }}</div>
                   <div>
-                    <h5 class="mb-0 font-semibold comment-usernmae text-2xl">Priyanshu Gupta</h5>
+                    <h5 class="mb-0 font-semibold comment-usernmae text-2xl">
+                      {{ comment.username }}
+                    </h5>
                   </div>
                 </div>
 
                 <div class="px-3 pb-3">
                   <p class="mb-0 break-words text-wrap text-lg">
-                    Just toke this amazing card component from uiverse.io !! 🚀 #WebDevelopment
-                    #Vercel #Angular
+                    {{ comment.content }}
                   </p>
                 </div>
 
@@ -95,7 +102,7 @@
                         d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"
                       />
                     </svg>
-                    <span>3</span>
+                    <span>{{ comment.replies }}</span>
                   </button>
 
                   <button class="btn-like">
@@ -114,7 +121,7 @@
                         stroke-linecap="round"
                       />
                     </svg>
-                    <span>12</span>
+                    <span>{{ comment.likes }}</span>
                   </button>
 
                   <button class="btn-share">

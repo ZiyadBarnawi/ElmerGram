@@ -6,17 +6,17 @@
     >
       <p-avatar shape="circle" size="xlarge" image="{{ user()?.pfpUrl || 'pfp.png' }}" />
       <div class="flex flex-col">
-        <p class="username w-fit text-xl lg:text-2xl font-semibold truncate!">
+        <p class="username w-fit text-xl lg:text-2xl font-semibold truncate! duration-500">
           {{ user()?.username }}
         </p>
         @if (showBio()) {
-          <p class="bio sm:w-40 text-sm lg:text-lg truncate!">
+          <p class="bio sm:w-40 text-sm lg:text-lg truncate! duration-500">
             {{ user()?.bio }}
           </p>
         }
       </div>
     </div>
-    <div class="card-button w-1/4">
+    <div class="card-button w-1/4 duration-500">
       @if (showFollowButton()) {
         <p-button
           [icon]="followableUser!.followed ? 'pi pi-times' : 'pi pi-plus'"
