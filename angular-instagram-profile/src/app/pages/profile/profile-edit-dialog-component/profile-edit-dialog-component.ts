@@ -62,7 +62,6 @@ export class ProfileEditDialogComponent implements OnInit {
   Images = this.userService.Images;
   async submitForm() {
     this.userService.editUser();
-    console.log(this.user?.username);
 
     //replaceUrl ==> the user can't navigate back to this url
 

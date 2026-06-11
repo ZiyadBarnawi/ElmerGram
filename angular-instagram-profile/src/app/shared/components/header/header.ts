@@ -44,7 +44,7 @@ export class Header {
     {
       id: 1,
       type: 'like',
-      user: { name: 'Adam', pfp: 'drops.jpg' },
+      user: { name: 'Adam', pfp: 'bubbles.jpg' },
       message: 'liked your photo',
       time: '2m ago',
     },
@@ -100,8 +100,6 @@ export class Header {
     this.store.dispatch(editTempUser(data as User[][0]));
   }
   openSignUpDialog() {
-    console.log(compact(this.router.url.replaceAll('/', ' ').split(' ')));
-
     this.router.navigate([
       ...(compact(this.router.url.replaceAll('/', ' ').split(' ')) as string[]),
       'signup',

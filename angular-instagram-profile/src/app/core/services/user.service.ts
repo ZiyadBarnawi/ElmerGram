@@ -161,7 +161,6 @@ export class UserService {
       delete user.confirmPassword;
       this.http.post(environment.apiUrl + '/users', user).subscribe({
         next(value) {
-          console.log(value);
           user = value;
         },
       });
