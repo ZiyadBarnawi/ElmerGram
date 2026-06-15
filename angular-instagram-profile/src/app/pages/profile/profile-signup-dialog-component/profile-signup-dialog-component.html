@@ -3,6 +3,7 @@
   [modal]="true"
   [(visible)]="userService.visibleSignupDialog"
   (onHide)="userService.previousRoute({ replaceUrl: true })"
+  styleClass="signup-dialog w-full max-w-[45rem] sm:max-w-[42rem] lg:max-w-[48rem]"
 >
   <p-stepper [value]="1">
     <p-step-list>
@@ -13,7 +14,11 @@
       <!--! Account Information  -->
       <p-step-panel [value]="1">
         <ng-template #content let-activateCallback="activateCallback">
-          <form [formGroup]="userService.userForm" class="h-auto overflow-visible" action="">
+          <form
+            [formGroup]="userService.userForm"
+            class="h-auto overflow-visible w-full max-w-[42rem] mx-auto space-y-4 px-2 sm:px-4 md:px-6"
+            action=""
+          >
             <div class="my-5 flex flex-col items-center justify-center">
               <div class="file-input-div relative flex justify-center items-center">
                 <input
@@ -29,11 +34,11 @@
               <p-inputgroup-addon><i class="pi pi-user"></i> </p-inputgroup-addon>
               <input
                 formControlName="username"
-                class=""
                 pInputText
                 type="text"
                 name="username"
                 placeholder="Username"
+                class="w-full"
               />
             </p-input-group>
 
@@ -43,8 +48,8 @@
                   (onClick)="userService.useEmail = true"
                   class="h-full"
                   [disabled]="userService.useEmail === true"
-                  ><svg
-                    class=""
+                >
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
@@ -63,7 +68,7 @@
                   type="text"
                   formControlName="email"
                   pInputText
-                  class="inputmask-credentials"
+                  class="inputmask-credentials w-full"
                   placeholder="Email Address"
                 />
               } @else {
@@ -81,14 +86,16 @@
                 <p-button
                   (onClick)="userService.useEmail = false"
                   icon="pi pi-phone"
-                  class="h-full!"
+                  class="h-full"
                   [disabled]="userService.useEmail !== true"
                 />
               </p-inputgroup-addon>
             </p-input-group>
 
-            <div class="div-date-of-birth flex justify-center items-center gap-4 my-2 p-2">
-              <p-input-group class="input-group-date-of-birth flex-1">
+            <div
+              class="div-date-of-birth flex flex-col sm:flex-row justify-center items-stretch gap-4 my-2 p-2"
+            >
+              <p-input-group class="input-group-date-of-birth flex-1 min-w-0">
                 <p-inputgroup-addon>
                   <i class="pi pi-calendar"></i>
                 </p-inputgroup-addon>
@@ -96,7 +103,7 @@
                   appendTo="body"
                   placeholder="Your Birth Date"
                   formControlName="dateOfBirth"
-                  class="date-picker-date-of-birth"
+                  class="date-picker-date-of-birth w-full"
                   [showButtonBar]="true"
                   size="large"
                   dateFormat="dd/mm/yy"
@@ -105,11 +112,11 @@
               </p-input-group>
               <p-selectbutton
                 [options]="userService.genderOptions"
-                class="selectbutton-gender"
+                class="selectbutton-gender w-full sm:w-auto"
                 formControlName="gender"
               />
             </div>
-            <div class="flex justify-center items-center p-2 gap-2 my-2">
+            <div class="flex flex-col sm:flex-row justify-center items-stretch gap-3 p-2 my-2">
               <p-password
                 formControlName="password"
                 [toggleMask]="true"
@@ -137,6 +144,7 @@
                   appendTo="body"
                   placeholder="Select your city"
                   (completeMethod)="userService.updateSuggestedCities($event)"
+                  class="w-full"
                 />
               </p-input-group>
               <div class="flex flex-col">
@@ -146,19 +154,27 @@
                   rows="4"
                   cols="30"
                   pTextarea
-                  class="text-white"
+                  class="text-white min-h-[6rem]"
                 ></textarea>
               </div>
             </div>
 
-            <div class="flex justify-center items-center gap-5 my-4">
+            <div
+              class="button-row flex flex-col justify-center items-center gap-3 my-4 w-full flex-wrap"
+            >
               <p-button
                 severity="secondary"
                 (onClick)="userService.visibleSignupDialog = false"
                 routerLink="../"
                 label="Cancel"
+                styleClass="w-full sm:w-auto"
               ></p-button>
-              <p-button severity="success" label="Next" (onClick)="activateCallback(2)"></p-button>
+              <p-button
+                severity="success"
+                label="Next"
+                (onClick)="activateCallback(2)"
+                styleClass="w-full sm:w-auto"
+              ></p-button>
             </div>
           </form>
         </ng-template>
@@ -168,20 +184,34 @@
       <!--! Verification  -->
       <p-step-panel [value]="2">
         <ng-template #content let-activateCallback="activateCallback">
-          <form [formGroup]="userService.userForm" class="space-y-4">
-            <div class="w-full h-full flex flex-col justify-center items-center gap-4">
-              <span>Enter the OTP we've just sent to you </span>
-              <div class="flex justify-center">
-                <p-inputotp size="large" [integerOnly]="true" [length]="4" formControlName="otp" />
+          <form [formGroup]="userService.userForm" class="w-full space-y-4 px-2 sm:px-4 md:px-6">
+            <div class="w-full h-full flex flex-col items-center justify-center items-center gap-4">
+              <span class="text-center">Enter the OTP we've just sent to you </span>
+              <div class="flex justify-center w-full">
+                <p-inputotp
+                  size="large"
+                  [integerOnly]="true"
+                  [length]="4"
+                  formControlName="otp"
+                  class="w-full max-w-xs"
+                />
               </div>
             </div>
-            <div class="flex justify-center items-center gap-5 my-4">
+            <div
+              class="button-row flex flex-col justify-center items-center gap-3 my-4 w-full flex-wrap"
+            >
               <p-button
                 label="Cancel"
                 (onClick)="userService.visibleSignupDialog = false"
                 severity="secondary"
+                styleClass="w-full sm:w-auto"
               />
-              <p-button label="Submit" (onClick)="submitForm()" severity="success" />
+              <p-button
+                label="Submit"
+                (onClick)="submitForm()"
+                severity="success"
+                styleClass="w-full sm:w-auto"
+              />
             </div>
           </form>
         </ng-template>
