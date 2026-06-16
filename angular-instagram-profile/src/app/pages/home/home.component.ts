@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Store } from '@ngrx/store';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { currentUserSelector } from '../../store/user';
 import { User } from '@shared/models/user.model';
 import { AvatarModule } from 'primeng/avatar';
@@ -20,13 +20,12 @@ import { Post as PostComp } from '@shared/components/post/post.component';
     ButtonModule,
     AvatarModule,
     ImageModule,
-    DatePipe,
+    DragScrollComponent,
+    DragScrollItemDirective,
     UserCard,
     AsyncPipe,
     NumbersPipe,
     PostComp,
-    DragScrollComponent,
-    DragScrollItemDirective,
   ],
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',

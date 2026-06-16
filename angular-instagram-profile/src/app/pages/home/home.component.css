@@ -1,27 +1,16 @@
+:host article {
+  background-color: #18181bad;
+}
 :host ::ng-deep div.drag-scroll-content {
   gap: 2rem;
   display: flex !important;
   flex-direction: column;
 }
 
-/* Prevent horizontal overflow and constrain media in the feed */
-.feed-container {
-  overflow-x: hidden;
-}
-.feed img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-.feed article {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
 @media (width< 639px) {
   .feed-container {
-    padding: 0 1.25rem;
-    justify-content: center;
+    padding: 0 0;
+    justify-content: space-between;
   }
   .section-box {
     padding: 0.75rem;
@@ -30,35 +19,8 @@
   .section-heading {
     font-size: 1.3rem;
   }
-  .welcome-header,
-  .welcome-sub-header {
-    text-align: center;
-  }
-}
-@media (width < 360px) {
-  :host ::ng-deep div.drag-scroll-content {
-    gap: 1rem;
-  }
-  .feed-container {
-    padding: 0 0.5rem;
-  }
-  .welcome-header {
-    font-size: 1.25rem;
-  }
-  .section-box {
-    width: 100%;
-    margin: 0 0.5rem;
-  }
-  article {
-    padding-top: 0.75rem !important;
-    padding-bottom: 0.75rem !important;
-  }
 }
 @media (width < 550px) {
-  .welcome-sub-header {
-    text-align: center;
-    font-size: 1.5rem;
-  }
   .welcome-header {
     font-size: 2rem;
   }
