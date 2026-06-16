@@ -4,7 +4,12 @@
       (click)="switchToSelectedUser(user()?.username!)"
       class="card flex flex-row gap-3 justify-start items-center hover:transform hover:scale-105 duration-200"
     >
-      <p-avatar shape="circle" size="xlarge" image="{{ user()?.pfpUrl || 'pfp.png' }}" />
+      <p-avatar
+        draggable="false"
+        shape="circle"
+        size="xlarge"
+        image="{{ user()?.pfpUrl || 'pfp.png' }}"
+      />
       <div class="flex flex-col">
         <p class="username w-fit text-xl lg:text-2xl font-semibold truncate! duration-500">
           {{ user()?.username }}
