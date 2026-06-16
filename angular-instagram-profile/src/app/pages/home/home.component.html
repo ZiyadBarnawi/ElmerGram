@@ -1,65 +1,93 @@
-<section class="feed-container flex px-5 justify-center w-full duration-500">
-  <section class="flex flex-col h-screen sm:w-2/3 lg:w-1/3 duration-500">
-    <h2 class="welcome-header md:text-4xl duration-500">
-      Welcome back,
-      <div class="inline-block first-letter:text-teal-300 font-semibold">
-        {{ (user$ | async)?.username }}
+<section class="feed-container overflow-x-hidden flex px-5 justify-center w-full duration-500">
+  <section class="flex flex-col h-screen sm:w-2/3 lg:w-2/3 duration-500">
+    <div class="mb-6">
+      <h2 class="welcome-header text-4xl sm:text-4xl md:text-4xl duration-500">
+        Welcome back,
+        <span class="inline-block first-letter:text-teal-300 first-letter:uppercase font-semibold">
+          {{ (user$ | async)?.username }}
+        </span>
+      </h2>
+      <div class="welcome-sub-header text-lg sm:text-2xl tracking-wider text-gray-500!">
+        Discover the latest posts...
       </div>
-    </h2>
-    <div class="text-2xl tracking-wider text-gray-500!">Discover the latest posts...</div>
-    <div class="feed flex flex-col overflow-y-scroll w-full">
+    </div>
+
+    <!-- Posts Feed Container -->
+    <div class="feed flex flex-col items-center overflow-y-scroll w-full flex-1">
       <drag-scroll class="flex flex-col">
         @for (post of posts; track $index) {
-          <article drag-scroll-item class="w-full 2xl:w-fit py-6 duration-500">
-            <div class="p-md flex items-center justify-between">
-              <div class="flex items-center gap-5">
-                <p-avatar
-                  [style]="{ width: '5rem', height: '5rem' }"
-                  class="border border-white"
-                  [image]="post.pfpUrl"
-                  size="xlarge"
-                  shape="circle"
-                />
-                <div>
-                  <p class="text-2xl">@{{ post.username }}</p>
-                  <p class="text-[10px] tracking-widest text-gray-300!">Followed</p>
-                </div>
-              </div>
-              <p-button variant="text" icon="pi pi-ellipsis-h"> </p-button>
-            </div>
-
-            <app-post [style]="{ width: '100%' }" [post]="post" drag-scroll-item />
-            <div class="p-md space-y-sm">
-              <div class="flex items-center gap-4">
-                <div class="flex justify-center items-baseline">
-                  <p-button variant="text" [size]="'large'" class=""
-                    ><i class="pi pi-heart" [style]="{ 'font-size': '2rem' }"></i
-                  ></p-button>
-                  <span class="text-3xl">{{ post.likes! | numbers }}</span>
-                </div>
-                <div class="flex justify-center items-baseline">
-                  <p-button variant="text" [size]="'large'" class=""
-                    ><i class="pi pi-comment" [style]="{ 'font-size': '2rem' }"></i
-                  ></p-button>
-                  <span class="text-3xl">{{ post.comments?.length! | numbers }} </span>
-                </div>
-
-                <div class="flex justify-center items-baseline">
-                  <p-button variant="text" [size]="'large'">
-                    <i
-                      class="pi pi-send hover:cursor-pointer"
-                      [style]="{ 'font-size': '2rem' }"
-                    ></i>
-                  </p-button>
-                </div>
-              </div>
-              <div>
-                <span class="text-wrap text-xl px-4">
-                  <span class="text-xl font-semibold first-letter:text-teal-700!"
-                    >@{{ post.username }}</span
+          <article drag-scroll-item class="w-full py-6 duration-500">
+            <div
+              [class]="
+                'post-' +
+                $index +
+                ' flex flex-col w-full rounded-3xl overflow-hidden bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 shadow-2xl hover:shadow-teal-950/20 hover:border-teal-500/30 transition-all duration-300 transform cursor-pointer'
+              "
+              appPost
+            >
+              <!-- Post Header (User details) -->
+              <div
+                class="p-4 flex items-center gap-3 border-b border-zinc-800/40 bg-zinc-950/20 justify-between"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-10 h-10 rounded-full overflow-hidden border border-teal-500/30 flex items-center justify-center bg-zinc-800 text-teal-400 font-extrabold text-xs shadow-inner"
                   >
-                  {{ post.description }}
-                </span>
+                    <img
+                      [src]="post.pfpUrl"
+                      alt="{{ post.username }}"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-semibold text-zinc-100 text-sm"
+                      >@{{ post.username || 'unknown' }}</span
+                    >
+                    <span class="text-zinc-500 text-[10px]">{{
+                      post.createdAt | date: 'mediumDate'
+                    }}</span>
+                  </div>
+                </div>
+                <p-button variant="text" icon="pi pi-ellipsis-h" [text]="true"></p-button>
+              </div>
+
+              <!-- Post Content Container -->
+              <div
+                class="relative w-full overflow-hidden bg-zinc-950 flex justify-center items-center"
+              >
+                <app-post [post]="post" class="w-full h-full block" />
+              </div>
+
+              <!-- Post Footer (Caption & Interactions) -->
+              <div class="p-4 bg-zinc-950/20 border-t border-zinc-800/30">
+                <!-- Interaction buttons -->
+                <div class="flex items-center justify-start gap-4 mb-3">
+                  <div class="flex items-center gap-1">
+                    <p-button variant="text" [text]="true" [size]="'small'">
+                      <i class="pi pi-heart" [style]="{ 'font-size': '1.6rem' }"></i
+                    ></p-button>
+                    <span class="text-xl text-zinc-400">{{ post.likes! | numbers }}</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <p-button variant="text" [text]="true" [size]="'small'">
+                      <i class="pi pi-comment" [style]="{ 'font-size': '1.6rem' }"></i
+                    ></p-button>
+                    <span class="text-xl text-zinc-400">{{
+                      post.comments?.length! | numbers
+                    }}</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <p-button variant="text" [text]="true" [size]="'small'">
+                      <i class="pi pi-send" [style]="{ 'font-size': '1.6rem' }"></i
+                    ></p-button>
+                  </div>
+                </div>
+
+                <!-- Caption -->
+                <p class="text-zinc-300 text-xl leading-relaxed line-clamp-3">
+                  <span class="font-bold text-teal-400 mr-2">@{{ post.username }}</span>
+                  {{ post.description || 'Amazing post! 🌻' }}
+                </p>
               </div>
             </div>
           </article>
@@ -67,8 +95,9 @@
       </drag-scroll>
     </div>
   </section>
+
   <section
-    class="flex flex-col lg:flex-wrap lg:content-center gap-10 sm:w-1/3 lg:w-1/3 duration-500"
+    class="hidden md:flex flex flex-col lg:flex-wrap lg:content-center gap-10 sm:w-1/3 lg:w-1/3 duration-500"
   >
     <!--? Trends -->
     <div
