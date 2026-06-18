@@ -18,9 +18,9 @@
   box-sizing: border-box;
 }
 
-@media (width< 639px) {
+@media (max-width: 639px) {
   .feed-container {
-    padding: 0 1.25rem;
+    padding: 0 1rem;
     justify-content: center;
   }
   .section-box {
@@ -35,7 +35,17 @@
     text-align: center;
   }
 }
-@media (width < 360px) {
+
+@media (max-width: 550px) {
+  .welcome-header {
+    font-size: 1.85rem !important;
+  }
+  .welcome-sub-header {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 360px) {
   :host ::ng-deep div.drag-scroll-content {
     gap: 1rem;
   }
@@ -43,23 +53,17 @@
     padding: 0 0.5rem;
   }
   .welcome-header {
-    font-size: 1.25rem;
+    font-size: 1.5rem !important;
+  }
+  .welcome-sub-header {
+    font-size: 1rem !important;
   }
   .section-box {
     width: 100%;
     margin: 0 0.5rem;
   }
   article {
-    padding-top: 0.75rem !important;
-    padding-bottom: 0.75rem !important;
-  }
-}
-@media (width < 550px) {
-  .welcome-sub-header {
-    text-align: center;
-    font-size: 1.5rem;
-  }
-  .welcome-header {
-    font-size: 2rem;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
   }
 }
