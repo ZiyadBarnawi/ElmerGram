@@ -1,16 +1,27 @@
-:host article {
-  background-color: #18181bad;
-}
 :host ::ng-deep div.drag-scroll-content {
   gap: 2rem;
   display: flex !important;
   flex-direction: column;
 }
 
-@media (width< 639px) {
+/* Prevent horizontal overflow and constrain media in the feed */
+.feed-container {
+  overflow-x: hidden;
+}
+.feed img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.feed article {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 639px) {
   .feed-container {
-    padding: 0 0;
-    justify-content: space-between;
+    padding: 0 1rem;
+    justify-content: center;
   }
   .section-box {
     padding: 0.75rem;
@@ -20,8 +31,35 @@
     font-size: 1.3rem;
   }
 }
-@media (width < 550px) {
+
+@media (max-width: 550px) {
   .welcome-header {
-    font-size: 2rem;
+    font-size: 1.85rem !important;
+  }
+  .welcome-sub-header {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  :host ::ng-deep div.drag-scroll-content {
+    gap: 1rem;
+  }
+  .feed-container {
+    padding: 0 0.5rem;
+  }
+  .welcome-header {
+    font-size: 1.5rem !important;
+  }
+  .welcome-sub-header {
+    font-size: 1rem !important;
+  }
+  .section-box {
+    width: 100%;
+    margin: 0 0.5rem;
+  }
+  article {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
   }
 }
