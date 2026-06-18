@@ -30,10 +30,6 @@
   .section-heading {
     font-size: 1.3rem;
   }
-  .welcome-header,
-  .welcome-sub-header {
-    text-align: center;
-  }
 }
 
 @media (max-width: 550px) {

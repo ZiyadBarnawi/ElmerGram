@@ -25,23 +25,31 @@ img {
   /* max-height: 30rem; */
   max-width: 35rem;
   width: 100%;
-  background: linear-gradient(135deg, #0d9488, #0f766e);
-  color: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  font-size: 1.4rem;
+  background: rgba(24, 24, 27, 0.45); /* zinc-900/45 */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(63, 63, 70, 0.4); /* zinc-700/40 */
+  color: #f4f4f5; /* zinc-100 */
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.x-card:hover {
+  border-color: rgba(20, 184, 166, 0.4); /* teal-500/40 */
+  background: rgba(24, 24, 27, 0.6);
 }
 
 .x-avatar {
-  width: 3rem;
-  height: 3rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(20, 184, 166, 0.2); /* teal background */
+  color: #2dd4bf; /* teal text */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 0.875rem;
   flex-shrink: 0;
 }
 
@@ -74,7 +82,7 @@ img {
   color: #fff;
 }
 ::ng-deep div.drag-scroll-content {
-  gap: 2rem;
+  gap: 1rem;
   display: flex !important;
   flex-direction: column;
 }
