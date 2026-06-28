@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://elmergram-backend-ab094624ecf5.herokuapp.com',
+  apiUrl: 'https://elmergram-backend.onrender.com',
 };
